@@ -1,0 +1,16 @@
+@{
+    ViewData["Title"] = "Cuarto Finalizado";
+}
+
+<p>@ViewBag.nombre abrió la puerta para la próxima sala y se sorprendió y abrumó al ver que era muy similar, no llevaba a ningúna salida pero justo ahí, @ViewBag.nombre vió otra puerta, una con el símbolo romano II y al ver esto tenía que intentar abrirla.</p>
+
+<p>Presione la tecla de espacio para volver al cuarto</p>
+
+<script>
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'space') {
+            event.preventDefault();
+            window.location.href = 'SalaI/<PrimerCuartoII>.cshtml';
+        }
+    });
+</script>

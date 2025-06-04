@@ -1,0 +1,20 @@
+@{
+    ViewData["Title"] = "Cofre";
+}
+
+<div class="carta">
+    <a href="Carta.cshtml">
+        <input button>
+    </a>
+</div>
+
+<p>Presione la tecla de espacio para volver al cuarto</p>
+
+<script>
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'space') {
+            vent.preventDefault();
+            window.location.href = 'SalaI/PrimerCuarto.cshtml';
+        }
+    });
+</script>

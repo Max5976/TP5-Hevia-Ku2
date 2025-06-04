@@ -1,0 +1,15 @@
+@{
+    ViewData["Title"] = "Pista";
+}
+
+<p>Ves algo raro, pareciera que el cuadro se ve raro, luego te das cuenta que atrás de éste hay algo, una serie de acertijos para conseguir una palabra, o una frase</p>
+<p>Presione la tecla de espacio para pasar de escena</p>
+
+<script>
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'space') {
+            vent.preventDefault();
+            window.location.href = 'SalaI/PrimerCuarto.cshtml';
+        }
+    });
+</script>

@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Nombrar";
+}
+
+<p id="typewriter"></p>
+<form action='@Url.Action("Intro")' method="get">
+    <input type="text" name="nuevoNombre" required/>
+    <input type="submit" value="Confirmar Nombre"/>
+</form>
+
+<script>
+    window.onload = function() {
+        animarTexto();
+    };
+
+    function animarTexto() {
+        const texto = "Ingrese su nombre:";
+        const pElement = document.getElementById('typewriter');
+        let i = 0;
+        function escribir() {
+            if (i <= texto.length) {
+                pElement.innerHTML = texto.substring(0, i) + '<span class="typewriter-cursor">|</span>';
+                i++;
+                setTimeout(escribir, 60);
+            } else {
+                pElement.innerHTML = texto;
+            }
+        }
+        escribir();
+    }
+</script>

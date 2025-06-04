@@ -1,0 +1,16 @@
+@{
+    ViewData["Title"] = "Carta";
+}
+
+<h1>Perdiste</h1>
+
+<p>Presione la tecla de espacio para volver a la pantalla de inicio</p>
+
+<script>
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'Space') {
+            event.preventDefault();
+            window.location.href = '/Home/Index';
+        }
+    });
+</script>

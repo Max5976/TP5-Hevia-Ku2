@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Error";
+}
+
+<h1>Error</h1>
+
+<p>El código escrito es incorrecto.</p>
+
+<p>Presione la tecla de espacio para volver</p>
+
+<script>
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'space') {
+            vent.preventDefault();
+            window.location.href = 'SalaI/PrimerCuartoII.cshtml';
+        }
+    });
+</script>

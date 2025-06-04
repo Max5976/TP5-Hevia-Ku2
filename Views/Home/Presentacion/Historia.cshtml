@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Prólogo";
+}
+<div>
+    <h1>La Revelación</h1>
+    <p>Era una noche oscura y fría el día 13 de Marzo de 1998 en Dayton, Ohio, cuando el/la detective @ViewBag.nombre fue a investigar el asesinato de un cura llamado John Cesar a su iglesia a las afueras de la ciudad. Al principio no se encontró con tanto, además de unos símbolos no vistos ántes por @ViewBag.nombre, pero al revisar los cuartos encontró una puerta secreta apuntando hacia el subsuelo. En esta puerta estaba en gigante el número romano "I" y abajo el símbolo previamente visto por @ViewBag.nombre y éste se dio cuenta que esa iglesia era más que una zona de rezos. Con un poco de esfuerzo pudo abrir la puerta, pero lo que vería dentro no se lo imáginaba nunca, había un cuarto lleno de artefactos de lo que parecía oro y habían muchas cosas allí. Se puso a investigar.</p>
+</div>
+<p>Presione la tecla de espacio para pasar de escena</p>
+
+<script>
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'Space') {
+            event.preventDefault();
+            window.location.href = '/Home/PrimerCuarto';
+        }
+    });
+</script>

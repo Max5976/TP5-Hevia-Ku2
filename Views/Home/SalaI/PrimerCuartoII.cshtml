@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Sala I, p2";
+}
+
+<h1>¡Busca la contraseña y abre la puerta!</h1>
+
+<div class="puertaII">
+    <form action='@Url.Action("VerificarCodigo")' method="get">
+    <input type="text" name="codigo"/>
+    <input type="submit" required/>
+    </form>
+</div>
+
+<div class="cuadro">
+    <a href='@Url.Action("Pista")'>
+        <input type="button"/>
+    </a>
+</div>

@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<h1>De Hevia Studios y Ku</h1>
+
+<p>Presione la tecla de espacio para pasar de escena</p>
+
+<script>
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'Space') {
+            event.preventDefault();
+            window.location.href = '/Home/Historia';
+        }
+    });
+</script>
+

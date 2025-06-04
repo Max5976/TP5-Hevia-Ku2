@@ -1,0 +1,89 @@
+{
+  "Files": [
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\Audio\\TemaPrincipal.mp3",
+      "PackagePath": "staticwebassets\\Audio\\TemaPrincipal.mp3"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\Imagenes\\PortadaJuego.png",
+      "PackagePath": "staticwebassets\\Imagenes\\PortadaJuego.png"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.TP05_Hevia_ku.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.TP05_Hevia_ku.props",
+      "PackagePath": "build\\TP05_Hevia_ku.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.TP05_Hevia_ku.props",
+      "PackagePath": "buildMultiTargeting\\TP05_Hevia_ku.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.TP05_Hevia_ku.props",
+      "PackagePath": "buildTransitive\\TP05_Hevia_ku.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
