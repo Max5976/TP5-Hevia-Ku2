@@ -2,30 +2,182 @@
     ViewData["Title"] = "Nombrar";
 }
 
-<p id="typewriter"></p>
-<form action='@Url.Action("Intro")' method="get">
-    <input type="text" name="nuevoNombre" required/>
-    <input type="submit" value="Confirmar Nombre"/>
-</form>
+<!-- Google Fonts: Fira Mono -->
+<link href="https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+        background-color: black;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    #contenedor {
+        width: 60%;
+        min-height: 60%;
+        background-color: black;
+        margin-top: 15%;
+        margin-left: 20%;
+        border-radius: 30px;
+        display: block;
+        text-align: center;
+    }
+
+    #typewriter {
+        color: white;
+        font-size: 300%;
+        font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+        font-weight: 400;
+        text-align: center;
+        margin-top: 5%;
+        margin-bottom: 5%;
+        letter-spacing: 0.2%;
+        min-height: 6%;
+    }
+
+    form {
+        width: 80%;
+        margin-left: 10%;
+        margin-top: 5%;
+        text-align: center;
+    }
+
+    .input-group {
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+        display: block;
+    }
+
+    input[type="text"] {
+        width: 80%;
+        padding: 1%;
+        font-size: 250%;
+        font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+        font-weight: 400;
+        border: none;
+        border-radius: 10px;
+        margin-bottom: 5%;
+        margin-right: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    input[type="submit"] {
+        padding: 1% 2%;
+        font-size: 250%;
+        font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+        font-weight: 400;
+        background-color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        transition: all 0.3s ease;
+        position: relative;
+        top: 0;
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0);
+    }
+
+    input[type="submit"]:hover {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+
+    input[type="submit"]:active {
+        top: 2px;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+</style>
+
+<div id="contenedor">
+    <p id="typewriter"></p>
+    <form action='@Url.Action("Historia")' method="get" id="nombreForm">
+        <div class="input-group">
+            <input type="text" name="nuevoNombre" required/>
+            <input type="submit" value="Confirmar Nombre" id="submitButton"/>
+        </div>
+    </form>
+</div>
+
+<audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
+<audio id="buttonSound" src="/Audio/Boton.wav" preload="auto"></audio>
 
 <script>
-    window.onload = function() {
-        animarTexto();
-    };
+    const texto = "Ingrese su nombre:";
+    const pElement = document.getElementById('typewriter');
+    const typingSound = document.getElementById('typingSound');
+    const buttonSound = document.getElementById('buttonSound');
+    let i = 0;
 
-    function animarTexto() {
-        const texto = "Ingrese su nombre:";
-        const pElement = document.getElementById('typewriter');
-        let i = 0;
-        function escribir() {
-            if (i <= texto.length) {
-                pElement.innerHTML = texto.substring(0, i) + '<span class="typewriter-cursor">|</span>';
-                i++;
-                setTimeout(escribir, 60);
-            } else {
-                pElement.innerHTML = texto;
+    function playTypingSound() {
+        try {
+            typingSound.currentTime = 0;
+            let playPromise = typingSound.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Error al reproducir el sonido:", error);
+                });
             }
+        } catch (error) {
+            console.log("Error al manejar el sonido:", error);
         }
-        escribir();
     }
+
+    function playButtonSound() {
+        return new Promise((resolve) => {
+            try {
+                buttonSound.currentTime = 0;
+                let playPromise = buttonSound.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // Esperar a que el sonido termine de reproducirse
+                        buttonSound.onended = () => {
+                            resolve();
+                        };
+                    }).catch(error => {
+                        console.log("Error al reproducir el sonido del botón:", error);
+                        resolve(); // Resolver de todos modos si hay error
+                    });
+                } else {
+                    resolve();
+                }
+            } catch (error) {
+                console.log("Error al manejar el sonido del botón:", error);
+                resolve();
+            }
+        });
+    }
+
+    function escribir() {
+        if (i <= texto.length) {
+            pElement.textContent = texto.substring(0, i);
+            playTypingSound();
+            i++;
+            setTimeout(escribir, 50);
+        }
+    }
+    escribir();
+
+    // Reproducir sonido cuando el usuario escribe
+    const inputField = document.querySelector('input[type="text"]');
+    inputField.addEventListener('input', playTypingSound);
+
+    // Manejar el envío del formulario
+    const form = document.getElementById('nombreForm');
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault(); // Prevenir el envío inmediato
+        await playButtonSound(); // Esperar a que el sonido termine
+        this.submit(); // Enviar el formulario después
+    });
 </script>

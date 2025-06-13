@@ -1,6 +1,28 @@
 @{
     ViewData["Title"] = "Cofre";
 }
+<style>
+    body {
+        background-image: url('/Imagenes/Carta.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .carta a {
+        cursor: pointer;
+    }
+
+    .mensaje {
+        font-size: 200%;
+        font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    }
+</style>
 
 <div class="carta">
     <a href="Carta.cshtml">
@@ -8,7 +30,7 @@
     </a>
 </div>
 
-<p>Presione la tecla de espacio para volver al cuarto</p>
+<p class="mensaje">Presione la tecla de espacio para volver al cuarto</p>
 
 <script>
     document.addEventListener('keydown', function(event) {
@@ -18,3 +40,4 @@
         }
     });
 </script>
+

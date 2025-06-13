@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "Sala II";
+}
+
+<style>
+body {
+    background: url('/Imagenes/HabitacionSalaII.png') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+#contador, h1 {
+    color: white;
+}
+
+.habitacion {
+    position: relative;
+}
+.laptop-btn {
+    position: absolute;
+    top: 2105%;    /* Ajusta según la ubicación de la laptop */
+    left: 53%;   /* Ajusta según la ubicación de la laptop */
+    width: 10vw; /* Ajusta el tamaño del botón */
+    height: 14vw; /* Ajusta el tamaño del botón */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    padding: 0;
+}
+</style>
+
+<h1>Tiempo restante: <span id="contador">@ViewBag.segs</span> segundos</h1>
+
+<div class="habitacion">
+    <p>Bienvenido a la Sala II</p>
+    <form action="@Url.Action("Computadora")" method="get">
+        <button type="submit" class="laptop-btn" title="Ir a la computadora"></button>
+    </form>
+</div>
+
+@section Scripts 
+{
+    <script>
+        let tiempo = @ViewBag.segs;
+        const elemento = document.getElementById('contador');
+
+        const reloj = setInterval(() => {
+            tiempo--;
+            elemento.textContent = tiempo;
+
+            if (tiempo <= 0) {
+                clearInterval(reloj);
+                window.location.href = '/Home/Perdiste';
+            }
+        }, 1000);
+    </script>
+} 

@@ -1,17 +1,153 @@
 @{
     ViewData["Title"] = "Prólogo";
 }
+
+<style>
+
+body {
+    background: black;
+    margin: 0;
+    padding: 0;
+}
+
+#contenedor-historia {
+    width: 80%;
+    margin-top: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 3%;
+    padding-right: 3%;
+    background: black;
+    text-align: center;
+}
+
+#titulo-typewriter {
+    color: white;
+    font-size: 400%;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 2%;
+    letter-spacing: 0.2%;
+    text-shadow: 0.2% 0.2% 0.8% black, 0 0 0.2% white;
+}
+
+#historia-typewriter {
+    color: white;
+    font-size: 220%;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 4%;
+    margin-bottom: 2%;
+    letter-spacing: 0.3%;
+    text-shadow: 0.1% 0.1% 0.6% black, 0 0 0.2% white;
+}
+
+#mensaje-espacio {
+    opacity: 0;
+    transition: opacity 1s;
+    text-align: center;
+    color: white;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-size: 220%;
+    margin-top: 4%;
+    text-shadow: 0 0 1% black, 0 0 0.2% white;
+    letter-spacing: 0.1%;
+}
+
+</style>
+
 <div>
-    <h1>La Revelación</h1>
-    <p>Era una noche oscura y fría el día 13 de Marzo de 1998 en Dayton, Ohio, cuando el/la detective @ViewBag.nombre fue a investigar el asesinato de un cura llamado John Cesar a su iglesia a las afueras de la ciudad. Al principio no se encontró con tanto, además de unos símbolos no vistos ántes por @ViewBag.nombre, pero al revisar los cuartos encontró una puerta secreta apuntando hacia el subsuelo. En esta puerta estaba en gigante el número romano "I" y abajo el símbolo previamente visto por @ViewBag.nombre y éste se dio cuenta que esa iglesia era más que una zona de rezos. Con un poco de esfuerzo pudo abrir la puerta, pero lo que vería dentro no se lo imáginaba nunca, había un cuarto lleno de artefactos de lo que parecía oro y habían muchas cosas allí. Se puso a investigar.</p>
+    <h1 id="titulo-typewriter"></h1>
+    <p id="historia-typewriter"></p>
 </div>
-<p>Presione la tecla de espacio para pasar de escena</p>
+<p id="mensaje-espacio" style="opacity:0; transition: opacity 1s; text-align:center; color:white; font-family:'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace; font-size:120%;">Presione la tecla de espacio para pasar de escena</p>
+<audio id="temaPrincipal" src="/Audio/TemaPrincipal.mp3" preload="auto" autoplay></audio>
+<audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
 
 <script>
-    document.addEventListener('keydown', function(event) {
-        if (event.code === 'Space') {
-            event.preventDefault();
-            window.location.href = '/Home/PrimerCuarto';
+const titulo = "La Revelación:";
+const nombre = "@ViewBag.nombre";
+const historia = `Era una noche oscura y fría el día 13 de Marzo de 1998 en Dayton, Ohio, cuando el/la detective ${nombre} fue a investigar el asesinato de un cura llamado John Cesar a su iglesia a las afueras de la ciudad. Al principio no se encontró con tanto, además de unos símbolos no vistos ántes por ${nombre}, pero al revisar los cuartos encontró una puerta secreta apuntando hacia el subsuelo. En esta puerta estaba en gigante el número romano "I" y abajo el símbolo previamente visto por ${nombre} y éste se dio cuenta que esa iglesia era más que una zona de rezos. Con un poco de esfuerzo pudo abrir la puerta, pero lo que vería dentro no se lo hubiera imaginado nunca, había un cuarto lleno de artefactos de lo que parecía oro y habían muchas cosas allí. Se puso a investigar.`;
+
+const h1Element = document.getElementById('titulo-typewriter');
+const pElement = document.getElementById('historia-typewriter');
+const mensajeEspacio = document.getElementById('mensaje-espacio');
+const temaPrincipal = document.getElementById('temaPrincipal');
+temaPrincipal.currentTime = 7.25;
+temaPrincipal.volume = 0.5;
+temaPrincipal.play().catch(()=>{});
+const typingSound = document.getElementById('typingSound');
+typingSound.volume = 0.1;
+function playTypingSound() {
+    try {
+        typingSound.currentTime = 0;
+        typingSound.play().catch(()=>{});
+    } catch (e) {}
+}
+let i = 0;
+let j = 0;
+let terminado = false;
+let esperandoSkip = false;
+let mostrandoHistoria = true;
+let skipAnimacion = false;
+
+function escribirTitulo() {
+    if (i <= titulo.length) {
+        h1Element.textContent = titulo.substring(0, i);
+        playTypingSound();
+        i++;
+        setTimeout(escribirTitulo, 60);
+    } else {
+        setTimeout(escribirHistoria, 500);
+    }
+}
+
+function escribirHistoria() {
+    if (skipAnimacion) {
+        pElement.textContent = historia;
+        mostrandoHistoria = false;
+        terminado = true;
+        mensajeEspacio.style.opacity = 1;
+        return;
+    }
+    if (j <= historia.length) {
+        pElement.textContent = historia.substring(0, j);
+        playTypingSound();
+        j++;
+        setTimeout(escribirHistoria, 60);
+    } else {
+        mostrandoHistoria = false;
+        terminado = true;
+        mensajeEspacio.style.opacity = 1;
+    }
+}
+
+escribirTitulo();
+
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space') {
+        event.preventDefault();
+        if (mostrandoHistoria) {
+            if (!esperandoSkip) {
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
+                mensajeEspacio.style.opacity = 1;
+                esperandoSkip = true;
+            } else {
+                skipAnimacion = true;
+            }
+        } else if (terminado) {
+            if (!esperandoSkip) {
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
+                esperandoSkip = true;
+            } else {
+                window.location.href = '/Home/CuartoI';
+            }
         }
-    });
+    }
+});
 </script>

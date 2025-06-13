@@ -1,0 +1,127 @@
+@{
+    ViewData["Title"] = "Logo";
+}
+
+<style>
+    body {
+        background-color: black;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        transition: background-color 2s;
+    }
+
+    #contenedor {
+        width: 60%;
+        height: 50%;
+        background-color: black;
+        margin-top: 8%;
+        margin-left: 20.05%;
+        opacity: 0;
+        transition: opacity 3s, background-color 3s;
+        border-radius: 30px;
+        position: relative;
+    }
+
+    #contenedor::before {
+        content: '';
+        position: absolute;
+        top: -9px;
+        left: -9px;
+        right: -9px;
+        bottom: -9px;
+        border: 9px solid #D4AF37;
+        border-radius: 40px;
+        opacity: 0;
+        transform: scale(0.95);
+        transition: all 3s ease;
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    }
+
+    #contenedor.border-visible::before {
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+    }
+
+    #logo {
+        margin-top: 5%;
+        width: 80%;
+        opacity: 0;
+        transition: opacity 3s;
+        margin-left: 10%;
+    }   
+
+    #parrafoAnimado {
+        color: white;
+        font-size: 220%;
+        font-family: "Courier New", Courier, monospace;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 1%;
+        opacity: 0;
+        transition: opacity 3s, color 3s;
+        padding: 4% 6%;
+        box-sizing: border-box;
+    }
+</style>
+
+<div id="contenedor">
+    <img id="logo" src="/Imagenes/PortadaJuego.png" alt="Logo del juego">
+</div>
+<div id="parrafoAnimado">Presione espacio para jugar</div>
+<audio id="audio" src="/Audio/TemaPrincipal.mp3" loop preload="auto"></audio>
+<audio id="buttonSound" src="/Audio/Boton.wav" preload="auto"></audio>
+
+<script>
+    const logo = document.getElementById('logo');
+    const audio = document.getElementById('audio');
+    const contenedor = document.getElementById('contenedor');
+    const mensaje = document.getElementById('parrafoAnimado');
+    const buttonSound = document.getElementById('buttonSound');
+    let visible = true;
+
+    function parpadear() {
+        mensaje.style.opacity = visible ? '0' : '1';
+        visible = !visible;
+    }
+
+    // Activar el borde
+    setTimeout(() => {
+        contenedor.classList.add('border-visible');
+    }, 100);
+
+    setTimeout(() => {
+        contenedor.style.opacity = '1';
+        contenedor.style.backgroundColor = 'rgb(255, 255, 255)';
+        setTimeout(() => {
+            mensaje.style.color = 'white';
+        }, 4000);
+        audio.play();
+    }, 3000);
+
+    setTimeout(() => {
+        logo.style.opacity = '1';
+    }, 5000);
+
+    setTimeout(() => {
+        mensaje.style.opacity = '1';
+        setTimeout(() => {
+            setInterval(parpadear, 500);
+        }, 2000);
+    }, 10000);
+
+    document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space') {
+        event.preventDefault();
+        const buttonSound = document.getElementById('buttonSound');
+        try {
+            buttonSound.currentTime = 0;
+            buttonSound.play().catch(() => {});
+        } catch (e) {}
+        setTimeout(() => {
+            window.location.href = '/Home/IngresarNombre';
+        }, 400); // Espera 0.4s para que el sonido se escuche antes de cambiar de página
+    }
+});
+</script>

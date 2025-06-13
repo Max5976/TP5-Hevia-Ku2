@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Intro";
+    ViewData["Title"] = "Créditos";
 }
 
 <style>
@@ -21,8 +21,8 @@
     }
 </style>
 
-<div id="mensajeIntro">De Hevia Studios y Ku</div>
-<audio src="/Audio/Espada.wav" preload="auto" autoplay></audio>
+<div id="mensajeIntro">Soundtrack creado por Maximo Hevia</div>
+<audio src="/Audio/Tom.wav" preload="auto" autoplay></audio>
 
 <script>
     const mensaje = document.getElementById('mensajeIntro');
@@ -36,8 +36,7 @@
     setTimeout(() => {
         mensaje.style.opacity = '0';
         setTimeout(() => {
-            window.location.href = '/Home/Musica';
+            window.location.href = '/Home/Logo';
         }, 2000);
     }, 3000);
 </script>
-

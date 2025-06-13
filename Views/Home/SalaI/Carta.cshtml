@@ -2,13 +2,20 @@
     ViewData["Title"] = "Carta";
 }
 
-<h1>Para Franco P. Colombo</h1>
+<style>
+    .titulo, .mensaje, .despedida {
+        font-size: 200%;
+        font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    }
+</style>
 
-<p>Mi amigo en esta causa tan linda, ya estamos listos para el ataque, tenemos más seguidores que ántes, más ayuda que ántes y por lo tanto más recursos. Mañana vamos a D.C. y matamos al Presidente Clinton y a cualquier otro que este en la casa blanca y los purificaremos con el regalo que es la muerte.</p>
+<h1 class="titulo">Para Franco P. Colombo</h1>
 
-<h1>Su estimado amigo, VI</h1>
+<p class="mensaje">Mi amigo en esta causa tan linda, ya estamos listos para el ataque, tenemos más seguidores que ántes, más ayuda que ántes y por lo tanto más recursos. Mañana vamos a D.C. y matamos al Presidente Clinton y a cualquier otro que este en la casa blanca y los purificaremos con el regalo que es la muerte.</p>
 
-<p>Presione la tecla de espacio para avanzar</p>
+<h1 class="despedida">Su estimado amigo, VI</h1>
+
+<p class="mensaje">Presione la tecla de espacio para avanzar</p>
 
 <script>
     document.addEventListener('keydown', function(event) {
@@ -18,3 +25,4 @@
         }
     });
 </script>
+

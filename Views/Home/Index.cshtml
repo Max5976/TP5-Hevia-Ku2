@@ -2,54 +2,40 @@
     ViewData["Title"] = "Index";
 }
 
-<h1 id="tituloAnimado"></h1>
-<img id="logo" src="/Imagenes/PortadaJuego.png" alt="Logo del juego">
-<p id="parrafoAnimado"></p>
-<audio id="audio" src="/Audio/TemaPrincipal.mp3" loop></audio>
+<style>
+    body {
+        background-color: black;
+        height: 100%;
+        margin: 0;
+    }
+
+    #mensajeInicio {
+        color: white;
+        font-size: 200%;
+        font-family: "Courier New", Courier, monospace;
+        font-weight: bold;
+        margin-top: 22%;
+        text-align: center;
+    }
+</style>
+
+<div id="mensajeInicio">Presione espacio para comenzar</div>
 
 <script>
-    window.onload = function() {
-        document.getElementById('logo').classList.add('visible');
-        animarTitulo();
-    };
+    const mensaje = document.getElementById('mensajeInicio');
+    let visible = true;
 
-    function animarTitulo() {
-        const title = "La Revelación";
-        const titleElement = document.getElementById('tituloAnimado');
-        let i = 0;
-        function escribir() {
-            if (i <= title.length) {
-                titleElement.innerHTML = title.substring(0, i) + '<span class="typewriter-cursor">|</span>';
-                i++;
-                setTimeout(escribir, 100);
-            } else {
-                titleElement.innerHTML = title;
-                animarParrafo();
-            }
-        }
-        escribir();
+    function parpadear() {
+        mensaje.style.opacity = visible ? '0' : '1';
+        visible = !visible;
     }
 
-    function animarParrafo() {
-        const texto = "Presione la tecla de espacio para jugar";
-        const pElement = document.getElementById('parrafoAnimado');
-        let i = 0;
-        function escribir() {
-            if (i <= texto.length) {
-                pElement.innerHTML = texto.substring(0, i) + '<span class="typewriter-cursor">|</span>';
-                i++;
-                setTimeout(escribir, 40);
-            } else {
-                pElement.innerHTML = texto;
-            }
-        }
-        escribir();
-    }
+    setInterval(parpadear, 500);
 
     document.addEventListener('keydown', function(event) {
         if (event.code === 'Space') {
             event.preventDefault();
-            window.location.href = '/Home/IngresarNombre';
+            window.location.href = '/Home/Intro';
         }
     });
 </script>

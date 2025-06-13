@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\TP05_Hevia_ku.csproj": {}
+    "Z:\\2024\\TP05_Hevia_Ku\\TP05_Hevia_ku.csproj": {}
   },
   "projects": {
-    "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\TP05_Hevia_ku.csproj": {
+    "Z:\\2024\\TP05_Hevia_Ku\\TP05_Hevia_ku.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\TP05_Hevia_ku.csproj",
+        "projectUniqueName": "Z:\\2024\\TP05_Hevia_Ku\\TP05_Hevia_ku.csproj",
         "projectName": "TP05_Hevia_ku",
-        "projectPath": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\TP05_Hevia_ku.csproj",
+        "projectPath": "Z:\\2024\\TP05_Hevia_Ku\\TP05_Hevia_ku.csproj",
         "packagesPath": "C:\\Users\\95097703\\.nuget\\packages\\",
-        "outputPath": "Z:\\2025\\programacion\\TP05_Hevia_Ku\\TP05_Hevia_ku\\obj\\",
+        "outputPath": "Z:\\2024\\TP05_Hevia_Ku\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "CartaEncontrada";
+    ViewData["Title"] = "Libro";
 }
 
 <style>
@@ -8,6 +8,7 @@ body {
     background: black;
     margin: 0;
     padding: 0;
+    cursor: pointer;
 }
 
 #contenedor-historia {
@@ -62,50 +63,21 @@ body {
 </style>
 
 <div>
-    <h1 id="titulo-typewriter"></h1>
     <p id="historia-typewriter"></p>
 </div>
 <p id="mensaje-espacio" style="opacity:0; transition: opacity 1s; text-align:center; color:white; font-family:'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace; font-size:120%;">Presione la tecla de espacio para pasar de escena</p>
-<audio id="temaPrincipal" src="/Audio/TemaPrincipal.mp3" preload="auto" autoplay></audio>
-<audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
 
 <script>
-const titulo = "La Revelación:";
-const nombre = "@ViewBag.nombre";
-const historia = `${nombre} se encontró una carta que literalmente admitía a planear matar al Presidente, al ver esto se sintió satisfecho con la evidencia e intentó salir pero, la puerta ya no estaba, ${nombre} estaba encerrado y la única puerta que lo liberaría era la que llevaba a la segunda sala, puerta cerrada con llave. ${nombre} no sabía si habría otra salida o si podría encontrar un código, pero tenía que intentarlo.`;
+const historia = `¿Qué es esto, un libro que solo tiene una sola página con palabras? ¿Qué clase de persona tiene un libro de una sola página? Dice lo que parece un código de contraseña: "2P0l1sgKa". Quizás esto podría ser útil en el futuro.`;
 
-const h1Element = document.getElementById('titulo-typewriter');
 const pElement = document.getElementById('historia-typewriter');
 const mensajeEspacio = document.getElementById('mensaje-espacio');
-const temaPrincipal = document.getElementById('temaPrincipal');
-temaPrincipal.currentTime = 7.25;
-temaPrincipal.volume = 0.5;
-temaPrincipal.play().catch(()=>{});
-const typingSound = document.getElementById('typingSound');
-typingSound.volume = 0.1;
-function playTypingSound() {
-    try {
-        typingSound.currentTime = 0;
-        typingSound.play().catch(()=>{});
-    } catch (e) {}
-}
 let i = 0;
 let j = 0;
 let terminado = false;
 let esperandoSkip = false;
 let mostrandoHistoria = true;
 let skipAnimacion = false;
-
-function escribirTitulo() {
-    if (i <= titulo.length) {
-        h1Element.textContent = titulo.substring(0, i);
-        playTypingSound();
-        i++;
-        setTimeout(escribirTitulo, 60);
-    } else {
-        setTimeout(escribirHistoria, 500);
-    }
-}
 
 function escribirHistoria() {
     if (skipAnimacion) {
@@ -117,18 +89,14 @@ function escribirHistoria() {
     }
     if (j <= historia.length) {
         pElement.textContent = historia.substring(0, j);
-        playTypingSound();
         j++;
-        setTimeout(escribirHistoria, 60);
+        setTimeout(escribirHistoria, 40);
     } else {
         mostrandoHistoria = false;
         terminado = true;
         mensajeEspacio.style.opacity = 1;
     }
 }
-
-escribirTitulo();
-
 document.addEventListener('keydown', function(event) {
     if (event.code === 'Space') {
         event.preventDefault();
@@ -145,7 +113,7 @@ document.addEventListener('keydown', function(event) {
                 mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
                 esperandoSkip = true;
             } else {
-                window.location.href = '/Home/CuartoI';
+                window.location.href = '/Home/PrimerCuarto';
             }
         }
     }
