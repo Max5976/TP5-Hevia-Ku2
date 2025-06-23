@@ -10,19 +10,6 @@ body {
     padding: 0;
 }
 
-#contenedor-historia {
-    width: 80%;
-    margin-top: 5%;
-    margin-left: 10%;
-    margin-right: 10%;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    padding-left: 3%;
-    padding-right: 3%;
-    background: black;
-    text-align: center;
-}
-
 #titulo-typewriter {
     color: white;
     font-size: 400%;
@@ -66,23 +53,18 @@ body {
     <p id="historia-typewriter"></p>
 </div>
 <p id="mensaje-espacio" style="opacity:0; transition: opacity 1s; text-align:center; color:white; font-family:'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace; font-size:120%;">Presione la tecla de espacio para pasar de escena</p>
-<audio id="temaPrincipal" src="/Audio/TemaPrincipal.mp3" preload="auto" autoplay></audio>
 <audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
 
 <script>
-const titulo = "La Revelación:";
+const titulo = "Capítulo II:";
 const nombre = "@ViewBag.nombre";
-const historia = `${nombre} se encontró una carta que literalmente admitía a planear matar al Presidente, al ver esto se sintió satisfecho con la evidencia e intentó salir pero, la puerta ya no estaba, ${nombre} estaba encerrado y la única puerta que lo liberaría era la que llevaba a la segunda sala, puerta cerrada con llave. ${nombre} no sabía si habría otra salida o si podría encontrar un código, pero tenía que intentarlo.`;
+const historia = `${nombre} se encontró una carta que literalmente admitía a planear matar al Presidente, al ver esto se sintió satisfecho con la evidencia e intentó salir pero, la puerta ya no estaba, ${nombre} estaba encerrado y la única puerta que lo liberaría era la que llevaba a la segunda sala, puerta cerrada con llave. ${nombre} no sabía si habría otra salida o si podría encontrar un código, pero tenía que intentarlo. (Recarga la página de Primer Cuarto para continuar ahí).`;
 
 const h1Element = document.getElementById('titulo-typewriter');
 const pElement = document.getElementById('historia-typewriter');
 const mensajeEspacio = document.getElementById('mensaje-espacio');
-const temaPrincipal = document.getElementById('temaPrincipal');
-temaPrincipal.currentTime = 7.25;
-temaPrincipal.volume = 0.5;
-temaPrincipal.play().catch(()=>{});
 const typingSound = document.getElementById('typingSound');
-typingSound.volume = 0.1;
+typingSound.volume = 0.03;
 function playTypingSound() {
     try {
         typingSound.currentTime = 0;

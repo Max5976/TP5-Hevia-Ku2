@@ -3,9 +3,35 @@
 }
 
 <style>
+    body {
+        background-image: url('/Imagenes/Carta.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
     .titulo, .mensaje, .despedida {
-        font-size: 200%;
-        font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+        font-size: 100%;
+        text-align: left;
+        margin-left: 2%;
+        margin-top: 2%;
+        font-family: 'times new roman', serif;
+        font-style: italic;
+    }
+    #parrafoAnimado {
+        color: rgb(0, 0, 0);
+        font-size: 100%;
+        font-family: "Courier New", Courier, monospace;
+        font-weight: bold;
+        text-align: left;
+        margin-top: 2%;
+        opacity: 0;
+        transition: opacity 3s, color 3s;
     }
 </style>
 
@@ -15,14 +41,39 @@
 
 <h1 class="despedida">Su estimado amigo, VI</h1>
 
-<p class="mensaje">Presione la tecla de espacio para avanzar</p>
+<p id="parrafoAnimado">Agrandá esta pantalla y presione la tecla de espacio para avanzar</p>
 
 <script>
+    const parrafo = document.getElementById('parrafoAnimado');
+
+    parrafo.style.position = 'relative';
+    parrafo.style.left = '20px';
+    parrafo.style.top = '10px';
+
+    let visible = true;
+    setInterval(() => {
+        parrafo.style.opacity = visible ? '0' : '1';
+        visible = !visible;
+    }, 750);
+
+    localStorage.removeItem('inicioContador');
+
     document.addEventListener('keydown', function(event) {
-        if (event.code === 'space') {
-            vent.preventDefault();
-            window.location.href = 'SalaI/HistoriaII.cshtml';
+        if (event.code === 'Space') {
+            event.preventDefault();
+            // Hacer una llamada AJAX para actualizar el estado
+            fetch('/Home/ActualizarEstado', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    indices: [0, 2, 6],
+                    estados: [false, true, true]
+                })
+            }).then(() => {
+                window.location.href = '/Home/HistoriaII';
+            });
         }
     });
 </script>
-

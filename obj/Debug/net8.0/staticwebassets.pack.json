@@ -41,6 +41,10 @@
       "PackagePath": "staticwebassets\\Imagenes\\PortadaJuego.png"
     },
     {
+      "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\Thumbs.db",
+      "PackagePath": "staticwebassets\\Imagenes\\Thumbs.db"
+    },
+    {
       "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

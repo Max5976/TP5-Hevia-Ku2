@@ -3,7 +3,7 @@
 }
 <style>
     body {
-        background-image: url('/Imagenes/Carta.png');
+        background-image: url('/Imagenes/Cofre.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -14,8 +14,36 @@
         overflow: hidden;
     }
 
-    .carta a {
+    .carta, .vela, .libro {
+        position: absolute;
+    }
+
+    .carta a, .vela a, .libro a {
+        display: block;
+        position: absolute;
         cursor: pointer;
+        background: rgba(255,255,255,0);
+    }
+
+    .carta a {
+        left: 51vw;   
+        top: 24vh;    
+        width: 27vw;  
+        height: 29vh; 
+    }
+
+    .vela a {
+        left: 41vw;   
+        top: 50vh;    
+        width: 7vw;   
+        height: 14vh;  
+    }
+
+    .libro a {
+        left: 14vw;    
+        top: 22vh;    
+        width: 28vw;   
+        height: 18vh; 
     }
 
     .mensaje {
@@ -25,19 +53,20 @@
 </style>
 
 <div class="carta">
-    <a href="Carta.cshtml">
-        <input button>
-    </a>
+    <a href="#" onclick="abrirPopup(); return false;"></a>
 </div>
 
-<p class="mensaje">Presione la tecla de espacio para volver al cuarto</p>
+<div class="vela">
+    <a href="@Url.Action("Vela")"></a>
+</div>
+
+<div class="libro">
+    <a href="@Url.Action("NoDisponibleCofre")"></a>
+</div>
 
 <script>
-    document.addEventListener('keydown', function(event) {
-        if (event.code === 'space') {
-            vent.preventDefault();
-            window.location.href = 'SalaI/PrimerCuarto.cshtml';
-        }
-    });
+    function abrirPopup() {
+        window.open('@Url.Action("Carta")', "Carta", "width=600, height=400")
+    }
 </script>
 

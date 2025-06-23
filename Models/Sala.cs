@@ -1,6 +1,13 @@
 namespace TP5_Hevia_ku.Models;
-class Sala {
-    public int codigoSala {get; set;}
-    public int tiempoSegs {get; set;}
-
+public class Sala {
+   public List<Artefacto> cosas {get; set;} 
+   public bool primeraPistaEncontrada { get; set; }
+   public Sala(bool primeraPistaEncontrada)
+   {
+      cosas = new List<Artefacto>();
+      this.primeraPistaEncontrada = primeraPistaEncontrada;
+   }
+   public void sumarArtefacto(string nombre, bool estado) {
+      cosas.Add(new Artefacto(nombre, estado));
+   }
 }

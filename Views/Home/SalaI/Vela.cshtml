@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Secreto";
+    ViewData["Title"] = "Vela";
 }
 
 <style>
@@ -44,7 +44,7 @@ body {
 <audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
 
 <script>
-const historia = `Ves algo raro, pareciera que el cuadro se ve raro, luego te das cuenta que atrás de éste hay algo, una serie de acertijos para conseguir una palabra, o una frase.`;
+const historia = `Felicidades, encontraste una velas totalmente inútil y estúpida que no sirve para nada. Dejá de perder el tiempo con idioteces y volvé al cuarto.`;
 const pElement = document.getElementById('historia-typewriter');
 const mensajeEspacio = document.getElementById('mensaje-espacio');
 const typingSound = document.getElementById('typingSound');
@@ -97,7 +97,7 @@ document.addEventListener('keydown', function(event) {
                 mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
                 esperandoSkip = true;
             } else {
-                window.location.href = '/Home/Acertijos';
+                window.location.href = '/Home/PrimerCuarto';
             }
         }
     }

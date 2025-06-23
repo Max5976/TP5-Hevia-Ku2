@@ -2,6 +2,8 @@
     ViewData["Title"] = "Sala I";
 }
 
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
 <style>
     body {
         background-image: url('/Imagenes/CuartoI.png');
@@ -27,75 +29,183 @@
     }
 
     .cofre a {
-        left: 34vw;   
-        top: 67vh;    
-        width: 10vw;  
-        height: 12vh; 
+        left: 31vw;   
+        top: 59vh;    
+        width: 12.5vw;  
+        height: 16vh; 
     }
 
     .libro a {
-        left: 38vw;   
-        top: 42vh;    
-        width: 8vw;   
+        left: 38.5vw;   
+        top: 31vh;    
+        width: 7.5vw;   
         height: 8vh;  
     }
 
     .puertaII a {
-        left: 22vw;    
-        top: 36vh;    
-        width: 4vw;   
-        height: 12vh; 
+        left: 24vw;    
+        top: 26vh;    
+        width: 2vw;   
+        height: 11vh; 
     }
 
     .velas a {
-        left: 34vw;   
-        top: 67vh;    
-        width: 10vw;  
-        height: 12vh; 
+        left: 54vw;   
+        top: 26vh;    
+        width: 4.5vw;  
+        height: 13vh; 
     }
 
     .cruz a {
-        left: 38vw;   
-        top: 42vh;    
-        width: 8vw;   
-        height: 8vh;  
+        left: 48vw;   
+        top: 33vh;    
+        width: 2vw;  
+        height: 6vh; 
     }
 
     .adorno a {
-        left: 22vw;    
-        top: 36vh;    
-        width: 4vw;   
-        height: 12vh; 
+        left: 75vw;   
+        top: 63vh;    
+        width: 5vw;  
+        height: 14vh; 
     }
 
     .cuadro1 a {
-        left: 22vw;    
-        top: 36vh;    
-        width: 4vw;   
-        height: 12vh;
+        left: 45.2vw;   
+        top: 4vh;    
+        width: 7.5vw;  
+        height: 22vh; 
     }
 
     .cuadro2 a {
-        left: 22vw;    
-        top: 36vh;    
-        width: 4vw;   
-        height: 12vh;
+        left: 75vw;   
+        top: 7.5vh;    
+        width: 6vw;  
+        height: 34vh;
+    }
+    
+    .container {
+    width: 29%;
+    background: rgba(255, 245, 180, 0.85);
+    border-radius: 15px;
+    margin-left: 1%;
+    padding-bottom: 0.4%;
+    box-shadow: 0 4px 16px 0 rgba(120, 100, 40, 0.18);
+    }
+
+    .mensaje, h1 {
+    font-family: 'Montserrat', Arial, sans-serif;
+    color: #6b4f00;
+    margin-left: 1%;
+    text-shadow: 2px 2px 3px #776533;
+    letter-spacing: 1px;
+    font-weight: 700;
     }
 
     h1 {
-        position: absolute;
-        left: 2vw;
-        top: 2vh;
-        z-index: 2;
+        font-size: 200%;
+    }
+
+    .mensaje {
+        font-size: 130%;
+    }
+
+    #playMusicBtn {
+        position: fixed;
+        top: 5%;
+        right: 5%;
+        padding: 3% 7%;
+        background: linear-gradient(90deg, #ffe082 0%, #ffd54f 100%);
+        color: #6b4f00;
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-size: 1.5vw;
+        font-weight: bold;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2% 8% rgba(120, 100, 40, 0.18);
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+        z-index: 1000;
+    }
+    #playMusicBtn:hover {
+        background: linear-gradient(90deg, #ffd54f 0%, #ffe082 100%);
+        transform: scale(1.05);
+    }
+
+    .cajaCodigo {
+        width: 50%;
+        background: rgba(255, 245, 180, 0.85);
+        border-radius: 15px;
+        margin-left: 5%;
+        margin-top: 4%;
+        box-shadow: 0 4px 16px 0 rgba(120, 100, 40, 0.18);
+    }
+
+    .cajaCodigo p, .cajaCodigo input[type="text"] {
+        font-family: 'Montserrat', Arial, sans-serif;
+        color: #6b4f00;
+        text-shadow: 2px 2px 3px #776533;
+        letter-spacing: 1px;
+        font-weight: 700;
+        text-align: center;
+        font-size: 150%;
+    }
+
+    .cajaCodigo p {
+        margin-top: 1%;
+    }
+
+    .cajaCodigo form {
+        text-align: center;
+    }
+
+    .cajaCodigo input[type="text"] {
+        width: 60%;
+        padding: 0.5%;
+        border: 2px solid #6b4f00;
+        background: rgba(219, 213, 170, 0.65);
+        border-radius: 5px;
+        margin-top: 1%;
+    }
+
+    .cajaCodigo input[type="submit"] {
+        padding: 0.5% 1%;
+        border: none;
+        background: #6b4f00;
+        color: white;
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-size: 120%;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 1%;
+        margin-bottom: 2%;
     }
 </style>
 
-<h1>Tiempo restante: <span id="contador">@ViewBag.segs</span> segundos</h1>
+<div class="container">
 
-<div class="mensaje">¡Tienes 50 segundos para buscar una pista!</div>
+<h1>Tiempo restante: <span id="contador">@ViewBag.segs</span> segundos</h1>
+<audio id="musica" src="/Audio/RoomI.mp3" loop preload="auto"></audio>
+
+@if (ViewBag.cuartoI.primeraPistaEncontrada == false)
+{
+    <div class="mensaje">¡Tienes 100 segundos para buscar pistas!</div>
+}
+else {
+    <div class="mensaje">¡Busca la contraseña y abre la puerta! ¡Tienes 300 segundos!</div>
+}
+
+</div>
 
 <div class="cofre">
-    <a href="#" onclick="abrirPopup(); return false;"></a>
+    @if (ViewBag.cuartoI.cosas[0].estadoDeMaterial == true)
+    {
+        <a href="#" onclick="abrirPopup(); return false;"></a>
+    }
+    else
+    {
+        <a href="@Url.Action("NoDisponible")"></a>
+    }
 </div>
     
 <div class="libro">
@@ -103,7 +213,20 @@
 </div>
 
 <div class="puertaII">
-    <a href="@Url.Action("NoDisponible")"></a>
+    @if (ViewBag.cuartoI.cosas[2].estadoDeMaterial == true)
+    {
+        <div class="cajaCodigo">
+            <p>Escribe el código:</p>
+            <form action='@Url.Action("VerificarCodigo")' method="get">
+                <input type="text" name="codigo" required/>
+                <input type="submit"/>
+            </form>
+        </div>
+    }
+    else
+    {
+        <a href="@Url.Action("NoDisponible")"></a>
+    }
 </div>
 
 <div class="velas">
@@ -119,31 +242,77 @@
 </div>
 
 <div class="cuadro1">
-    <a href="@Url.Action("NoDisponible")"></a>
+    @if (ViewBag.cuartoI.cosas[6].estadoDeMaterial == true)
+    {
+        <a href='@Url.Action("Pista")'></a>
+    }
+    else
+    {
+        <a href="@Url.Action("NoDisponible")"></a>
+    }
 </div>
 
 <div class="cuadro2">
-    <a href="@Url.Action("Secreto")"></a>
+    <a href="@Url.Action("NoDisponible")"></a>
 </div>
 
 @section Scripts 
 {
     <script>
-        let tiempo = @ViewBag.segs;
+        const TIEMPO_TOTAL = @ViewBag.segs;
         const elemento = document.getElementById('contador');
 
-        const reloj = setInterval(() => {
-            tiempo--;
-            elemento.textContent = tiempo;
+        // Recupera o inicializa el inicio del contador
+        let inicio = localStorage.getItem('inicioContador');
+        if (!inicio) {
+            inicio = Date.now();
+            localStorage.setItem('inicioContador', inicio);
+        } else {
+            inicio = parseInt(inicio);
+        }
 
-            if (tiempo <= 0) {
-                clearInterval(reloj);
+        function actualizarContador() {
+            const ahora = Date.now();
+            const transcurrido = Math.floor((ahora - inicio) / 1000);
+            let restante = TIEMPO_TOTAL - transcurrido;
+            if (restante < 0) restante = 0;
+            elemento.textContent = restante;
+
+            if (restante > 0) {
+                setTimeout(actualizarContador, 1000);
+            } else {
+                localStorage.removeItem('inicioContador');
                 window.location.href = '/Home/Perdiste1';
             }
-        }, 1000);
+        }
 
+        actualizarContador();
+    </script>
+    <script>
+        const audio = document.getElementById('musica');
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTime = localStorage.getItem('musicaTime');
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+            audio.play().catch(() => {
+                let btn = document.createElement('button');
+                btn.id = "playMusicBtn";
+                btn.textContent = "Reproducir música";
+                btn.onclick = function() {
+                    audio.play();
+                    btn.remove();
+                };
+                document.body.appendChild(btn);
+            });
+        });
+        audio.ontimeupdate = function() {
+            localStorage.setItem('musicaTime', audio.currentTime);
+        };
+    </script>
+    <script>
         function abrirPopup() {
-            window.open('@Url.Action("Cofre")', "Cofre", "width=400, height=300")
+            window.open('@Url.Action("Cofre")', "Cofre", "width=600, height=400")
         }
     </script>
 }

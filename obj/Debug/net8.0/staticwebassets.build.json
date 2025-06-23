@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9vVhx8c4lmIsN5DSEvJYA1DBLcW4Ea8/uEBVkfEkOaU=",
+  "Hash": "ULcmGSkUyz+/r56vIjTBhPM4vDjFWITIa1H4BkgyYrU=",
   "Source": "TP05_Hevia_ku",
   "BasePath": "_content/TP05_Hevia_ku",
   "Mode": "Default",
@@ -243,6 +243,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Imagenes\\PortadaJuego.png"
+    },
+    {
+      "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\Thumbs.db",
+      "SourceId": "TP05_Hevia_ku",
+      "SourceType": "Discovered",
+      "ContentRoot": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\",
+      "BasePath": "_content/TP05_Hevia_ku",
+      "RelativePath": "Imagenes/Thumbs.db",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Imagenes\\Thumbs.db"
     },
     {
       "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\js\\site.js",
