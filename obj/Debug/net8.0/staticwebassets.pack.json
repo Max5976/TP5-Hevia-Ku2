@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\Audio\\Hoja.wav"
     },
     {
+      "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Audio\\RoomI.mp3",
+      "PackagePath": "staticwebassets\\Audio\\RoomI.mp3"
+    },
+    {
       "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Audio\\TemaPrincipal.mp3",
       "PackagePath": "staticwebassets\\Audio\\TemaPrincipal.mp3"
     },
@@ -31,6 +35,10 @@
     {
       "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\CuartoI.png",
       "PackagePath": "staticwebassets\\Imagenes\\CuartoI.png"
+    },
+    {
+      "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\FondoCarta.png",
+      "PackagePath": "staticwebassets\\Imagenes\\FondoCarta.png"
     },
     {
       "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\HabitacionSalaII.png",

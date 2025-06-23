@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ULcmGSkUyz+/r56vIjTBhPM4vDjFWITIa1H4BkgyYrU=",
+  "Hash": "2PVjfnlGm/Jxm4P4pCWY95Gim7Bs2EOx2Wd/0DDV4l0=",
   "Source": "TP05_Hevia_ku",
   "BasePath": "_content/TP05_Hevia_ku",
   "Mode": "Default",
@@ -72,6 +72,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Audio\\Hoja.wav"
+    },
+    {
+      "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Audio\\RoomI.mp3",
+      "SourceId": "TP05_Hevia_ku",
+      "SourceType": "Discovered",
+      "ContentRoot": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\",
+      "BasePath": "_content/TP05_Hevia_ku",
+      "RelativePath": "Audio/RoomI.mp3",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Audio\\RoomI.mp3"
     },
     {
       "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Audio\\TemaPrincipal.mp3",
@@ -205,6 +224,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Imagenes\\CuartoI.png"
+    },
+    {
+      "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\FondoCarta.png",
+      "SourceId": "TP05_Hevia_ku",
+      "SourceType": "Discovered",
+      "ContentRoot": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\",
+      "BasePath": "_content/TP05_Hevia_ku",
+      "RelativePath": "Imagenes/FondoCarta.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Imagenes\\FondoCarta.png"
     },
     {
       "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\HabitacionSalaII.png",

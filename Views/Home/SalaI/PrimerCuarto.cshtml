@@ -29,57 +29,57 @@
     }
 
     .cofre a {
-        left: 31vw;   
-        top: 59vh;    
+        left: 31vw;  
+        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "59vh" : "53vh");
         width: 12.5vw;  
         height: 16vh; 
     }
 
     .libro a {
         left: 38.5vw;   
-        top: 31vh;    
+        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "31vh" : "25vh");    
         width: 7.5vw;   
         height: 8vh;  
     }
 
     .puertaII a {
         left: 24vw;    
-        top: 26vh;    
+        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "26vh" : "20vh");
         width: 2vw;   
         height: 11vh; 
     }
 
     .velas a {
         left: 54vw;   
-        top: 26vh;    
+        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "26vh" : "20vh");
         width: 4.5vw;  
         height: 13vh; 
     }
 
     .cruz a {
         left: 48vw;   
-        top: 33vh;    
+        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "33vh" : "27vh");
         width: 2vw;  
         height: 6vh; 
     }
 
     .adorno a {
         left: 75vw;   
-        top: 63vh;    
+        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "63vh" : "57vh");
         width: 5vw;  
         height: 14vh; 
     }
 
     .cuadro1 a {
         left: 45.2vw;   
-        top: 4vh;    
+        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "4vh" : "-2vh");
         width: 7.5vw;  
         height: 22vh; 
     }
 
     .cuadro2 a {
         left: 75vw;   
-        top: 7.5vh;    
+        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "7.5vh" : "1.5vh");
         width: 6vw;  
         height: 34vh;
     }
@@ -244,7 +244,7 @@ else {
 <div class="cuadro1">
     @if (ViewBag.cuartoI.cosas[6].estadoDeMaterial == true)
     {
-        <a href='@Url.Action("Pista")'></a>
+        <a href='@Url.Action("Acertijos")'></a>
     }
     else
     {

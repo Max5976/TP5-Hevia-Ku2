@@ -1,16 +1,135 @@
 @{
-    ViewData["Title"] = "Cuarto Finalizado";
+    ViewData["Title"] = "CuartoPrimeroFinalizado";
 }
 
-<p>@ViewBag.nombre abrió la puerta para la próxima sala y se sorprendió y abrumó al ver que era muy similar, no llevaba a ningúna salida pero justo ahí, @ViewBag.nombre vió otra puerta, una con el símbolo romano II y al ver esto tenía que intentar abrirla.</p>
+<style>
 
-<p>Presione la tecla de espacio para volver al cuarto</p>
+body {
+    background: black;
+    margin: 0;
+    padding: 0;
+}
+
+#titulo-typewriter {
+    color: white;
+    font-size: 400%;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 2%;
+    letter-spacing: 0.2%;
+    text-shadow: 0.2% 0.2% 0.8% black, 0 0 0.2% white;
+}
+
+#historia-typewriter {
+    color: white;
+    font-size: 220%;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 4%;
+    margin-bottom: 2%;
+    letter-spacing: 0.3%;
+    text-shadow: 0.1% 0.1% 0.6% black, 0 0 0.2% white;
+}
+
+#mensaje-espacio {
+    opacity: 0;
+    transition: opacity 1s;
+    text-align: center;
+    color: white;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-size: 220%;
+    margin-top: 4%;
+    text-shadow: 0 0 1% black, 0 0 0.2% white;
+    letter-spacing: 0.1%;
+}
+
+</style>
+
+<div>
+    <h1 id="titulo-typewriter"></h1>
+    <p id="historia-typewriter"></p>
+</div>
+<p id="mensaje-espacio" style="opacity:0; transition: opacity 1s; text-align:center; color:white; font-family:'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace; font-size:120%;">Presione la tecla de espacio para pasar de escena</p>
+<audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
 
 <script>
-    document.addEventListener('keydown', function(event) {
-        if (event.code === 'space') {
-            event.preventDefault();
-            window.location.href = 'SalaI/<PrimerCuartoII>.cshtml';
+const titulo = "La Revelación: Libro III";
+const nombre = "@ViewBag.nombre";
+const historia = `${nombre} abrió la puerta para la próxima sala y se abrumó al ver que era muy similar, no llevaba a ningúna salida pero justo en ese instante, ${nombre} vió otra puerta, una con el símbolo romano "III" y se dió cuenta de que los números que habían en cada puerta decían adonde llevaban, en éste caso, al cuarto número tres. Con nada más que hacer ${nombre} decidió que lo mejor sería abrir o por lo menos intentar ver lo que hay del otro lado.`;
+
+const h1Element = document.getElementById('titulo-typewriter');
+const pElement = document.getElementById('historia-typewriter');
+const mensajeEspacio = document.getElementById('mensaje-espacio');
+const typingSound = document.getElementById('typingSound');
+typingSound.volume = 0.03;
+function playTypingSound() {
+    try {
+        typingSound.currentTime = 0;
+        typingSound.play().catch(()=>{});
+    } catch (e) {}
+}
+let i = 0;
+let j = 0;
+let terminado = false;
+let esperandoSkip = false;
+let mostrandoHistoria = true;
+let skipAnimacion = false;
+
+function escribirTitulo() {
+    if (i <= titulo.length) {
+        h1Element.textContent = titulo.substring(0, i);
+        playTypingSound();
+        i++;
+        setTimeout(escribirTitulo, 60);
+    } else {
+        setTimeout(escribirHistoria, 500);
+    }
+}
+
+function escribirHistoria() {
+    if (skipAnimacion) {
+        pElement.textContent = historia;
+        mostrandoHistoria = false;
+        terminado = true;
+        mensajeEspacio.style.opacity = 1;
+        return;
+    }
+    if (j <= historia.length) {
+        pElement.textContent = historia.substring(0, j);
+        playTypingSound();
+        j++;
+        setTimeout(escribirHistoria, 60);
+    } else {
+        mostrandoHistoria = false;
+        terminado = true;
+        mensajeEspacio.style.opacity = 1;
+    }
+}
+
+escribirTitulo();
+
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space') {
+        event.preventDefault();
+        if (mostrandoHistoria) {
+            if (!esperandoSkip) {
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
+                mensajeEspacio.style.opacity = 1;
+                esperandoSkip = true;
+            } else {
+                skipAnimacion = true;
+            }
+        } else if (terminado) {
+            if (!esperandoSkip) {
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
+                esperandoSkip = true;
+            } else {
+                window.location.href = '/Home/CuartoI';
+            }
         }
-    });
+    }
+});
 </script>

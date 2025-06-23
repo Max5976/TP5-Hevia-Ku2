@@ -22,10 +22,6 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[Z:/2024/TP05_Hevia_Ku/Views/Home/NoDisponible.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxOb0Rpc3BvbmlibGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [Z:/2024/TP05_Hevia_Ku/Views/Home/Presentacion/Historia.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcmVzZW50YWNpb25cSGlzdG9yaWEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -46,12 +42,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcmVzZW50YWNpb25cTXVzaWNhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[Z:/2024/TP05_Hevia_Ku/Views/Home/SalaIII/CuartoIII.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSUlJXEN1YXJ0b0lJSS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [Z:/2024/TP05_Hevia_Ku/Views/Home/SalaII/Computadora.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSUlcQ29tcHV0YWRvcmEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[Z:/2024/TP05_Hevia_Ku/Views/Home/SalaII/HabitacionI.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSUlcSGFiaXRhY2lvbkkuY3NodG1s
+[Z:/2024/TP05_Hevia_Ku/Views/Home/SalaII/CuartoII.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSUlcQ3VhcnRvSUkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[Z:/2024/TP05_Hevia_Ku/Views/Home/SalaII/HabitacionII.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSUlcSGFiaXRhY2lvbklJLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [Z:/2024/TP05_Hevia_Ku/Views/Home/SalaI/Acertijos.cshtml]
@@ -86,6 +90,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSVxMaWJyby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[Z:/2024/TP05_Hevia_Ku/Views/Home/SalaI/NoDisponible.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSVxOb0Rpc3BvbmlibGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[Z:/2024/TP05_Hevia_Ku/Views/Home/SalaI/NoDisponibleCofre.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSVxOb0Rpc3BvbmlibGVDb2ZyZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [Z:/2024/TP05_Hevia_Ku/Views/Home/SalaI/Perdiste1.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSVxQZXJkaXN0ZTEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -98,12 +110,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSVxQcmltZXJDdWFydG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[Z:/2024/TP05_Hevia_Ku/Views/Home/SalaI/PrimerCuartoII.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSVxQcmltZXJDdWFydG9JSS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [Z:/2024/TP05_Hevia_Ku/Views/Home/SalaI/Secreto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSVxTZWNyZXRvLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[Z:/2024/TP05_Hevia_Ku/Views/Home/SalaI/Vela.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSVxWZWxhLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [Z:/2024/TP05_Hevia_Ku/Views/Home/SalaI/Velas.cshtml]

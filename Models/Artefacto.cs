@@ -1,5 +1,5 @@
 namespace TP5_Hevia_ku.Models;
-class Artefacto {
+public class Artefacto {
     public string nombre {get; set;}
     public bool estadoDeMaterial {get; set;}
 

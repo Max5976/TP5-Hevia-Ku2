@@ -1,0 +1,95 @@
+@{
+    ViewData["Title"] = "Cuarto III";
+}
+
+<style>
+body {
+    background: black;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    position: relative;
+}
+
+#contenedor-principal {
+    opacity: 0;
+    transition: opacity 2s;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#titulo-cuarto {
+    color: white;
+    font-size: 1000%;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    margin-bottom: 15%;
+    letter-spacing: 0.2%;
+    text-shadow: 0.2% 0.2% 0.8% black, 0 0 0.2% white;
+}
+
+#boton-entrar {
+    background: black;
+    color: white;
+    border: 2px solid white;
+    padding: 1% 2%;
+    font-size: 200%;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 0.2% white;
+    box-shadow: 0 0 0.2% white;
+    display: inline-block;
+    font-weight: bold;
+    letter-spacing: 0.2%;
+    border-radius: 10px;
+    position: relative;
+    top: 0;
+}
+
+#boton-entrar:hover {
+    background: white;
+    color: black;
+    text-shadow: none;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+#boton-entrar:active {
+    top: 2px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+</style>
+
+<div id="contenedor-principal">
+    <h1 id="titulo-cuarto">Cuarto III</h1>
+    <div id="boton-entrar" onclick="playButtonSoundAndRedirect()">Entrar</div>
+</div>
+
+<audio id="buttonSound" src="/Audio/Boton.wav" preload="auto"></audio>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        document.getElementById('contenedor-principal').style.opacity = '1';
+    }, 500);
+});
+
+function playButtonSoundAndRedirect() {
+    const buttonSound = document.getElementById('buttonSound');
+    try {
+        buttonSound.currentTime = 0;
+        buttonSound.play().then(() => {
+            setTimeout(() => {
+                window.location.href = '/Home/CuartoIII';
+            }, 400);
+        }).catch(() => {
+            window.location.href = '/Home/CuartoIII';
+        });
+    } catch (e) {
+        window.location.href = '/Home/CuartoIII';
+    }
+}
+</script> 

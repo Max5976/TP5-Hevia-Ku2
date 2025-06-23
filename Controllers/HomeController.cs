@@ -128,6 +128,7 @@ public class HomeController : Controller
     {
         if (codigo.ToUpper() == "SATOIA")
         {
+            ViewBag.nombre = HttpContext.Session.GetString("nombre");
             return View("SalaI/HistoriaIII");
         }
         else
@@ -136,15 +137,19 @@ public class HomeController : Controller
         }
     }
 
-    public IActionResult HabitacionI()
+    public IActionResult CuartoII() {
+        return View("SalaII/CuartoIII");
+    }
+
+    public IActionResult HabitacionII()
     {
         ViewBag.segs = 300;
-        return View("salaII/HabitacionI");
+        return View("SalaII/HabitacionII");
     }
 
     public IActionResult Computadora()
     {
-        return View("salaII/Computadora");
+        return View("SalaII/Computadora");
     }
 
     [HttpPost]
