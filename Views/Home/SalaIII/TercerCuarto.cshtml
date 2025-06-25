@@ -1,12 +1,12 @@
 @{
-    ViewData["Title"] = "Sala I";
+    ViewData["Title"] = "Sala III";
 }
 
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 
 <style>
     body {
-        background-image: url('/Imagenes/CuartoI.png');
+        background-image: url('/Imagenes/CuartoIII.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -17,69 +17,76 @@
         overflow: hidden;
     }
 
-    .cofre, .libro, .puertaII, .velas, .cruz, .adorno, .cuadro1, .cuadro2 {
+    .cajon1, .cajon2, .cajon3, .puerta, .puertaM1, .puertaM2, .lista, .caldera, .velaColgada {
         position: absolute;
     }
 
-    .cofre a, .libro a, .puertaII a, .velas a, .cruz a, .adorno a, .cuadro1 a, .cuadro2 a {
+    .cajon1 a, .cajon2 a, .cajon3 a, .puerta a, .puertaM1 a, .puertaM2 a, .lista a, .caldera a, .velaColgada a {
         display: block;
         position: absolute;
         cursor: pointer;
         background: rgba(255,255,255,0);
     }
 
-    .cofre a {
-        left: 31vw;  
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "59vh" : "53vh");
-        width: 12.5vw;  
-        height: 16vh; 
+    .cajon1 a {
+        left: 32vw;  
+        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "51vh" : "45vh");
+        width: 9vw;  
+        height: 20vh; 
     }
 
-    .libro a {
-        left: 38.5vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "31vh" : "25vh");    
-        width: 7.5vw;   
-        height: 8vh;  
+    .cajon2 a {
+        left: 42vw;  
+        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "51vh" : "45vh");
+        width: 9vw;  
+        height: 20vh; 
     }
 
-    .puertaII a {
-        left: 24vw;    
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "26vh" : "20vh");
-        width: 2vw;   
-        height: 11vh; 
+    .cajon3 a {
+        left: 52.5vw;  
+        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "51vh" : "45vh");
+        width: 9vw;  
+        height: 20vh; 
     }
 
-    .velas a {
+    .puerta a {
         left: 54vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "26vh" : "20vh");
+        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "26vh" : "20vh");
         width: 4.5vw;  
         height: 13vh; 
     }
 
-    .cruz a {
+    .puertaM1 a {
         left: 48vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "33vh" : "27vh");
+        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "33vh" : "27vh");
         width: 2vw;  
         height: 6vh; 
     }
 
-    .adorno a {
+    .puertaM2 a {
         left: 75vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "63vh" : "57vh");
+        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "63vh" : "57vh");
         width: 5vw;  
         height: 14vh; 
     }
 
-    .cuadro1 a {
+    .lista a {
         left: 45.2vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "4vh" : "-2vh");
+        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "4vh" : "-2vh");
         width: 7.5vw;  
         height: 22vh; 
     }
 
-    .cuadro2 a {
+    .caldera a {
         left: 75vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "7.5vh" : "1.5vh");
+        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "7.5vh" : "1.5vh");
+        width: 6vw;  
+        height: 34vh;
+    }
+
+    .velaColgada a {
+        left: 75vw;   
+        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "7.5vh" : "1.5vh");
         width: 6vw;  
         height: 34vh;
     }
@@ -185,35 +192,39 @@
 <div class="container">
 
 <h1>Tiempo restante: <span id="contador">@ViewBag.segs</span> segundos</h1>
-<audio id="musica" src="/Audio/RoomI.mp3" loop preload="auto"></audio>
+<audio id="musica" src="/Audio/RoomIII.mp3" loop preload="auto"></audio>
 
-@if (ViewBag.cuartoI.primeraPistaEncontrada == false)
+@if (ViewBag.cuartoIII.primeraPistaEncontrada == false)
 {
-    <div class="mensaje">¡Tienes 100 segundos para buscar pistas!</div>
+    <div class="mensaje">¡Tienes 300 segundos para buscar pistas!</div>
 }
 else {
-    <div class="mensaje">¡Busca la contraseña y abre la puerta! ¡Tienes 300 segundos!</div>
+    <div class="mensaje">¡Busca la contraseña y abre la puerta! ¡Tienes 100 segundos!</div>
 }
 
 </div>
 
-<div class="cofre">
-    @if (ViewBag.cuartoI.cosas[0].estadoDeMaterial == true)
+<div class="cajon1">
+    @if (ViewBag.cuartoIII.cosas[0].estadoDeMaterial == true)
     {
-        <a href="#" onclick="abrirPopup(); return false;"></a>
+        <a href="@Url.Action("Cajon")"></a>
     }
     else
     {
-        <a href="@Url.Action("NoDisponible")"></a>
+        <a href="@Url.Action("NoDisponible3")"></a>
     }
 </div>
     
-<div class="libro">
-    <a href="@Url.Action("Libro")"></a>
+<div class="cajon2">
+    <a href="@Url.Action("cajon2")"></a>
 </div>
 
-<div class="puertaII">
-    @if (ViewBag.cuartoI.cosas[2].estadoDeMaterial == true)
+<div class="cajon3">
+    <a href="@Url.Action("NoDisponible3")"></a>
+</div>
+
+<div class="puerta">
+    @if (ViewBag.cuartoIII.cosas[3].estadoDeMaterial == true)
     {
         <div class="cajaCodigo">
             <p>Escribe el código:</p>
@@ -225,35 +236,50 @@ else {
     }
     else
     {
-        <a href="@Url.Action("NoDisponible")"></a>
+        <a href="@Url.Action("NoDisponible3")"></a>
     }
 </div>
 
-<div class="velas">
-    <a href="@Url.Action("Velas")"></a>
-</div>
-
-<div class="cruz">
-    <a href="@Url.Action("NoDisponible")"></a>
-</div>
-
-<div class="adorno">
-    <a href="@Url.Action("Secreto")"></a>
-</div>
-
-<div class="cuadro1">
-    @if (ViewBag.cuartoI.cosas[6].estadoDeMaterial == true)
+<div class="puertaM1">
+    @if (ViewBag.cuartoIII.cosas[4].estadoDeMaterial == true)
     {
-        <a href='@Url.Action("Acertijos")'></a>
+        <a href="@Url.Action("Obscuridad")"></a>
     }
     else
     {
-        <a href="@Url.Action("NoDisponible")"></a>
+        <a href="@Url.Action("NoDisponible3")"></a>
+    }
+</div>
+</div>
+
+<div class="puertaM2">
+    <a href="@Url.Action("NoDisponible3")"></a>
+</div>
+
+<div class="lista">
+    @if (ViewBag.cuartoIII.cosas[6].estadoDeMaterial == true)
+    {
+        <a href="#" onclick="abrirPopup(); return false;"></a>
+    }
+    else
+    {
+        <a href="@Url.Action("NoDisponible3")"></a>
     }
 </div>
 
-<div class="cuadro2">
-    <a href="@Url.Action("NoDisponible")"></a>
+<div class="caldera">
+    @if (ViewBag.cuartoIII.cosas[7].estadoDeMaterial == true)
+    {
+        <a href='@Url.Action("Cocinar")'></a>
+    }
+    else
+    {
+        <a href="@Url.Action("NoDisponible3")"></a>
+    }
+</div>
+
+<div class="velaColgada">
+    <a href="@Url.Action("VelaColgada")"></a>
 </div>
 
 @section Scripts 
@@ -283,7 +309,7 @@ else {
                 setTimeout(actualizarContador, 1000);
             } else {
                 localStorage.removeItem('inicioContador');
-                window.location.href = '/Home/Perdiste1';
+                window.location.href = '/Home/Perdiste3';
             }
         }
         actualizarContador();
@@ -312,7 +338,7 @@ else {
     </script>
     <script>
         function abrirPopup() {
-            window.open('@Url.Action("Cofre")', "Cofre", "width=600, height=400")
+            window.open('@Url.Action("Lista")', "Lista", "width=600, height=400")
         }
     </script>
 }

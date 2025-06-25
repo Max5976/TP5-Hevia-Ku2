@@ -13,14 +13,14 @@ public class HomeController : Controller
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
-    } 
+    }
 
     public IActionResult Index()
     {
         return View("Index");
     }
 
-    public IActionResult Intro() 
+    public IActionResult Intro()
     {
         return View("Presentacion/Intro");
     }
@@ -35,12 +35,12 @@ public class HomeController : Controller
         return View("Presentacion/Logo");
     }
 
-    public IActionResult IngresarNombre() 
+    public IActionResult IngresarNombre()
     {
         return View("Presentacion/IngresarNombre");
     }
 
-    public IActionResult Historia(string nuevoNombre) 
+    public IActionResult Historia(string nuevoNombre)
     {
         HttpContext.Session.SetString("nombre", nuevoNombre);
         ViewBag.nombre = nuevoNombre;
@@ -52,13 +52,16 @@ public class HomeController : Controller
         return View("SalaI/CuartoI");
     }
 
-    public IActionResult PrimerCuarto() 
+    public IActionResult PrimerCuarto()
     {
         ViewBag.cuartoI = EstadoJuego.CuartoI;
-        if (ViewBag.cuartoI.primeraPistaEncontrada == false) {
+
+        if (ViewBag.cuartoI.primeraPistaEncontrada == false)
+        {
             ViewBag.segs = 100;
         }
-        else {
+        else
+        {
             ViewBag.segs = 300;
         }
         return View("SalaI/PrimerCuarto");
@@ -89,7 +92,7 @@ public class HomeController : Controller
         EstadoJuego.CuartoI.primeraPistaEncontrada = true;
         return PartialView("SalaI/Carta");
     }
-    
+
     public IActionResult NoDisponibleCofre()
     {
         return View("SalaI/NoDisponibleCofre");
@@ -101,13 +104,13 @@ public class HomeController : Controller
         return View("SalaI/Secreto");
     }
 
-    public IActionResult Velas() 
+    public IActionResult Velas()
     {
         ViewBag.nombre = HttpContext.Session.GetString("nombre");
         return View("SalaI/Velas");
     }
 
-    public IActionResult Vela() 
+    public IActionResult Vela()
     {
         ViewBag.nombre = HttpContext.Session.GetString("nombre");
         return View("SalaI/Vela");
@@ -118,7 +121,7 @@ public class HomeController : Controller
         ViewBag.nombre = HttpContext.Session.GetString("nombre");
         return View("SalaI/HistoriaII");
     }
-    
+
     public IActionResult Acertijos()
     {
         return View("SalaI/Acertijos");
@@ -137,8 +140,9 @@ public class HomeController : Controller
         }
     }
 
-    public IActionResult CuartoII() {
-        return View("SalaII/CuartoIII");
+    public IActionResult CuartoII()
+    {
+        return View("SalaII/CuartoII");
     }
 
     public IActionResult HabitacionII()
@@ -155,26 +159,41 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult VerificarComputadora(string codigo)
     {
-        if (codigo == "1234") // Cambia este código por el que desees
+        if (codigo != null && codigo.ToUpper() == "1234") 
         {
-            return RedirectToAction("HabitacionI");
+            return RedirectToAction("ComputadoraInicio");
         }
+
+        ViewBag.Error = "Contraseña incorrecta";
         return View("salaII/Computadora");
     }
 
-    [HttpPost]
-    public IActionResult ActualizarEstado([FromBody] EstadoUpdateModel model)
+    public IActionResult ComputadoraInicio()
     {
-        if (model.indices != null && model.estados != null)
+        return View("ComputadoraInicio");
+    }
+
+    public IActionResult CuartoIII()
+    {
+        return View("SalaIII/CuartoIII");
+    }
+    public IActionResult TercerCuarto()
+    {
+        ViewBag.cuartoIII = EstadoJuego.CuartoIII;
+        if (ViewBag.cuartoIII.primeraPistaEncontrada == false)
         {
-            for (int i = 0; i < model.indices.Length; i++)
-            {
-                if (i < model.estados.Length)
-                {
-                    EstadoJuego.CambiarEstadoArtefacto(model.indices[i], model.estados[i]);
-                }
-            }
+            ViewBag.segs = 300;
         }
-        return Ok();
+        else
+        {
+            ViewBag.segs = 100;
+        }
+        return View("SalaIII/TercerCuarto");
+    }
+    public IActionResult Perdiste3() {
+        return View("SalaIII/Perdiste3");
+    }
+    public IActionResult NoDisponible3() {
+        return View("SalaIII/NoDisponible3");
     }
 }

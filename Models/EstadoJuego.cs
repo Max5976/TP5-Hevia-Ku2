@@ -5,6 +5,7 @@ namespace TP05_Hevia_ku.Models;
 public static class EstadoJuego
 {
     public static Sala CuartoI { get; private set; }
+    public static Sala CuartoIII { get; private set; }
 
     static EstadoJuego()
     {
@@ -18,6 +19,17 @@ public static class EstadoJuego
         CuartoI.sumarArtefacto("Adorno", true);
         CuartoI.sumarArtefacto("Cuadro1", false);
         CuartoI.sumarArtefacto("Cuadro2", false);
+
+        CuartoIII = new Sala(false);
+        CuartoIII.sumarArtefacto("Cajon1", true);
+        CuartoIII.sumarArtefacto("Cajon2", false);
+        CuartoIII.sumarArtefacto("Cajon3", false);
+        CuartoIII.sumarArtefacto("Puerta", false);
+        CuartoIII.sumarArtefacto("PuertaM1", false);
+        CuartoIII.sumarArtefacto("PuertaM2", false);
+        CuartoIII.sumarArtefacto("Lista", true);
+        CuartoIII.sumarArtefacto("Caldera", false);
+        CuartoIII.sumarArtefacto("VelaColgada", true);
     }
 
     public static void CambiarEstadoArtefacto(int indice, bool nuevoEstado)

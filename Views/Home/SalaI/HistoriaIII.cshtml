@@ -56,7 +56,7 @@ body {
 <audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
 
 <script>
-const titulo = "La Revelación: Libro III";
+const titulo = "La Revelación: Libro II";
 const nombre = "@ViewBag.nombre";
 const historia = `${nombre} abrió la puerta para la próxima sala y se abrumó al ver que era muy similar, no llevaba a ningúna salida pero justo en ese instante, ${nombre} vió otra puerta, una con el símbolo romano "III" y se dió cuenta de que los números que habían en cada puerta decían adonde llevaban, en éste caso, al cuarto número tres. Con nada más que hacer ${nombre} decidió que lo mejor sería abrir o por lo menos intentar ver lo que hay del otro lado.`;
 
@@ -127,7 +127,7 @@ document.addEventListener('keydown', function(event) {
                 mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
                 esperandoSkip = true;
             } else {
-                window.location.href = '/Home/CuartoI';
+                window.location.href = '/Home/CuartoII';
             }
         }
     }
