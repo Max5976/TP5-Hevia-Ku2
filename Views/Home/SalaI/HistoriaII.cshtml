@@ -47,7 +47,6 @@ body {
 }
 
 </style>
-
 <div>
     <h1 id="titulo-typewriter"></h1>
     <p id="historia-typewriter"></p>
@@ -56,7 +55,7 @@ body {
 <audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
 
 <script>
-const titulo = "Capítulo II:";
+const titulo = "La Revelación: Libro I Bis";
 const nombre = "@ViewBag.nombre";
 const historia = `${nombre} se encontró una carta que literalmente admitía a planear matar al Presidente, al ver esto se sintió satisfecho con la evidencia e intentó salir pero, la puerta ya no estaba, ${nombre} estaba encerrado y la única puerta que lo liberaría era la que llevaba a la segunda sala, puerta cerrada con llave. ${nombre} no sabía si habría otra salida o si podría encontrar un código, pero tenía que intentarlo. (Recarga la página de Primer Cuarto para continuar ahí).`;
 
@@ -116,16 +115,37 @@ document.addEventListener('keydown', function(event) {
         event.preventDefault();
         if (mostrandoHistoria) {
             if (!esperandoSkip) {
-                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar. Ps: Hola Helena, si estás leyendo esto soy Ricardo y sólo quiero pedirte por favor que no me dejes! Te preparo todo el pollo frito que quieras si te quedas.';
                 mensajeEspacio.style.opacity = 1;
                 esperandoSkip = true;
             } else {
                 skipAnimacion = true;
             }
         } else if (terminado) {
-            mensajeEspacio.textContent = 'Recomiendo recargar la página de cuarto uno, sino nunca vas a poder pasar. Ps: Hola Helena, si estás leyendo esto soy Ricardo y sólo quiero pedirte por favor que no me dejes! Te preparo todo el pollo frito que quieras si te quedas.';
-            mensajeEspacio.style.opacity = 1;
+            if (!esperandoSkip) {
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar. Ps: Hola Helena, si estás leyendo esto soy Ricardo y sólo quiero pedirte por favor que no me dejes! Te preparo todo el pollo frito que quieras si te quedas.';
+                esperandoSkip = true;
+            } else {
+                window.location.href = '/Home/PrimerCuarto';
+            }
         }
     }
 });
+</script>
+
+<audio id="musica" src="/Audio/RoomI.mp3" loop preload="auto"></audio>
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            // Si no puede reproducir automáticamente, no mostrar botón aquí
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
 </script>

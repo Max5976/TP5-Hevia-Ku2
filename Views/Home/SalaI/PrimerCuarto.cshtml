@@ -200,7 +200,7 @@ else {
 <div class="cofre">
     @if (ViewBag.cuartoI.cosas[0].estadoDeMaterial == true)
     {
-        <a href="#" onclick="abrirPopup(); return false;"></a>
+        <a href="@Url.Action("Cofre")"></a>
     }
     else
     {
@@ -262,9 +262,10 @@ else {
         const TIEMPO_TOTAL = @ViewBag.segs;
         const elemento = document.getElementById('contador');
 
-        // Solo reinicia el contador si NO existe en localStorage
+        // Verificar si el tiempo guardado es muy viejo o no existe
         let inicio = localStorage.getItem('inicioContador');
-        if (!inicio) {
+        if (!inicio || (Date.now() - parseInt(inicio)) > (TIEMPO_TOTAL * 1000)) {
+            // Si no hay tiempo guardado o ya pasó el tiempo máximo, reiniciar
             inicio = Date.now();
             localStorage.setItem('inicioContador', inicio);
         } 
@@ -309,10 +310,5 @@ else {
         audio.ontimeupdate = function() {
             localStorage.setItem('musicaTime', audio.currentTime);
         };
-    </script>
-    <script>
-        function abrirPopup() {
-            window.open('@Url.Action("Cofre")', "Cofre", "width=600, height=400")
-        }
     </script>
 }

@@ -84,13 +84,13 @@ public class HomeController : Controller
 
     public IActionResult Cofre()
     {
-        return PartialView("SalaI/Cofre");
+        return View("SalaI/Cofre");
     }
 
     public IActionResult Carta()
     {
         EstadoJuego.CuartoI.primeraPistaEncontrada = true;
-        return PartialView("SalaI/Carta");
+        return View("SalaI/Carta");
     }
 
     public IActionResult NoDisponibleCofre()
@@ -122,6 +122,16 @@ public class HomeController : Controller
         return View("SalaI/HistoriaII");
     }
 
+    [HttpPost]
+    public IActionResult ActualizarEstado([FromBody] EstadoUpdateModel model)
+    {
+        for (int i = 0; i < model.indices.Length; i++)
+        {
+            EstadoJuego.CambiarEstadoArtefacto(model.indices[i], model.estados[i]);
+        }
+        return Ok();
+    }
+
     public IActionResult Acertijos()
     {
         return View("SalaI/Acertijos");
@@ -151,6 +161,11 @@ public class HomeController : Controller
         return View("SalaII/HabitacionII");
     }
 
+    public IActionResult Perdiste2()
+    {
+        return View("SalaII/Perdiste2");
+    }
+
     public IActionResult Computadora()
     {
         return View("SalaII/Computadora");
@@ -159,7 +174,7 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult VerificarComputadora(string codigo)
     {
-        if (codigo != null && codigo.ToUpper() == "1234") 
+        if (codigo == "2P0l1sgKa") 
         {
             return RedirectToAction("ComputadoraInicio");
         }
@@ -170,7 +185,11 @@ public class HomeController : Controller
 
     public IActionResult ComputadoraInicio()
     {
-        return View("ComputadoraInicio");
+        return View("SalaII/ComputadoraInicio");
+    }
+
+    public IActionResult HistoriaIV() {
+        return View("SalaII/HistoriaIV");
     }
 
     public IActionResult CuartoIII()

@@ -62,12 +62,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSUlcQ29tcHV0YWRvcmEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[Z:/2024/TP05_Hevia_Ku/Views/Home/SalaII/ComputadoraInicio.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSUlcQ29tcHV0YWRvcmFJbmljaW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [Z:/2024/TP05_Hevia_Ku/Views/Home/SalaII/CuartoII.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSUlcQ3VhcnRvSUkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [Z:/2024/TP05_Hevia_Ku/Views/Home/SalaII/HabitacionII.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSUlcSGFiaXRhY2lvbklJLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[Z:/2024/TP05_Hevia_Ku/Views/Home/SalaII/Perdiste2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTYWxhSUlcUGVyZGlzdGUyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [Z:/2024/TP05_Hevia_Ku/Views/Home/SalaI/Acertijos.cshtml]
@@ -136,6 +144,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [Z:/2024/TP05_Hevia_Ku/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[Z:/2024/TP05_Hevia_Ku/Views/Shared/_TiempoRestante.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9UaWVtcG9SZXN0YW50ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [Z:/2024/TP05_Hevia_Ku/Views/Shared/_ValidationScriptsPartial.cshtml]

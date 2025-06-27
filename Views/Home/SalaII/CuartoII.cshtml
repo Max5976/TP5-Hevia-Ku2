@@ -83,13 +83,13 @@ function playButtonSoundAndRedirect() {
         buttonSound.currentTime = 0;
         buttonSound.play().then(() => {
             setTimeout(() => {
-                window.location.href = '/Home/CuartoIII';
+                window.location.href = '/Home/HabitacionII';
             }, 400);
         }).catch(() => {
-            window.location.href = '/Home/CuartoIII';
+            window.location.href = '/Home/HabitacionII';
         });
     } catch (e) {
-        window.location.href = '/Home/CuartoIII';
+        window.location.href = '/Home/HabitacionII';
     }
 }
 </script> 

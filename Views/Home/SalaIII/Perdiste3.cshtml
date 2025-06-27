@@ -2,11 +2,93 @@
     ViewData["Title"] = "PerdicionP3";
 }
 
-<h1>Perdiste</h1>
+<style>
+    body {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d1b1b 50%, #1a1a1a 100%);
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+        overflow: hidden;
+        position: relative;
+    }
 
-<p>Presione la tecla de espacio para volver a la pantalla de inicio</p>
+    /* Efecto de partículas de fondo estático */
+    body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            radial-gradient(2px 2px at 20px 30px, #ff0000, transparent),
+            radial-gradient(2px 2px at 40px 70px, #ff0000, transparent),
+            radial-gradient(1px 1px at 90px 40px, #ff0000, transparent),
+            radial-gradient(1px 1px at 130px 80px, #ff0000, transparent),
+            radial-gradient(2px 2px at 160px 30px, #ff0000, transparent);
+        background-repeat: repeat;
+        background-size: 200px 100px;
+        opacity: 0.3;
+    }
+
+    .container {
+        text-align: center;
+        z-index: 10;
+        position: relative;
+    }
+
+    h1 {
+        color: #ff0000;
+        font-size: 8vw;
+        font-weight: bold;
+        text-shadow: 
+            0 0 10px #ff0000,
+            0 0 20px #ff0000,
+            0 0 30px #ff0000,
+            0 0 40px #ff0000;
+        margin-bottom: 2vh;
+        letter-spacing: 0.5vw;
+    }
+
+    p {
+        color: #ffffff;
+        font-size: 2.5vw;
+        text-shadow: 0 0 10px #ffffff;
+        margin-top: 3vh;
+        letter-spacing: 0.2vw;
+    }
+
+    .skull {
+        font-size: 15vw;
+        margin: 2vh 0;
+        filter: drop-shadow(0 0 20px #ff0000);
+    }
+
+    .warning {
+        color: #ffaa00;
+        font-size: 1.5vw;
+        margin-top: 2vh;
+    }
+</style>
+
+<div class="container">
+    <h1>PERDISTE</h1>
+    <div class="skull">💀</div>
+    <p>Presione la tecla de espacio para volver a la pantalla de inicio</p>
+    <div class="warning">⚠️ EL TIEMPO SE AGOTÓ ⚠️</div>
+</div>
 
 <script>
+    // Sonido de muerte al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        const deathAudio = new Audio('/Audio/Muerte.wav');
+        deathAudio.volume = 0.5;
+        deathAudio.play().catch(()=>{});
+    });
     document.addEventListener('keydown', function(event) {
         if (event.code === 'Space') {
             event.preventDefault();

@@ -1,0 +1,395 @@
+@{
+    ViewData["Title"] = "Computadora";
+    Layout = null;
+
+    // SOLUCIÓN DEFINITIVA: Definimos las animaciones CSS en una variable de C#
+    // para evitar por completo los errores de interpretación del símbolo '@' en Razor.
+    var keyframesCss = @"
+        @keyframes blink {
+            from, to { background-color: transparent; }
+            50% { background-color: limegreen; }
+        }
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        @keyframes text-glitch {
+            0% { opacity: 1; text-shadow: 0 0 2px limegreen; }
+            48% { opacity: 1; text-shadow: 0 0 2px limegreen; }
+            50% { opacity: 0.7; text-shadow: 2px 2px 2px red, -2px -2px 2px blue; }
+            52% { opacity: 1; text-shadow: 0 0 2px limegreen; }
+            100% { opacity: 1; text-shadow: 0 0 2px limegreen; }
+        }
+    ";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    
+    <style>
+        /* Estilos básicos */
+        body, html {
+            height: 100%; margin: 0; font-family: "Tahoma", sans-serif;
+            font-size: 11px; overflow: hidden; user-select: none;
+            background-color: black;
+        }
+
+        .desktop {
+            background: url('/imagenes/FondoComputadora.png') no-repeat center center fixed;
+            background-size: cover; height: 100%; width: 100%; position: relative;
+        }
+        .icon { text-align: center; color: white; cursor: pointer; width: 80px; }
+        .icon img { width: 32px; height: 32px; }
+        .icon span { display: block; margin-top: 5px; text-shadow: 1px 1px 2px black; }
+        #desktop-icon { position: absolute; top: 20px; left: 20px; }
+        .taskbar {
+            position: absolute; bottom: 0; width: 100%; height: 30px;
+            background: linear-gradient(to top, #0c3eac, #2467e5, #266af0);
+            border-top: 1px solid #4a80ee; display: flex;
+            justify-content: space-between; align-items: center; z-index: 1000;
+        }
+        .start-button {
+            height: 100%; background: linear-gradient(to top, #2e9606, #59d02c, #5def30);
+            border-right: 1px solid #1a7400; border-radius: 0 10px 10px 0;
+            padding: 0 20px 0 15px; color: white; font-size: 14px;
+            line-height: 30px; cursor: pointer; box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+            text-transform: uppercase; font-weight: bold;
+        }
+        .systray {
+            background: linear-gradient(to top, #1252d8, #266ef9);
+            border-left: 1px solid #0b3fa9; height: 100%; display: flex;
+            align-items: center; padding: 0 12px;
+        }
+        #clock { color: white; font-size: 11px; }
+        .window {
+            position: absolute; top: 100px; left: 150px;
+            border: 2px solid #0837ad; border-radius: 5px; box-shadow: 3px 3px 8px rgba(0,0,0,0.4);
+            background-color: #f0f0f0; display: none;
+            flex-direction: column;
+        }
+        .title-bar {
+            background: linear-gradient(to right, #0837ad, #2467e5); color: white;
+            padding: 4px 8px; font-weight: bold; cursor: grab; display: flex;
+            justify-content: space-between; align-items: center;
+        }
+        .close-button {
+            background-color: #e24343; color: white; border: 1px solid #a03030;
+            font-family: "Webdings", "sans-serif"; font-size: 14px; width: 20px;
+            height: 20px; line-height: 14px; cursor: pointer;
+        }
+        .window-content {
+            padding: 10px; flex-grow: 1; background-color: white;
+            border: 1px solid #aaa; margin: 2px; font-size: 12px;
+        }
+        .window-content .icon { color: black; }
+        #buscaminas-container { width: auto; height: auto; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        #game-board { display: grid; border: 2px solid #7f7f7f; }
+        .cell { width: 20px; height: 20px; background-color: #c0c0c0; border: 2px outset #ffffff; font-family: "Terminal", "monospace"; font-weight: bold; font-size: 16px; text-align: center; line-height: 20px; }
+        .cell.revealed { background-color: #e0e0e0; border: 1px solid #b0b0b0; }
+        .cell.bomb { background-color: red; }
+        .cell.flagged::before { content: "🚩"; font-size: 14px; }
+        #windowTutorial .window-content { line-height: 1.6; text-align: center; }
+        .tutorial-buttons { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+        .tutorial-buttons button { padding: 8px 15px; font-weight: bold; cursor: pointer; }
+
+        
+        .fake-error-window {
+            position: absolute; background-color: #c0c0c0; border: 2px outset white;
+            padding: 20px; font-family: 'Courier New', Courier, monospace; font-size: 14px;
+            display: none; z-index: 1500;
+        }
+
+        #planner-fullscreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #1a1a1a; color: limegreen;
+            font-family: 'Courier New', Courier, monospace;
+            display: none; flex-direction: column; 
+            justify-content: flex-start; align-items: center; 
+            z-index: 2000; padding: 60px 40px; 
+            box-sizing: border-box; overflow: auto; 
+        }
+        #planner-fullscreen .content-wrapper {
+            text-align: left; width: 90%; max-width: 800px;
+        }
+        #planner-fullscreen h3 {
+            font-size: 2.2em; color: red; text-align: center;
+            margin: 0 0 25px 0; border-bottom: 2px solid red;
+            padding-bottom: 15px; visibility: hidden;
+        }
+        #planner-fullscreen p {
+            font-size: 1.3em; margin: 12px 0; visibility: hidden;
+        }
+        #planner-fullscreen .label { color: red; font-weight: bold; }
+        
+        .typing-cursor {
+            display: inline-block; width: 10px; height: 1.3em;
+            background-color: limegreen; animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+        .scanline {
+            position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+            background: rgba(0, 255, 0, 0.25); box-shadow: 0 0 12px limegreen;
+            animation: scan 7s linear infinite;
+        }
+        .glitch { animation: text-glitch 5s infinite; }
+
+        #next-button {
+            display: none; margin-top: 30px; padding: 10px 20px;
+            background-color: limegreen; color: black;
+            border: 1px solid limegreen; font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1em; font-weight: bold; cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #next-button:hover { background-color: #1a1a1a; color: limegreen; }
+
+        #next-room {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: #0A1931; color: #FFD700;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 60px 40px; box-sizing: border-box;
+            overflow: auto; align-items: center;
+            justify-content: flex-start; flex-direction: column;
+        }
+        #next-room .content-wrapper {
+            text-align: left; width: 90%; max-width: 800px;
+        }
+        #next-room h3 {
+            font-size: 2.5em; color: #E74C3C;
+            border-bottom: 2px solid #E74C3C;
+            padding-bottom: 10px; margin-bottom: 30px;
+            text-align: center;
+        }
+        #next-room p {
+            font-size: 1.4em;
+            line-height: 1.7; margin-bottom: 20px;
+        }
+        #next-room .highlight { color: #F1C40F; font-weight: bold; }
+
+        .nav-button {
+            display: inline-block;
+            margin-top: 40px;
+            padding: 15px 30px;
+            background-color: #E74C3C;
+            color: white;
+            border: 2px solid #F1C40F;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .nav-button:hover {
+            background-color: #F1C40F;
+            color: #0A1931;
+            transform: scale(1.05);
+        }
+
+
+        @Html.Raw(keyframesCss)
+    </style>
+</head>
+<body>
+
+<div class="desktop">
+    <div id="desktop-icon" class="icon"><img src="/imagenes/MisDocumentos.png" alt="Mis Documentos"><span>Mis Documentos</span></div>
+    <div id="windowMisDocumentos" class="window" style="width: 400px; height: 300px;"><div class="title-bar"><span class="title">Mis Documentos</span><button class="close-button">r</button></div><div class="window-content"><div id="virus-trigger" class="icon"><img src="https://i.imgur.com/bE8a1Jk.png" alt="Sistema.exe"><span>Sistema.exe</span></div></div></div>
+    <div id="buscaminas-container" class="window"><div class="title-bar"><span class="title">Buscaminas</span><button class="close-button">r</button></div><div class="window-content" id="game-board"></div></div>
+    <div id="windowTutorial" class="window" style="width: 350px; height: auto; top: 50%; left: 50%; transform: translate(-50%, -50%);"><div class="title-bar"><span class="title">¿Cómo jugar?</span><button class="close-button">r</button></div><div class="window-content"><p><strong>Objetivo:</strong> Despeja el tablero sin detonar ninguna mina.</p><ul><li style="text-align: left;"><strong>Clic Izquierdo:</strong> Revela una casilla.</li><li style="text-align: left;"><strong>Clic Derecho:</strong> Coloca una bandera 🚩.</li></ul><p>Ganas si revelas todas las casillas seguras.</p><div class="tutorial-buttons"><button id="start-game-button">¡A jugar!</button></div></div></div>
+    <div id="error1" class="fake-error-window">ERROR 0xDEADBEEF: MEMORY_LEAK</div>
+    <div id="error2" class="fake-error-window">FATAL_EXCEPTION at KERNEL32.DLL</div>
+    <div id="error3" class="fake-error-window">SYSTEM_SHUTDOWN_IMMINENT...</div>
+</div>
+<div class="taskbar"><div class="start-button">Inicio</div><div class="systray"><div id="clock"></div></div></div>
+
+<div id="planner-fullscreen">
+    <div class="scanline"></div>
+    <div class="content-wrapper">
+        <h3 id="planner-line-0">** TOP SECRET - OPERACIÓN ÁGUILA CAÍDA **</h3>
+        <p id="planner-line-1"><span class="label">AGENTE ASIGNADO:</span> Sombra</p>
+        <p id="planner-line-2"><span class="label">OBJETIVO:</span> "El Águila" (Presidente de los Estados Unidos)</p>
+        <p id="planner-line-3"><span class="label">FECHA:</span> 23 de Octubre</p>
+        <p id="planner-line-4"><span class="label">LUGAR:</span> Cumbre de Seguridad Global, Hotel Grand Victoria</p>
+        <p id="planner-line-5"><span class="label">MÉTODO:</span> Dispositivo PEM de corto alcance oculto en cámara de prensa para desactivar marcapasos del objetivo.</p>
+        <p id="planner-line-6"><span class="label">ESTADO:</span> <span style="color: white;">PENDIENTE DE EJECUCIÓN</span></p>
+        <button id="next-button">ACCEDER A RED DE SEGURIDAD</button>
+    </div>
+</div>
+
+<div id="next-room">
+    <div class="content-wrapper">
+        <h3>ALERTA DE SEGURIDAD - NIVEL ROJO</h3>
+        <p>Se ha detectado una brecha de seguridad en la red interna. Múltiples sistemas de vigilancia han sido comprometidos por un agente desconocido identificado como <span class="highlight">"Sombra"</span>.</p>
+        <p>Nuestros análisis indican que el objetivo es el Presidente ("El Águila") y el método es un ataque de <span class="highlight">Pulso Electromagnético (PEM)</span> para interferir con sus dispositivos médicos.</p>
+        <p>Aún estamos a tiempo de intervenir. El ataque no ha sido ejecutado. Nuestra misión es localizar al agente y el dispositivo antes de que sea demasiado tarde.</p>
+        <p style="color: #E74C3C; font-weight: bold;">EL PRESIDENTE PUEDE SER SALVADO. INICIANDO PROTOCOLO DE CONTRA-MEDIDAS.</p>
+        
+        <a href="@Url.Action("TercerCuarto")" class="nav-button">INICIAR CONTRA-MEDIDAS</a>
+    </div>
+</div>
+
+<script>
+
+    const desktop = document.querySelector('.desktop');
+    const taskbar = document.querySelector('.taskbar');
+    const desktopIcon = document.getElementById('desktop-icon');
+    const virusTriggerIcon = document.getElementById('virus-trigger');
+    const myDocumentsWindow = document.getElementById('windowMisDocumentos');
+    const gameContainer = document.getElementById('buscaminas-container');
+    const tutorialWindow = document.getElementById('windowTutorial');
+    const plannerFullscreen = document.getElementById('planner-fullscreen');
+    const startGameButton = document.getElementById('start-game-button');
+
+
+    desktopIcon.addEventListener('dblclick', () => { tutorialWindow.style.display = 'flex'; });
+    startGameButton.addEventListener('click', () => { tutorialWindow.style.display = 'none'; startGame(); });
+
+    
+    document.querySelectorAll('.window .close-button').forEach(button => {
+        button.addEventListener('click', (e) => { e.target.closest('.window').style.display = 'none'; });
+    });
+
+    function makeWindowDraggable(w) { const t=w.querySelector('.title-bar'); let d=false,x,y; t.addEventListener('mousedown',(e)=>{d=true;x=e.clientX-w.offsetLeft;y=e.clientY-w.offsetTop;t.style.cursor='grabbing'}); document.addEventListener('mousemove',(e)=>{if(d){w.style.left=(e.clientX-x)+'px';w.style.top=(e.clientY-y)+'px'}}); document.addEventListener('mouseup',()=>{if(d){d=false;t.style.cursor='grab'}})}
+    makeWindowDraggable(myDocumentsWindow); makeWindowDraggable(gameContainer); makeWindowDraggable(tutorialWindow);
+    
+    const clockInterval = setInterval(() => { const n=new Date();let h=n.getHours(),m=n.getMinutes();h=h<10?'0'+h:h;m=m<10?'0'+m:m;document.getElementById('clock').innerHTML=h+':'+m }, 1000);
+
+    virusTriggerIcon.addEventListener('click', startVirusSequence);
+    function startVirusSequence() {
+        document.querySelectorAll('.window').forEach(win => win.style.display = 'none');
+        let shakeInterval, colorInterval, errorInterval, textInterval;
+        shakeInterval = setInterval(() => {
+            const x = Math.random() * 6 - 3; const y = Math.random() * 6 - 3;
+            desktop.style.transform = `translate(${x}px, ${y}px)`;
+        }, 50);
+        colorInterval = setInterval(() => {
+            desktop.style.filter = desktop.style.filter ? '' : 'invert(1) hue-rotate(180deg)';
+        }, 700);
+        const errorWindows = document.querySelectorAll('.fake-error-window');
+        errorInterval = setInterval(() => {
+            const randomError = errorWindows[Math.floor(Math.random() * errorWindows.length)];
+            randomError.style.display = 'block';
+            randomError.style.top = Math.random() * 60 + '%';
+            randomError.style.left = Math.random() * 60 + '%';
+        }, 800);
+        const textElements = document.querySelectorAll('.icon span, #clock, .start-button');
+        textInterval = setInterval(() => {
+            textElements.forEach(el => { el.textContent = Math.random().toString(36).substring(2, 8).toUpperCase(); });
+        }, 100);
+
+        setTimeout(() => {
+            clearInterval(shakeInterval); clearInterval(colorInterval);
+            clearInterval(errorInterval); clearInterval(textInterval);
+            
+            desktop.style.display = 'none';
+            taskbar.style.display = 'none';
+
+            plannerFullscreen.style.display = 'flex';
+            animatePlanner(); 
+            
+        }, 8000);
+    }
+    
+    function animatePlanner() {
+        const lines = Array.from(document.querySelectorAll('#planner-fullscreen [id^="planner-line-"]'));
+        const typingSpeed = 40;
+        let lineIndex = 0;
+
+        lines.forEach(line => {
+            line.dataset.originalHtml = line.innerHTML;
+            line.innerHTML = '';
+            line.style.visibility = 'hidden';
+        });
+
+        function typeLine() {
+            if (lineIndex >= lines.length) {
+                const nextButton = document.getElementById('next-button');
+                if (nextButton) {
+                    nextButton.style.display = 'block';
+                }
+                const wrapper = document.querySelector('#planner-fullscreen .content-wrapper');
+                if(wrapper) wrapper.classList.add('glitch');
+                return;
+            }
+
+            const currentLine = lines[lineIndex];
+            const originalHtml = currentLine.dataset.originalHtml;
+            
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = originalHtml;
+            const textToType = tempDiv.textContent;
+
+            currentLine.innerHTML = '';
+            currentLine.style.visibility = 'visible';
+            
+            let charIndex = 0;
+            const cursor = document.createElement('span');
+            cursor.className = 'typing-cursor';
+
+            currentLine.appendChild(cursor);
+
+            function typeChar() {
+                if (charIndex < textToType.length) {
+                    cursor.insertAdjacentText('beforebegin', textToType[charIndex]);
+                    charIndex++;
+                    setTimeout(typeChar, typingSpeed);
+                } else {
+                    currentLine.innerHTML = originalHtml; 
+
+                    setTimeout(() => {
+                        lineIndex++;
+                        typeLine();
+                    }, 250);
+                }
+            }
+            typeChar();
+        }
+
+        typeLine();
+    }
+
+    const nextButton = document.getElementById('next-button');
+    const nextRoom = document.getElementById('next-room');
+
+    if (nextButton && plannerFullscreen && nextRoom) {
+        nextButton.addEventListener('click', () => {
+            plannerFullscreen.style.display = 'none';
+            nextRoom.style.display = 'flex';
+        });
+    }
+    const boardSize=10,bombCount=15,gameBoard=document.getElementById('game-board');let board=[],gameOver=false,revealedCells=0;
+    function startGame(){gameOver=false;revealedCells=0;board=createBoard(boardSize,bombCount);renderBoard();gameContainer.style.display='flex'}
+    function createBoard(s,b){const n=Array(s).fill(null).map(()=>Array(s).fill(null).map(()=>({isBomb:false,isRevealed:false,isFlagged:false,adjacentBombs:0})));let p=0;while(p<b){const r=Math.floor(Math.random()*s),c=Math.floor(Math.random()*s);if(!n[r][c].isBomb){n[r][c].isBomb=true;p++}}for(let r=0;r<s;r++)for(let c=0;c<s;c++){if(n[r][c].isBomb)continue;let t=0;for(let i=-1;i<=1;i++)for(let j=-1;j<=1;j++)if(r+i>=0&&r+i<s&&c+j>=0&&c+j<s&&n[r+i][c+j].isBomb)t++;n[r][c].adjacentBombs=t}return n}
+    function renderBoard(){gameBoard.innerHTML='';gameBoard.style.gridTemplateColumns=`repeat(${boardSize}, 1fr)`;board.forEach((r,i)=>r.forEach((c,j)=>{const d=document.createElement('div');d.classList.add('cell');d.dataset.row=i;d.dataset.col=j;d.addEventListener('click',()=>onCellClick(i,j));d.addEventListener('contextmenu',(e)=>{e.preventDefault();onRightClick(i,j)});gameBoard.appendChild(d)}))}
+    function onCellClick(r,c){if(gameOver||board[r][c].isRevealed||board[r][c].isFlagged)return;const l=board[r][c];l.isRevealed=true;revealedCells++;const d=document.querySelector(`[data-row='${r}'][data-col='${c}']`);d.classList.add('revealed');if(l.isBomb){endGame(false)}else{if(l.adjacentBombs>0){d.textContent=l.adjacentBombs}else{revealNeighbors(r,c)}checkWin()}}
+    function onRightClick(r,c){if(gameOver||board[r][c].isRevealed)return;const l=board[r][c];l.isFlagged=!l.isFlagged;document.querySelector(`[data-row='${r}'][data-col='${c}']`).classList.toggle('flagged',l.isFlagged)}
+    function revealNeighbors(r,c){for(let i=-1;i<=1;i++)for(let j=-1;j<=1;j++){const n=r+i,w=c+j;if(n>=0&&n<boardSize&&w>=0&&w<boardSize)onCellClick(n,w)}}
+    function checkWin(){if(revealedCells===(boardSize*boardSize-bombCount))endGame(true)}
+    function endGame(w){gameOver=true;board.forEach((r,i)=>r.forEach((c,j)=>{if(c.isBomb){const d=document.querySelector(`[data-row='${i}'][data-col='${j}']`);d.classList.add('bomb');d.innerHTML='💣'}}));setTimeout(()=>{if(w){alert('¡Has ganado! Acceso concedido.');myDocumentsWindow.style.display='flex'}else{alert('¡BOOM! Has perdido.')}gameContainer.style.display='none'},1500)}
+</script>
+
+<audio id="musica" src="/Audio/RoomII.mp3" loop preload="auto"></audio>
+    <script>
+        const audio = document.getElementById('musica');
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTime = localStorage.getItem('musicaTime');
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+            audio.play().catch(() => {
+                // Si no puede reproducir automáticamente, no mostrar botón aquí
+            });
+        });
+        audio.ontimeupdate = function() {
+            localStorage.setItem('musicaTime', audio.currentTime);
+        };
+    </script>
+
+</body>
+</html>

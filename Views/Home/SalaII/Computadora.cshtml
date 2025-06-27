@@ -157,7 +157,7 @@ body {
         </div>
     </div>
     <div class="botones">
-        <a href="@Url.Action("HabitacionI", "Home")" class="boton-vista">Cancelar</a>
+        <a href="@Url.Action("HabitacionII", "Home")" class="boton-vista">Cancelar</a>
         <button type="submit" form="form1" class="boton-vista primary">Aceptar</button>
     </div>
 </div>
@@ -167,3 +167,20 @@ body {
         <div class="orb-glow"></div>
     </div>
 </div> 
+
+<audio id="musica" src="/Audio/RoomII.mp3" loop preload="auto"></audio>
+    <script>
+        const audio = document.getElementById('musica');
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTime = localStorage.getItem('musicaTime');
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+            audio.play().catch(() => {
+                // Si no puede reproducir automáticamente, no mostrar botón aquí
+            });
+        });
+        audio.ontimeupdate = function() {
+            localStorage.setItem('musicaTime', audio.currentTime);
+        };
+    </script>

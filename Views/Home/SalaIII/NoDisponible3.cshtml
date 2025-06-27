@@ -93,3 +93,20 @@ function playButtonSoundAndRedirect() {
     }
 }
 </script> 
+
+<audio id="musica" src="/Audio/RoomIII.mp3" loop preload="auto"></audio>
+    <script>
+        const audio = document.getElementById('musica');
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTime = localStorage.getItem('musicaTime');
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+            audio.play().catch(() => {
+                // Si no puede reproducir automáticamente, no mostrar botón aquí
+            });
+        });
+        audio.ontimeupdate = function() {
+            localStorage.setItem('musicaTime', audio.currentTime);
+        };
+    </script>

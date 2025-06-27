@@ -1,0 +1,38 @@
+<div class="container">
+    <h1>Tiempo restante: <span id="contador">@ViewBag.segs</span> segundos</h1>
+    <div class="mensaje">
+        @if (ViewBag.cuartoI?.primeraPistaEncontrada == false)
+        {
+            <span>¡Tienes 100 segundos para buscar pistas!</span>
+        }
+        else
+        {
+            <span>¡Busca la contraseña y abre la puerta! ¡Tienes 300 segundos!</span>
+        }
+    </div>
+</div>
+<script>
+    const TIEMPO_TOTAL = @ViewBag.segs;
+    const elemento = document.getElementById('contador');
+    let inicio = localStorage.getItem('inicioContador');
+    if (!inicio || (Date.now() - parseInt(inicio)) > (TIEMPO_TOTAL * 1000)) {
+        inicio = Date.now();
+        localStorage.setItem('inicioContador', inicio);
+    } else {
+        inicio = parseInt(inicio);
+    }
+    function actualizarContador() {
+        const ahora = Date.now();
+        const transcurrido = Math.floor((ahora - inicio) / 1000);
+        let restante = TIEMPO_TOTAL - transcurrido;
+        if (restante < 0) restante = 0;
+        elemento.textContent = restante;
+        if (restante > 0) {
+            setTimeout(actualizarContador, 1000);
+        } else {
+            localStorage.removeItem('inicioContador');
+            window.location.href = '/Home/Perdiste1';
+        }
+    }
+    actualizarContador();
+</script>

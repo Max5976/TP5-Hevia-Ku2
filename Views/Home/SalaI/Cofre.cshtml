@@ -53,7 +53,7 @@
 </style>
 
 <div class="carta">
-    <a href="#" onclick="abrirPopup(); return false;"></a>
+    <a href="@Url.Action("Carta")"></a>
 </div>
 
 <div class="vela">
@@ -64,9 +64,19 @@
     <a href="@Url.Action("NoDisponibleCofre")"></a>
 </div>
 
+<audio id="musica" src="/Audio/RoomI.mp3" loop preload="auto"></audio>
 <script>
-    function abrirPopup() {
-        window.open('@Url.Action("Carta")', "Carta", "width=600, height=400")
-    }
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            // Si no puede reproducir automáticamente, no mostrar botón aquí
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
 </script>
-
