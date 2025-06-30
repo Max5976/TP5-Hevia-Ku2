@@ -2,6 +2,8 @@
     ViewData["Title"] = "Libro";
 }
 
+@await Html.PartialAsync("_TiempoRestante")
+
 <style>
 
 body {
@@ -37,7 +39,6 @@ body {
 
 </style>
 
-@Html.Partial("_TiempoRestante")
 <div>
     <p id="historia-typewriter"></p>
 </div>

@@ -2,12 +2,24 @@
     ViewData["Title"] = "CartaEncontrada";
 }
 
+@await Html.PartialAsync("_TiempoRestante")
+
 <style>
 
 body {
     background: black;
     margin: 0;
     padding: 0;
+}
+
+#contador {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 24px;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    z-index: 1000;
 }
 
 #titulo-typewriter {
@@ -47,6 +59,7 @@ body {
 }
 
 </style>
+
 <div>
     <h1 id="titulo-typewriter"></h1>
     <p id="historia-typewriter"></p>
@@ -57,7 +70,7 @@ body {
 <script>
 const titulo = "La Revelación: Libro I Bis";
 const nombre = "@ViewBag.nombre";
-const historia = `${nombre} se encontró una carta que literalmente admitía a planear matar al Presidente, al ver esto se sintió satisfecho con la evidencia e intentó salir pero, la puerta ya no estaba, ${nombre} estaba encerrado y la única puerta que lo liberaría era la que llevaba a la segunda sala, puerta cerrada con llave. ${nombre} no sabía si habría otra salida o si podría encontrar un código, pero tenía que intentarlo. (Recarga la página de Primer Cuarto para continuar ahí).`;
+const historia = `${nombre} se encontró una carta que literalmente admitía a planear matar al Presidente, al ver esto se sintió satisfecho con la evidencia e intentó salir pero, la puerta ya no estaba, ${nombre} estaba encerrado y la única puerta que lo liberaría era la que llevaba a la segunda sala, puerta cerrada con llave. ${nombre} no sabía si habría otra salida o si podría encontrar un código, pero tenía que intentarlo.`;
 
 const h1Element = document.getElementById('titulo-typewriter');
 const pElement = document.getElementById('historia-typewriter');
@@ -115,7 +128,7 @@ document.addEventListener('keydown', function(event) {
         event.preventDefault();
         if (mostrandoHistoria) {
             if (!esperandoSkip) {
-                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar. Ps: Hola Helena, si estás leyendo esto soy Ricardo y sólo quiero pedirte por favor que no me dejes! Te preparo todo el pollo frito que quieras si te quedas.';
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
                 mensajeEspacio.style.opacity = 1;
                 esperandoSkip = true;
             } else {
@@ -123,14 +136,47 @@ document.addEventListener('keydown', function(event) {
             }
         } else if (terminado) {
             if (!esperandoSkip) {
-                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar. Ps: Hola Helena, si estás leyendo esto soy Ricardo y sólo quiero pedirte por favor que no me dejes! Te preparo todo el pollo frito que quieras si te quedas.';
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
                 esperandoSkip = true;
             } else {
+                localStorage.removeItem('inicioContador');
                 window.location.href = '/Home/PrimerCuarto';
             }
         }
     }
 });
+</script>
+
+<!-- Timer Script -->
+<script>
+    const TIEMPO_TOTAL = @ViewBag.segs;
+    const elemento = document.getElementById('tiempo');
+
+    // Solo reinicia el contador si NO existe en localStorage
+    let inicio = localStorage.getItem('inicioContador');
+    if (!inicio) {
+        inicio = Date.now();
+        localStorage.setItem('inicioContador', inicio);
+    } 
+    else {
+        inicio = parseInt(inicio);
+    }
+
+    function actualizarContador() {
+        const ahora = Date.now();
+        const transcurrido = Math.floor((ahora - inicio) / 1000);
+        let restante = TIEMPO_TOTAL - transcurrido;
+        if (restante < 0) restante = 0;
+        elemento.textContent = restante;
+
+        if (restante > 0) {
+            setTimeout(actualizarContador, 1000);
+        } else {
+            localStorage.removeItem('inicioContador');
+            window.location.href = '/Home/Perdiste1';
+        }
+    }
+    actualizarContador();
 </script>
 
 <audio id="musica" src="/Audio/RoomI.mp3" loop preload="auto"></audio>

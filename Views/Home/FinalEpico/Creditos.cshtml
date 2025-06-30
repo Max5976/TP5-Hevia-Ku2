@@ -1,0 +1,360 @@
+@{
+    ViewData["Title"] = "Créditos";
+}
+
+<style>
+    html, body {
+        background: #000;
+        color: #fff;
+        overflow: hidden;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+    .creditos-anim {
+        position: absolute;
+        left: 0;
+        width: 100vw;
+        text-align: center;
+        will-change: transform;
+    }
+    .creditos-container {
+        width: 100vw;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0;
+        padding-bottom: 100vh;
+    }
+    h1, h2 {
+        color: #fff;
+        text-shadow: 0 2px 8px #222;
+        margin-bottom: 0.5em;
+        margin-top: 1.5em;
+    }
+    h1 {
+        font-size: 2.8em;
+        margin-top: 2em;
+    }
+    h2 {
+        font-size: 1.5em;
+        margin-top: 2em;
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.5em 0;
+        font-size: 1.2em;
+    }
+    .credit-item {
+        margin-bottom: 0.5em;
+    }
+    .autor {
+        font-style: italic;
+        color: #ccc;
+        margin-left: 1em;
+    }
+    .mensaje-final {
+        margin-top: 1em;
+        margin-bottom: 1em;
+        font-size: 1.3em;
+        color: #ffe082;
+        text-shadow: 0 2px 8px #222;
+    }
+    .cartel-revelacion-block {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 8px 32px #0004;
+        padding: 5vw 7vw;
+        margin: 4vw auto 2vw auto;
+        max-width: 70vw;
+        width: fit-content;
+        margin-bottom: 100%;
+    }
+    .cartel-revelacion-img {
+        display: block;
+        max-width: 70vw;
+        max-height: 50vh;
+        border-radius: 18px;
+        background: none;
+        margin: 0;
+    }
+    .mega-anuncio-final {
+        margin-top: 5em;
+        font-size: 4em;
+        color: #ffe082;
+        font-weight: bold;
+        text-shadow: 0 2px 32px #000, 0 0 24px #ffe082;
+        letter-spacing: 4px;
+        text-align: center;
+        padding: 2em 0 3em 0;
+        animation: megaPop 2s cubic-bezier(.68,-0.55,.27,1.55);
+    }
+    @@keyframes megaPop {
+        0% { transform: scale(0.7); opacity: 0; }
+        60% { transform: scale(1.15); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    .volver-btn {
+        display: block;
+        margin: 4em auto 0 auto;
+        position: static;
+        left: unset;
+        transform: none;
+        bottom: unset;
+        background: #ffe082;
+        color: #222;
+        font-size: 2em;
+        font-weight: bold;
+        border: none;
+        border-radius: 12px;
+        padding: 0.7em 2em;
+        box-shadow: 0 2px 16px #0008;
+        cursor: pointer;
+        z-index: 100;
+        transition: background 0.2s, color 0.2s;
+    }
+    .volver-btn:hover {
+        background: #fff8c0;
+        color: #000;
+    }
+</style>
+
+<audio id="musica" src="/Audio/COC-Albatross.mp3" loop preload="auto"></audio>
+
+<body>
+    <div class="creditos-anim" id="creditosAnim">
+        <div class="creditos-container" id="creditosContainer">
+            <div class="cartel-revelacion-block">
+                <img src="/Imagenes/PortadaJuego.png" alt="La Revelación" class="cartel-revelacion-img" />
+            </div>
+
+            <h1>CRÉDITOS</h1>
+            <h2>Creadores</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia</li>
+                <li class="credit-item">Martín Ku</li>
+            </ul>
+            <h2>Profesor</h2>
+            <ul>
+                <li class="credit-item">Ezequiel Aaron Binker</li>
+            </ul>
+            <h2>Salas y Autores</h2>
+            <ul>
+                <li class="credit-item">Sala I <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Sala II <span class="autor">Martín Ku</span></li>
+                <li class="credit-item">Sala III <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Sala IV <span class="autor">Martín Ku</span></li>
+                <li class="credit-item">Sala V <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Jefe Final <span class="autor">Martín Ku</span></li>
+            </ul>
+            <h2>Canciones y Autores</h2>
+            <ul>
+                <li class="credit-item">Tema Principal <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Room I <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Room II <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Room III <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Room IV <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Room V <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Boss Theme <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Albatross <span class="autor">Corrosion Of Conformity</span></li>
+                <li class="credit-item">Efectos de sonido <span class="autor">Cosas que sacó Maximo de freesound.org</span></li>
+            </ul>
+            <h2>Personajes e Intérpretes</h2>
+            <ul>
+                <li class="credit-item">Protagonista <span class="autor">@ViewBag.nombre</span></li>
+                <li class="credit-item">Jefe Final <span class="autor">VI</span></li>
+                <li class="credit-item">Guardias <span class="autor">Tipos random que trajo Martín</span></li>
+                <li class="credit-item">Narrador <span class="autor">Maximo Hevia</span></li>
+                <li class="credit-item">Personajes secundarios <span class="autor">No parece haber ninguno, si hacemos secuela, ponemos a un ayudante</span></li>
+            </ul>
+            <h2>Agradecimientos</h2>
+            <ul>
+                <li class="credit-item">A la gente del Planetario</li>
+                <li class="credit-item">A los de 4ID</li>
+                <li class="credit-item">A Ezequiel Aaron Binker</li>
+                <li class="credit-item">A los que creyeron en la causa</li>
+                <li class="credit-item">Al rey Franba</li>
+            </ul>
+            <div class="mensaje-final">
+                ¡Gracias por jugar!<br />
+                <span style="font-size:1.1em;">Hecho con pasión y Green Deli 🟢</span>
+            </div>
+            <h2>Directores</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia</li>
+                <li class="credit-item">Martín Ku</li>
+            </ul>
+            <h2>Organizadores</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia</li>
+                <li class="credit-item">Martín Ku</li>
+            </ul>
+            <h2>Programación Frontend</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia</li>
+                <li class="credit-item">Martín Ku</li>
+            </ul>
+            <h2>Programación Backend</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia</li>
+                <li class="credit-item">Martín Ku</li>
+            </ul>
+            <h2>Imágenes</h2>
+            <ul>
+                <li class="credit-item">Chat GPT y sus amigos</li>
+            </ul>
+            <h2>Diseño</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia</li>
+                <li class="credit-item">Martín Ku</li>
+            </ul>
+            <h2>Videos grabados para Youtube en el proceso</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia: 0</li>
+                <li class="credit-item">Martín Ku: 0</li>
+            </ul>
+            <h2>Videos grabados para Tiktok en el proceso</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia: 0</li>
+                <li class="credit-item">Martín Ku: 0</li>
+            </ul>
+            <h2>Videos grabados para Instagram en el proceso</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia: 0</li>
+                <li class="credit-item">Martín Ku: 0</li>
+            </ul>
+            <h2>Videos grabados para Facebook en el proceso</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia: 0</li>
+                <li class="credit-item">Martín Ku: 0</li>
+            </ul>
+            <h2>Videos grabados para X (Twitter) en el proceso</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia: 0</li>
+                <li class="credit-item">Martín Ku: 0</li>
+            </ul>
+            <h2>Videos grabados para otras redes en el proceso</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia: 0</li>
+                <li class="credit-item">Martín Ku: 0</li>
+            </ul>
+            <h2>Comidas Consumidas</h2>
+            <ul>
+                <li class="credit-item">Dalton: Incontables platos</li>
+                <li class="credit-item">Impanato: 12 empanadas</li>
+                <li class="credit-item">Green Deli: Un par de almuerzos</li>
+                <li class="credit-item">Fiambrería: 2 sanguiches</li>
+                <li class="credit-item">Tano: 1 (pero memorable)</li>
+            </ul>
+            <h2>Hecho por miembros del prestigioso grupo</h2>
+            <ul>
+                <li class="credit-item">El Planetario</li>
+            </u>
+            <h2>Año</h2>
+            <ul>
+                <li class="credit-item">4to</li>
+            </ul>
+            <h2>Especialidad</h2>
+            <ul>
+                <li class="credit-item">Informática</li>
+            </ul>
+            <h2>Número de Curso</h2>
+            <ul>
+                <li class="credit-item">D</li>
+            </ul>
+            <h2>Año/Especialidad/NúmeroDeCurso</h2>
+            <ul>
+                <li class="credit-item">4ID</li>
+            </ul>
+            <h2>Primes activadas en éste trabajo</h2>
+            <ul>
+                <li class="credit-item">Maximo Hevia</li>
+                <li class="credit-item">Martín Ku</li>
+            </ul>
+            <div class="mega-anuncio-final">
+                Si llegamos a los 1.000.000 subs hacemos La Revelación 2
+            </div>
+            <h2>¡Gracias por jugar!</h2>
+            <h2>Ya pueden aplaudir</h2>
+            <h2>Adiós/Goodbye/Adeus/Au Revoir/Addio/שלום/再见/아디오스/さようなら/אַדיאָס</h2>
+            <button class="volver-btn" id="volverBtn" onclick="window.location.href='@Url.Action("Index")'">Volver al inicio</button>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+<script>
+    // Música de fondo
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        audio.volume = 0.8;
+        audio.play().catch(() => {
+            let btn = document.createElement('button');
+            btn.id = "playMusicBtn";
+            btn.textContent = "Reproducir música";
+            btn.onclick = function() {
+                audio.play();
+                btn.remove();
+            };
+            document.body.appendChild(btn);
+        });
+
+        // --- SCROLL MANUAL CON JS ROBUSTO ---
+        const anim = document.getElementById('creditosAnim');
+        const container = document.getElementById('creditosContainer');
+        const durNormal = 125; // segundos
+        const durRapido = 20; // segundos
+        let speed = 1; // velocidad actual (interpolada)
+        let targetSpeed = 1; // velocidad deseada
+        let elapsed = 0;
+        let lastFrame = null;
+        let finished = false;
+
+        function getScrollDistance() {
+            const btn = document.getElementById('volverBtn');
+            const btnOffset = btn.offsetTop + (btn.offsetHeight / 2);
+            const vh = window.innerHeight;
+            // Queremos que el centro del botón coincida con el centro de la pantalla
+            return btnOffset - (vh / 2);
+        }
+
+        function animate(ts) {
+            if (finished) return;
+            if (!lastFrame) lastFrame = ts;
+            let delta = (ts - lastFrame) / 1000;
+            lastFrame = ts;
+            // Suavizado de velocidad
+            speed += (targetSpeed - speed) * 0.15;
+            let dur = durNormal;
+            let dist = getScrollDistance();
+            elapsed += delta * speed;
+            let percent = Math.min(elapsed / dur, 1);
+            let y = -dist * percent;
+            anim.style.transform = `translateY(${y}px)`;
+            if (percent < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                anim.style.transform = `translateY(${-dist}px)`;
+                finished = true;
+            }
+        }
+        requestAnimationFrame(animate);
+
+        window.addEventListener('keydown', function(e) {
+            if ((e.code === 'Space' || e.keyCode === 32)) {
+                targetSpeed = durNormal / durRapido;
+            }
+        });
+        window.addEventListener('keyup', function(e) {
+            if ((e.code === 'Space' || e.keyCode === 32)) {
+                targetSpeed = 1;
+            }
+        });
+    });
+</script>
+} 

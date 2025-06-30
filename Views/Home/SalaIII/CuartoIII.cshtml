@@ -84,12 +84,18 @@ function playButtonSoundAndRedirect() {
         buttonSound.play().then(() => {
             setTimeout(() => {
                 window.location.href = '/Home/TercerCuarto';
+                localStorage.removeItem('inicioContador');
+                localStorage.removeItem('musicaTime');
             }, 400);
         }).catch(() => {
             window.location.href = '/Home/TercerCuarto';
+            localStorage.removeItem('inicioContador');
+            localStorage.removeItem('musicaTime');
         });
     } catch (e) {
         window.location.href = '/Home/TercerCuarto';
+        localStorage.removeItem('inicioContador');
+        localStorage.removeItem('musicaTime');
     }
 }
 </script> 

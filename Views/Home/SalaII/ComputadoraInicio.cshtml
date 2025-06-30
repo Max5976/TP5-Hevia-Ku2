@@ -230,7 +230,7 @@
         <p>Aún estamos a tiempo de intervenir. El ataque no ha sido ejecutado. Nuestra misión es localizar al agente y el dispositivo antes de que sea demasiado tarde.</p>
         <p style="color: #E74C3C; font-weight: bold;">EL PRESIDENTE PUEDE SER SALVADO. INICIANDO PROTOCOLO DE CONTRA-MEDIDAS.</p>
         
-        <a href="@Url.Action("TercerCuarto")" class="nav-button">INICIAR CONTRA-MEDIDAS</a>
+        <a href="@Url.Action("HistoriaIV")" class="nav-button">INICIAR CONTRA-MEDIDAS</a>
     </div>
 </div>
 
@@ -374,7 +374,7 @@
     function endGame(w){gameOver=true;board.forEach((r,i)=>r.forEach((c,j)=>{if(c.isBomb){const d=document.querySelector(`[data-row='${i}'][data-col='${j}']`);d.classList.add('bomb');d.innerHTML='💣'}}));setTimeout(()=>{if(w){alert('¡Has ganado! Acceso concedido.');myDocumentsWindow.style.display='flex'}else{alert('¡BOOM! Has perdido.')}gameContainer.style.display='none'},1500)}
 </script>
 
-<audio id="musica" src="/Audio/RoomII.mp3" loop preload="auto"></audio>
+<audio id="musica" src="/Audio/RoomII.mp3" loop preload="auto" volume="1"></audio>
     <script>
         const audio = document.getElementById('musica');
         window.addEventListener('DOMContentLoaded', function() {

@@ -59,7 +59,7 @@ body {
 <script>
 const titulo = "La Revelación: Libro III";
 const nombre = "@ViewBag.nombre";
-const historia = `${nombre} le informó a la seguridad que el presidente estaba en riesgo. Ahí se dio cuenta de que tendría que hacer las cosas rápido, vio una puerta a otro cuarto pero... esta estaba abierta, la abrió y entró al próximo cuarto y es ¡¿una cocina?!`;
+const historia = `${nombre} le informó a la seguridad que el presidente estaba en riesgo. Ahí se dio cuenta de que tendría que hacer las cosas rápido, vió una puerta a otro cuarto pero... esta estaba abierta, la abrió y entró al próximo cuarto y es ¡¿una cocina?!`;
 
 const h1Element = document.getElementById('titulo-typewriter');
 const pElement = document.getElementById('historia-typewriter');
@@ -67,7 +67,16 @@ const mensajeEspacio = document.getElementById('mensaje-espacio');
 const temaPrincipal = document.getElementById('temaPrincipal');
 temaPrincipal.currentTime = 7.25;
 temaPrincipal.volume = 0.5;
-temaPrincipal.play().catch(()=>{});
+temaPrincipal.play().catch(() => {
+    let btn = document.createElement('button');
+    btn.id = "playMusicBtn";
+    btn.textContent = "Reproducir música";
+    btn.onclick = function() {
+        temaPrincipal.play();
+        btn.remove();
+    };
+    document.body.appendChild(btn);
+});
 const typingSound = document.getElementById('typingSound');
 typingSound.volume = 0.1;
 function playTypingSound() {

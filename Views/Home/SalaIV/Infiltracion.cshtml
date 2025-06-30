@@ -1,0 +1,491 @@
+@{
+    ViewData["Title"] = "Infiltración en el Archivo Secreto";
+}
+
+<style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #000;
+        height: 100%;
+        width: 100%;
+    }
+
+    #game-container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #game-area {
+        position: relative;
+        width: 1600px; 
+        height: 600px;
+        background: #3d3d3d url('/Imagenes/archivo_fondo.jpg');
+        background-size: cover;
+        border: 3px solid #6d5a41;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+        overflow: hidden;
+        transform-origin: center center;
+    }
+
+    .shadow-zone {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.25); 
+        border: none;
+        z-index: 1;
+    }
+
+    .obstacle {
+        position: absolute;
+        background-color: #4e342e;
+        border: 2px solid #3e2723;
+        z-index: 6; 
+    }
+
+    #door {
+        position: absolute;
+        width: 60px;
+        height: 100px;
+        background-color: #5d4037;
+        border: 3px solid #3e2723;
+        top: 250px;
+        left: 1540px;
+        z-index: 2;
+    }
+    #door::after {
+        content: '';
+        position: absolute;
+        top: 45px;
+        left: 10px;
+        width: 8px;
+        height: 8px;
+        background-color: #ffc107;
+        border-radius: 50%;
+    }
+
+    #player {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background-image: url('/Imagenes/jugador.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        z-index: 10;
+        transform-origin: center center;
+    }
+
+    .guard {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        background-image: url('/Imagenes/guardian.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        z-index: 5;
+        transform-origin: center center;
+    }
+
+    .vision-cone {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 0 30px 150px 30px;
+        border-color: transparent transparent rgba(255, 255, 0, 0.3) transparent;
+        transform-origin: bottom center;
+        transform: translateX(-50%);
+        z-index: 4;
+    }
+    
+    #ui-container {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1600px;
+        text-align: center;
+        z-index: 100;
+    }
+
+    #message-box {
+        font-size: 1.5em;
+        color: #FFD700;
+        text-shadow: 2px 2px 4px #000;
+        min-height: 40px;
+    }
+
+    .game-button {
+        padding: 10px 20px;
+        font-size: 1em;
+        display: none;
+        cursor: pointer;
+        background-color: #5a4a3a;
+        border: 1px solid #3a2a1a;
+        color: #e0e0e0;
+        border-radius: 3px;
+    }
+</style>
+
+<div id="game-container">
+    <div id="game-area">
+        <div class="shadow-zone" style="top: 275px; left: 30px; width: 50px; height: 50px;"></div>
+        
+        <div class="obstacle" style="top: 200px; left: 200px; width: 40px; height: 150px;"></div>
+        <div class="obstacle" style="top: 250px; left: 550px; width: 40px; height: 120px;"></div>
+        <div class="obstacle" style="top: 400px; left: 300px; width: 200px; height: 40px;"></div>
+        <div class="obstacle" style="top: 100px; left: 50px; width: 200px; height: 40px;"></div>
+        <div class="obstacle" style="top: 300px; left: 680px; width: 40px; height: 150px;"></div>
+        <div class="obstacle" style="top: 500px; left: 250px; width: 80px; height: 40px;"></div>
+        <div class="obstacle" style="top: 0px; left: 800px; width: 40px; height: 250px;"></div>
+        <div class="obstacle" style="top: 350px; left: 800px; width: 40px; height: 250px;"></div>
+        <div class="obstacle" style="top: 150px; left: 950px; width: 200px; height: 40px;"></div>
+        <div class="obstacle" style="top: 450px; left: 950px; width: 200px; height: 40px;"></div>
+        <div class="obstacle" style="top: 250px; left: 1200px; width: 40px; height: 200px;"></div>
+        <div class="obstacle" style="top: 50px; left: 1300px; width: 200px; height: 40px;"></div>
+        <div class="obstacle" style="top: 520px; left: 1300px; width: 200px; height: 40px;"></div>
+
+        <div id="door"></div>
+        <div id="player"></div>
+
+        <div id="guard1" class="guard"><div class="vision-cone"></div></div>
+        <div id="guard2" class="guard"><div class="vision-cone"></div></div>
+        <div id="guard3" class="guard"><div class="vision-cone"></div></div>
+        <div id="guard4" class="guard"><div class="vision-cone"></div></div>
+
+        <div id="guard5" class="guard"><div class="vision-cone"></div></div>
+        <div id="guard6" class="guard"><div class="vision-cone"></div></div>
+        <div id="guard7" class="guard"><div class="vision-cone"></div></div>
+        <div id="guard8" class="guard"><div class="vision-cone"></div></div>
+        </div>
+</div>
+<div id="ui-container">
+    <div id="message-box">Usa las flechas o WASD para moverte. Llega a la puerta.</div>
+    <button id="retry-button" class="game-button">Reintentar</button>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const gameArea = document.getElementById('game-area');
+    const playerEl = document.getElementById('player');
+    const messageBox = document.getElementById('message-box');
+    const retryButton = document.getElementById('retry-button');
+
+    const GAME_WIDTH = 1600;
+    const GAME_HEIGHT = 600;
+
+    let gameOver = false;
+    const keys = { w: false, a: false, s: false, d: false, ArrowUp: false, ArrowLeft: false, ArrowDown: false, ArrowRight: false };
+
+    const player = { x: 40, y: 285, speed: 0.5, width: 30, height: 30, angle: 0 };
+
+    const guards = [
+        { el: document.getElementById('guard1'), x: 250, y: 100, angle: 0, speed: 0.3, target: {x: 700, y: 100} },
+        { el: document.getElementById('guard2'), x: 900, y: 500, angle: -90, speed: 0.25, target: {x: 900, y: 100} },
+        { el: document.getElementById('guard3'), x: 50, y: 450, angle: 0, speed: 0.28, target: {x: 750, y: 450} },
+        { el: document.getElementById('guard4'), x: 1500, y: 50, angle: 180, speed: 0.4, target: {x: 850, y: 550} },
+        { el: document.getElementById('guard5'), x: 400, y: 50, angle: 90, speed: 0.2, target: {x: 400, y: 550} },
+        { el: document.getElementById('guard6'), x: 880, y: 300, angle: 0, speed: 0.35, target: {x: 1150, y: 300} },
+        { el: document.getElementById('guard7'), x: 1350, y: 120, angle: 90, speed: 0.3, target: {x: 1350, y: 480} },
+        { el: document.getElementById('guard8'), x: 100, y: 370, angle: 0, speed: 0.22, target: {x: 700, y: 200} }
+    ];
+    
+    let shadowZoneRects = [];
+    let obstacleRects = [];
+    let doorRect = {};
+
+    function initializeStaticElements() {
+        shadowZoneRects = Array.from(document.querySelectorAll('.shadow-zone')).map(el => ({
+            x: el.offsetLeft, y: el.offsetTop, width: el.offsetWidth, height: el.offsetHeight
+        }));
+        obstacleRects = Array.from(document.querySelectorAll('.obstacle')).map(el => ({
+            x: el.offsetLeft, y: el.offsetTop, width: el.offsetWidth, height: el.offsetHeight
+        }));
+        const doorEl = document.getElementById('door');
+        doorRect = { x: doorEl.offsetLeft, y: doorEl.offsetTop, width: doorEl.offsetWidth, height: doorEl.offsetHeight };
+    }
+
+    function scaleGame() {
+        const container = document.getElementById('game-container');
+        const scale = Math.min(
+            container.clientWidth / GAME_WIDTH,
+            container.clientHeight / GAME_HEIGHT
+        );
+        gameArea.style.transform = `scale(${scale})`;
+    }
+
+    window.addEventListener('load', () => {
+        initializeStaticElements();
+        scaleGame();
+        gameLoop();
+    });
+    window.addEventListener('resize', scaleGame);
+
+    document.addEventListener('keydown', (e) => { if (keys.hasOwnProperty(e.key)) keys[e.key] = true; });
+    document.addEventListener('keyup', (e) => { if (keys.hasOwnProperty(e.key)) keys[e.key] = false; });
+
+    function updatePlayerPosition() {
+        if (gameOver) return;
+        let dx = 0, dy = 0;
+        if (keys.a || keys.ArrowLeft) dx -= 1;
+        if (keys.d || keys.ArrowRight) dx += 1;
+        if (keys.w || keys.ArrowUp) dy -= 1;
+        if (keys.s || keys.ArrowDown) dy += 1;
+
+        const magnitude = Math.sqrt(dx * dx + dy * dy);
+        if (magnitude > 0) {
+            dx = (dx / magnitude) * player.speed;
+            dy = (dy / magnitude) * player.speed;
+
+            player.angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+        }
+        
+        let newX = player.x + dx;
+        let playerRectX = { x: newX, y: player.y, width: player.width, height: player.height };
+        let collisionX = false;
+        for (const obstacleRect of obstacleRects) {
+            if (areRectsColliding(playerRectX, obstacleRect)) {
+                collisionX = true;
+                break;
+            }
+        }
+        
+        if (!collisionX) {
+            player.x = newX;
+        }
+        
+        let newY = player.y + dy;
+        let playerRectY = { x: player.x, y: newY, width: player.width, height: player.height };
+        let collisionY = false;
+        for (const obstacleRect of obstacleRects) {
+            if (areRectsColliding(playerRectY, obstacleRect)) {
+                collisionY = true;
+                break;
+            }
+        }
+
+        if (!collisionY) {
+            player.y = newY;
+        }
+
+        if (player.x < 0) player.x = 0;
+        if (player.y < 0) player.y = 0;
+        if (player.x + player.width > GAME_WIDTH) player.x = GAME_WIDTH - player.width;
+        if (player.y + player.height > GAME_HEIGHT) player.y = GAME_HEIGHT - player.height;
+    }
+
+    function updateGuardsPosition() {
+        if (gameOver) return;
+        guards.forEach(g => {
+            let dx = g.target.x - g.x;
+            let dy = g.target.y - g.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            const nextX = g.x + (distance === 0 ? 0 : (dx / distance) * g.speed);
+            const nextY = g.y + (distance === 0 ? 0 : (dy / distance) * g.speed);
+            const guardRect = { x: nextX, y: nextY, width: 40, height: 40 };
+            
+            let collision = false;
+            if (nextX <= 0 || nextX + 40 >= GAME_WIDTH || nextY <= 0 || nextY + 40 >= GAME_HEIGHT) {
+                collision = true;
+            } else {
+                for (const obstacleRect of obstacleRects) {
+                    if (areRectsColliding(guardRect, obstacleRect)) {
+                        collision = true;
+                        break;
+                    }
+                }
+            }
+
+            if (distance < g.speed * 2 || collision) {
+                const possibleDirections = [ {dx: 1, dy: 0}, {dx: -1, dy: 0}, {dx: 0, dy: 1}, {dx: 0, dy: -1} ];
+                possibleDirections.sort(() => Math.random() - 0.5); 
+                
+                let foundNewTarget = false;
+                for(let dir of possibleDirections){
+                    const newTarget = {x: g.x + dir.dx * 300, y: g.y + dir.dy * 300};
+                    
+                    if (newTarget.x > 0 && newTarget.x < GAME_WIDTH && newTarget.y > 0 && newTarget.y < GAME_HEIGHT) {
+                        if(!isLineOfSightBlocked(g, newTarget, true)) {
+                            g.target = newTarget;
+                            foundNewTarget = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!foundNewTarget) {
+                    g.target = {
+                        x: Math.random() * GAME_WIDTH,
+                        y: Math.random() * GAME_HEIGHT
+                    };
+                }
+            }
+            
+            dx = g.target.x - g.x;
+            dy = g.target.y - g.y;
+            distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance > 0) {
+                 g.x += (dx / distance) * g.speed;
+                 g.y += (dy / distance) * g.speed;
+            }
+
+            g.angle = Math.atan2(dy, dx) * (180 / Math.PI) - 90;
+        });
+    }
+    
+    function isPlayerInShadow() {
+        const playerRect = { x: player.x, y: player.y, width: player.width, height: player.height };
+        for (const zoneRect of shadowZoneRects) {
+            if (areRectsColliding(playerRect, zoneRect)) return true;
+        }
+        return false;
+    }
+
+    function isLineOfSightBlocked(startObject, endObject, isGuardPath = false) {
+        const p1 = { x: startObject.x + 20, y: startObject.y + 20 };
+        const p2 = { x: endObject.x + (isGuardPath ? 0 : 15), y: endObject.y + (isGuardPath ? 0 : 15) };
+        
+        for (const obstacleRect of obstacleRects) {
+            if (lineIntersectsRect(p1, p2, obstacleRect)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function checkCollisions() {
+        if (!isPlayerInShadow()) {
+            guards.forEach(g => {
+                const dx = (player.x + player.width/2) - (g.x + 20);
+                const dy = (player.y + player.height/2) - (g.y + 20);
+                const distance = Math.sqrt(dx*dx + dy*dy);
+                
+                if(distance < 150 && !isLineOfSightBlocked(g, player)) {
+                    const angleToPlayer = (Math.atan2(dy, dx) * (180 / Math.PI) + 360 - 90) % 360;
+                    const guardAngle = (g.angle + 360) % 360;
+                    const angleDiff = Math.abs(((guardAngle - angleToPlayer + 180) % 360) - 180);
+
+                    if (angleDiff < 15) { 
+                        triggerGameOver();
+                    }
+                }
+            });
+        }
+        
+        const playerRectForWin = { x: player.x, y: player.y, width: player.width, height: player.height };
+        if (areRectsColliding(playerRectForWin, doorRect)) {
+            winGame();
+        }
+    }
+
+    function areRectsColliding(rectA, rectB) {
+        return rectA.x < rectB.x + rectB.width &&
+               rectA.x + rectA.width > rectB.x &&
+               rectA.y < rectB.y + rectB.height &&
+               rectA.y + rectA.height > rectB.y;
+    }
+
+    function lineIntersectsRect(p1, p2, rect) {
+        let tmin = 0, tmax = 1;
+        const dx = p2.x - p1.x;
+        const dy = p2.y - p1.y;
+
+        if (Math.abs(dx) > 1e-6) {
+            let tx1 = (rect.x - p1.x) / dx;
+            let tx2 = (rect.x + rect.width - p1.x) / dx;
+            if (tx1 > tx2) [tx1, tx2] = [tx2, tx1];
+            tmin = Math.max(tmin, tx1);
+            tmax = Math.min(tmax, tx2);
+        } else if (p1.x < rect.x || p1.x > rect.x + rect.width) { return false; }
+
+        if (Math.abs(dy) > 1e-6) {
+            let ty1 = (rect.y - p1.y) / dy;
+            let ty2 = (rect.y + rect.height - p1.y) / dy;
+            if (ty1 > ty2) [ty1, ty2] = [ty2, ty1];
+            tmin = Math.max(tmin, ty1);
+            tmax = Math.min(tmax, ty2);
+        } else if (p1.y < rect.y || p1.y > rect.y + rect.height) { return false; }
+
+        return tmax > tmin;
+    }
+
+    function triggerGameOver() {
+        if(gameOver) return;
+        gameOver = true;
+        messageBox.textContent = "¡DETECTADO!";
+        messageBox.style.color = "#E53935";
+        retryButton.style.display = 'block';
+    }
+
+    function winGame() {
+        if(gameOver) return;
+        gameOver = true;
+        messageBox.textContent = "¡Has escapado!";
+        messageBox.style.color = "#4CAF50";
+        
+        setTimeout(() => {
+            window.location.href = '@Url.Action("HistoriaVIII")';
+        }, 2000);
+    }
+
+    function render() {
+        playerEl.style.left = player.x + 'px';
+        playerEl.style.top = player.y + 'px';
+        playerEl.style.transform = `rotate(${player.angle}deg)`;
+
+        guards.forEach(g => {
+            g.el.style.left = g.x + 'px';
+            g.el.style.top = g.y + 'px';
+            g.el.style.transform = `rotate(${g.angle}deg)`;
+        });
+    }
+
+    function gameLoop() {
+        if (gameOver) return;
+        updatePlayerPosition();
+        updateGuardsPosition();
+        render();
+        checkCollisions();
+        requestAnimationFrame(gameLoop);
+    }
+    
+    retryButton.addEventListener('click', () => location.reload());
+    
+});
+</script>
+
+<audio id="musica" src="/Audio/RoomIV.mp3" loop preload="auto" volume="1"></audio>
+    <script>
+        const audio = document.getElementById('musica');
+        
+        // Configurar el volumen (0.0 = sin sonido, 1.0 = volumen máximo)
+        audio.volume = 1; // 50% del volumen máximo
+        
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTime = localStorage.getItem('musicaTime');
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+            audio.play().catch(() => {
+                let btn = document.createElement('button');
+                btn.id = "playMusicBtn";
+                btn.textContent = "Reproducir música";
+                btn.onclick = function() {
+                    audio.play();
+                    btn.remove();
+                };
+                document.body.appendChild(btn);
+            });
+        });
+        audio.ontimeupdate = function() {
+            localStorage.setItem('musicaTime', audio.currentTime);
+        };
+    </script>

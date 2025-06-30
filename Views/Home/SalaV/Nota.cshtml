@@ -1,0 +1,108 @@
+@{
+    ViewData["Title"] = "Nota";
+}
+
+@await Html.PartialAsync("_TiempoRestante")
+
+<style>
+    body {
+        background-image: url('/Imagenes/Carta.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .mensaje {
+        font-size: 200%;
+        text-align: left;
+        margin-left: 2%;
+        margin-top: 2%;
+        font-family: 'times new roman', serif;
+        font-style: italic;
+    }
+    #parrafoAnimado {
+        color: rgb(0, 0, 0);
+        font-size: 200%;
+        font-family: "Courier New", Courier, monospace;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 2%;
+        opacity: 0;
+        transition: opacity 3s, color 3s;
+    }
+</style>
+
+<p class="mensaje">Para entrar al próximo cuarto deberás conseguir un código de tres dígitos<br>que se consiguen al ganar los juegos clásicos<br>en orden de como están posicionados los arcades desde la izquierda a la derecha.</p>
+
+<p id="parrafoAnimado">Presione la tecla de espacio para avanzar</p>
+
+<script>
+    const parrafo = document.getElementById('parrafoAnimado');
+
+    parrafo.style.position = 'relative';
+    parrafo.style.left = '20px';
+    parrafo.style.top = '10px';
+
+    let visible = true;
+    setInterval(() => {
+        parrafo.style.opacity = visible ? '0' : '1';
+        visible = !visible;
+    }, 750);
+
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'Space') {
+            event.preventDefault();
+            // Hacer una llamada AJAX para actualizar el estado
+            fetch('/Home/ActualizarEstado', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    indices: [0, 2, 6],
+                    estados: [false, true, true]
+                })
+            }).then(() => {
+                localStorage.removeItem('inicioContador');
+                window.location.href = '/Home/QuintoCuarto';
+            });
+        }
+    });
+</script>
+
+@await Html.PartialAsync("_AudioPlayer")
+
+<audio id="musica" src="/Audio/RoomV.mp3" loop preload="auto"></audio>
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        // Cargar la música seleccionada si existe, sino usar la música por defecto de la sala
+        const selectedMusic = localStorage.getItem('selectedMusic');
+        if (selectedMusic) {
+            audio.src = selectedMusic;
+        }
+        
+        // Ajustar volumen según la música
+        if (audio.src.includes('RoomV')) {
+            audio.volume = 0.8; // Volumen normal para RoomV
+        } else {
+            audio.volume = 1.0; // Volumen máximo para las demás músicas
+        }
+        
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            // Si no puede reproducir automáticamente, no mostrar botón aquí
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
+</script>

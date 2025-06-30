@@ -58,16 +58,27 @@ body {
     </script>
 } 
 
-<audio id="musica" src="/Audio/RoomII.mp3" loop preload="auto"></audio>
+<audio id="musica" src="/Audio/RoomII.mp3" loop preload="auto" volume="1"></audio>
     <script>
         const audio = document.getElementById('musica');
+        
+        // Configurar el volumen (0.0 = sin sonido, 1.0 = volumen máximo)
+        audio.volume = 1; // 50% del volumen máximo
+        
         window.addEventListener('DOMContentLoaded', function() {
             const savedTime = localStorage.getItem('musicaTime');
             if (savedTime) {
                 audio.currentTime = parseFloat(savedTime);
             }
             audio.play().catch(() => {
-                // Si no puede reproducir automáticamente, no mostrar botón aquí
+                let btn = document.createElement('button');
+                btn.id = "playMusicBtn";
+                btn.textContent = "Reproducir música";
+                btn.onclick = function() {
+                    audio.play();
+                    btn.remove();
+                };
+                document.body.appendChild(btn);
             });
         });
         audio.ontimeupdate = function() {

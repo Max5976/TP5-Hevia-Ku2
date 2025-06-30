@@ -53,6 +53,7 @@ body {
     <p id="historia-typewriter"></p>
 </div>
 <p id="mensaje-espacio" style="opacity:0; transition: opacity 1s; text-align:center; color:white; font-family:'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace; font-size:120%;">Presione la tecla de espacio para pasar de escena</p>
+<audio id="temaPrincipal" src="/Audio/TemaPrincipal.mp3" preload="auto" autoplay></audio>
 <audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
 
 <script>
@@ -63,6 +64,10 @@ const historia = `${nombre} abrió la puerta para la próxima sala y se abrumó 
 const h1Element = document.getElementById('titulo-typewriter');
 const pElement = document.getElementById('historia-typewriter');
 const mensajeEspacio = document.getElementById('mensaje-espacio');
+const temaPrincipal = document.getElementById('temaPrincipal');
+temaPrincipal.currentTime = 7.25;
+temaPrincipal.volume = 0.5;
+temaPrincipal.play().catch(()=>{});
 const typingSound = document.getElementById('typingSound');
 typingSound.volume = 0.03;
 function playTypingSound() {

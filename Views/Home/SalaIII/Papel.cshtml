@@ -1,0 +1,92 @@
+@{
+    ViewData["Title"] = "Papel";
+}
+
+@await Html.PartialAsync("_TiempoRestante")
+
+<style>
+    body {
+        background-image: url('/Imagenes/Carta.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .mensaje {
+        font-size: 200%;
+        text-align: left;
+        margin-left: 2%;
+        margin-top: 2%;
+        font-family: 'times new roman', serif;
+        font-style: italic;
+    }
+    #parrafoAnimado {
+        color: rgb(0, 0, 0);
+        font-size: 200%;
+        font-family: "Courier New", Courier, monospace;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 2%;
+        opacity: 0;
+        transition: opacity 3s, color 3s;
+    }
+</style>
+
+<p class="mensaje">Busca pistas en las puertas de madera.<br>Puede parecer que no hay nada allí por lo oscuro que está pero si buscas bien, algo encontrarás.</p>
+
+<p id="parrafoAnimado">Presione la tecla de espacio para avanzar</p>
+
+<script>
+    const parrafo = document.getElementById('parrafoAnimado');
+
+    parrafo.style.position = 'relative';
+    parrafo.style.left = '20px';
+    parrafo.style.top = '10px';
+
+    let visible = true;
+    setInterval(() => {
+        parrafo.style.opacity = visible ? '0' : '1';
+        visible = !visible;
+    }, 750);
+
+    document.addEventListener('keydown', function(event) {
+        if (event.code === 'Space') {
+            event.preventDefault();
+            // Hacer una llamada AJAX para actualizar el estado
+            fetch('/Home/ActualizarEstado', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    indices: [0, 2, 6],
+                    estados: [false, true, true]
+                })
+            }).then(() => {
+                window.location.href = '/Home/TercerCuarto';
+            });
+        }
+    });
+</script>
+
+<audio id="musica" src="/Audio/RoomIII.mp3" loop preload="auto"></audio>
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            // Si no puede reproducir automáticamente, no mostrar botón aquí
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
+</script>

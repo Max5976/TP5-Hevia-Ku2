@@ -1,0 +1,556 @@
+@{
+    ViewData["Title"] = "BATALLA - El Experimento Final";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #000;
+        color: #fff;
+        font-family: 'Press Start 2P', 'Courier New', monospace;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    #game-wrapper {
+        position: relative;
+        width: 95vmin; 
+        max-width: 1200px;
+        height: 0;
+        padding-bottom: 75%;
+    }
+
+    #game-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 2px solid #fff;
+        background: #000;
+    }
+
+    #boss {
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 60px;
+        background: #fff;
+        box-shadow: 0 0 15px #fff;
+        transition: all 0.1s;
+        animation: bossFloat 3s ease-in-out infinite;
+    }
+    @@keyframes bossFloat {
+        50% { transform: translate(-50%, -10px); }
+    }
+    .boss-hit {
+        transform: translate(calc(-50% + 8px), -5px) !important;
+        background: #f00;
+    }
+    #boss-hp-bar {
+        position: absolute;
+        top: 90px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 10px;
+        background: #f00;
+    }
+    #boss-hp-fill {
+        width: 100%;
+        height: 100%;
+        background: #0f0;
+        transition: width 0.3s ease-out;
+    }
+
+    #battle-box {
+        position: absolute;
+        border: 2px solid #fff;
+        transition: all 0.2s ease;
+        display: none;
+    }
+
+    #player {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        background: #f00;
+        box-shadow: 0 0 8px #f00;
+        border-radius: 50%;
+        transition: all 0.1s ease;
+    }
+    .invincible { animation: blink 0.1s step-end infinite; }
+    @@keyframes blink { 50% { opacity: 0.2; } }
+
+    .projectile { position: absolute; background: #fff; }
+    .bone { width: 30px; height: 8px; box-shadow: 0 0 3px #fff; }
+    .bone-v { width: 8px; height: 30px; box-shadow: 0 0 3px #fff; }
+    .bone-blue { background: #0cf; box-shadow: 0 0 5px #0cf; }
+    .bone-orange { background: #f90; box-shadow: 0 0 5px #f90; }
+
+    #text-box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        border: 2px solid #fff;
+        padding: 30px;
+        font-size: 22px;
+        line-height: 1.5;
+        background: #000;
+        display: none;
+        z-index: 100;
+    }
+
+    #player-ui {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+    }
+    .kr-active { color: #c0f !important; }
+    
+    #damage-text {
+        position: absolute;
+        font-size: 24px;
+        color: #ff0;
+        text-shadow: 2px 2px #000;
+        animation: fadeUp 1s forwards;
+        z-index: 50;
+    }
+    @@keyframes fadeUp {
+        from { opacity: 1; transform: translateY(0); }
+        to { opacity: 0; transform: translateY(-50px); }
+    }
+
+    .end-screen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.85);
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        z-index: 200;
+    }
+    .end-screen h2 {
+        font-size: 48px;
+        margin: 0;
+    }
+    #game-over-screen h2 { color: #f00; }
+    #victory-screen h2 { color: #ff0; }
+    
+    .end-screen p {
+        font-size: 18px;
+        max-width: 80%;
+    }
+
+    .end-screen-button {
+        font-family: 'Press Start 2P', monospace;
+        background: #333;
+        color: #fff;
+        border: 2px solid #fff;
+        padding: 15px 30px;
+        font-size: 20px;
+        cursor: pointer;
+        margin-top: 30px;
+    }
+    .end-screen-button:hover {
+        background: #fff;
+        color: #000;
+    }
+
+</style>
+
+<div id="game-wrapper">
+    <div id="game-container">
+        <div id="boss"></div>
+        <div id="boss-hp-bar"><div id="boss-hp-fill"></div></div>
+        
+        <div id="battle-box"><div id="player"></div></div>
+
+        <div id="text-box"></div>
+
+        <div id="player-ui">
+            <span id="player-hp-text">HP 92 / 92</span>
+        </div>
+        
+        <div id="game-over-screen" class="end-screen">
+            <h2>EXPERIMENTO FALLIDO</h2>
+            <p id="game-over-text"></p>
+            <button id="retry-button" class="end-screen-button">Reintentar</button>
+        </div>
+        <div id="victory-screen" class="end-screen">
+            <h2>¡EUREKA!</h2>
+            <p id="victory-text"></p>
+            <button id="continue-button" class="end-screen-button">Continuar</button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const allIds = ['game-container', 'player', 'boss', 'battle-box', 'text-box', 'player-ui', 'boss-hp-bar', 'boss-hp-fill', 'player-hp-text', 'game-over-screen', 'victory-screen', 'retry-button', 'continue-button', 'game-over-text', 'victory-text'];
+    const el = {};
+    allIds.forEach(id => el[id.replace(/-/g, '_')] = document.getElementById(id));
+
+    const PLAYER_SIZE = 24;
+
+    let state = {
+        turn: 'introduction',
+        player: { hp: 92, maxHp: 92, x: 0, y: 0, speed: 2, invincible: 0, kr: 0 },
+        boss: { hp: 800, maxHp: 800, attack_round: 0 },
+        keys: {},
+        projectiles: [],
+    };
+
+    document.addEventListener('keydown', e => {
+        const key = e.key.toLowerCase();
+        if (state.turn === 'game_over' || state.turn === 'victory') return;
+        state.keys[key] = true;
+        
+        const actionKey = key === 'z' || key === 'enter' || e.key === ' ';
+
+        if (actionKey) {
+            e.preventDefault(); 
+            if (state.turn === 'introduction') nextDialogue();
+            if (state.turn === 'player_turn_prompt') executePlayerAttack();
+        }
+    });
+    document.addEventListener('keyup', e => state.keys[e.key.toLowerCase()] = false);
+
+    el.retry_button.addEventListener('click', () => {
+        location.reload();
+    });
+    el.continue_button.addEventListener('click', () => {
+        window.location.href = '@Url.Action("HistoriaX")'; 
+    });
+
+    // --- DIÁLOGOS CAMBIADOS ---
+    const dialogues = [
+        "* ¡Un sujeto de pruebas inesperado! ¡Magnífico!",
+        "* Tu estructura molecular es... ¡fascinante! Debo analizarla.",
+        "* ¡Prepárate para la experimentación forzosa! ¡Mwahahaha!",
+    ];
+    let dialogueIndex = 0;
+
+    function showTextBox(text, callback) {
+        el.text_box.innerHTML = text;
+        el.text_box.style.display = 'block';
+        el.boss.style.display = 'none';
+        el.boss_hp_bar.style.display = 'none';
+        if(callback) setTimeout(callback, 2000);
+    }
+    
+    function hideTextBox() {
+        el.text_box.style.display = 'none';
+        el.boss.style.display = 'block';
+        el.boss_hp_bar.style.display = 'block';
+    }
+
+    function nextDialogue() {
+        dialogueIndex++;
+        if (dialogueIndex >= dialogues.length) {
+            hideTextBox();
+            startBossTurn();
+        } else {
+            el.text_box.innerHTML = dialogues[dialogueIndex];
+        }
+    }
+    
+    function startBossTurn() {
+        state.turn = 'boss_turn';
+        hideTextBox();
+        el.battle_box.style.display = 'block';
+        
+        const boxSize = 300; 
+        el.battle_box.style.width = `${boxSize}px`;
+        el.battle_box.style.height = `${boxSize}px`;
+        el.battle_box.style.left = `calc(50% - ${boxSize / 2}px)`;
+        el.battle_box.style.bottom = '50px';
+        
+        state.player.x = (boxSize / 2) - (PLAYER_SIZE / 2);
+        state.player.y = (boxSize / 2) - (PLAYER_SIZE / 2);
+
+        const attacks = [boneWallAttack, mixedBoneAttack, expandingBoxAttack];
+        const attackToDo = attacks[state.boss.attack_round % attacks.length];
+        
+        // DIÁLOGO CAMBIADO
+        showTextBox(`* ¡Contempla mi genio! ¡Activando ${attackToDo.name}!`, () => {
+             hideTextBox();
+             attackToDo();
+        });
+        state.boss.attack_round++;
+    }
+
+    function startPlayerTurnPrompt() {
+        state.turn = 'player_turn_prompt';
+        state.projectiles.forEach(p => p.element.remove());
+        state.projectiles = [];
+        el.battle_box.style.display = 'none';
+
+        // DIÁLOGO CAMBIADO
+        let prompt = "* ¡Increíble! Aún resistes. ¡Ataca, pequeña variable incontrolada!";
+        if (state.boss.hp < state.boss.maxHp / 2) {
+            prompt = "* ¡La contención... falla! ¡Mis cálculos son... imperfectos!"
+        }
+        showTextBox(prompt);
+    }
+    
+    function executePlayerAttack() {
+        if (state.turn !== 'player_turn_prompt') return;
+        
+        state.turn = 'player_attacking';
+        hideTextBox();
+
+        const damage = 100 + Math.floor(Math.random() * 21);
+        
+        state.boss.hp -= damage;
+        updateBossHP();
+        showDamage(damage);
+
+        setTimeout(() => {
+            if (state.boss.hp <= 0) {
+                 triggerVictory();
+            } else {
+                 startBossTurn();
+            }
+        }, 1200);
+    }
+
+    function updatePlayerPosition() {
+        if (state.turn !== 'boss_turn') return;
+        
+        const keys = state.keys;
+        const player = state.player;
+        const battleBox = el.battle_box;
+        
+        if ((keys['arrowleft'] || keys['a']) && player.x > 0) player.x -= player.speed;
+        if ((keys['arrowright'] || keys['d']) && player.x < battleBox.offsetWidth - PLAYER_SIZE) player.x += player.speed;
+        if ((keys['arrowup'] || keys['w']) && player.y > 0) player.y -= player.speed;
+        if ((keys['arrowdown'] || keys['s']) && player.y < battleBox.offsetHeight - PLAYER_SIZE) player.y += player.speed;
+
+        el.player.style.left = player.x + 'px';
+        el.player.style.top = player.y + 'px';
+    }
+    
+    function updateProjectiles() {
+        if(state.turn !== 'boss_turn') return;
+        state.projectiles.forEach((p, i) => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.element.style.left = p.x + 'px';
+            p.element.style.top = p.y + 'px';
+            
+            const boxRect = el.battle_box.getBoundingClientRect();
+            const playerRect = {
+                left: boxRect.left + state.player.x,
+                right: boxRect.left + state.player.x + PLAYER_SIZE,
+                top: boxRect.top + state.player.y,
+                bottom: boxRect.top + state.player.y + PLAYER_SIZE,
+            };
+            const projRect = p.element.getBoundingClientRect();
+
+            if (playerRect.left < projRect.right && playerRect.right > projRect.left &&
+                playerRect.top < projRect.bottom && playerRect.bottom > projRect.top) {
+                handlePlayerHit(p);
+                p.element.remove();
+                state.projectiles.splice(i, 1);
+            } else if (p.x < -100 || p.x > el.game_container.offsetWidth + 100 || p.y < -100 || p.y > el.game_container.offsetHeight + 100) {
+                p.element.remove();
+                state.projectiles.splice(i, 1);
+            }
+        });
+    }
+
+    function handlePlayerHit(projectile) {
+        if (state.player.invincible > 0) return;
+
+        const keys = state.keys;
+        let playerIsMoving = keys['arrowleft'] || keys['a'] || keys['arrowright'] || keys['d'] || keys['arrowup'] || keys['w'] || keys['arrowdown'] || keys['s'];
+        if (projectile.type === 'blue' && playerIsMoving) return;
+        if (projectile.type === 'orange' && !playerIsMoving) return;
+        
+        state.player.hp -= 2;
+        if(projectile.kr) state.player.kr += 5;
+        state.player.invincible = 60;
+        updatePlayerHP();
+        if (state.player.hp <= 0) triggerGameOver();
+    }
+    
+    // --- ATAQUES DEL JEFE CON NOMBRES CAMBIADOS ---
+    function boneWallAttack() {
+        let fired = 0;
+        const interval = setInterval(() => {
+            const y = Math.random() * (el.battle_box.offsetHeight - 30);
+            spawnProjectile(-30, y, 4, 0, 'bone', false);
+            fired++;
+            if (fired >= 20) {
+                clearInterval(interval);
+                setTimeout(startPlayerTurnPrompt, 2000);
+            }
+        }, 150);
+    }
+    boneWallAttack.name = "'Rayo de Partículas'"; // DIÁLOGO CAMBIADO
+    
+    function mixedBoneAttack() {
+         let fired = 0;
+         const interval = setInterval(() => {
+            const type = Math.random() > 0.5 ? 'blue' : 'orange';
+            const x = Math.random() * (el.battle_box.offsetWidth - 30);
+            spawnProjectile(x, -30, 0, 4, `bone-v ${type === 'blue' ? 'bone-blue' : 'bone-orange'}`, false, type);
+            fired++;
+            if (fired >= 20) {
+                clearInterval(interval);
+                setTimeout(startPlayerTurnPrompt, 3000);
+            }
+        }, 200);
+    }
+    mixedBoneAttack.name = "'Lluvia de Iones'"; // DIÁLOGO CAMBIADO
+
+    function expandingBoxAttack() {
+        const newBoxSize = 400;
+        el.battle_box.style.width = `${newBoxSize}px`;
+        el.battle_box.style.height = `${newBoxSize}px`;
+        el.battle_box.style.left = `calc(50% - ${newBoxSize / 2}px)`;
+        el.battle_box.style.bottom = '50px';
+
+        state.player.x = (newBoxSize / 2) - (PLAYER_SIZE / 2);
+        state.player.y = (newBoxSize / 2) - (PLAYER_SIZE / 2);
+        
+        let fired = 0;
+        const interval = setInterval(() => {
+            let angle = Math.random() * 360;
+            let vx = Math.cos(angle * Math.PI / 180) * 2;
+            let vy = Math.sin(angle * Math.PI / 180) * 2;
+            spawnProjectile(0, 0, vx, vy, 'bone', true, null, true);
+            fired++;
+            if(fired >= 30){
+                clearInterval(interval);
+                setTimeout(startPlayerTurnPrompt, 4000);
+            }
+        }, 120);
+    }
+    expandingBoxAttack.name = "'Reacción en Cadena'"; // DIÁLOGO CAMBIADO
+
+    function spawnProjectile(x, y, vx, vy, className, fromCenter, type, kr) {
+        const p = { x, y, vx, vy, type, kr, element: document.createElement('div') };
+        p.element.className = 'projectile ' + className;
+        el.battle_box.appendChild(p.element);
+
+        if (fromCenter) {
+            p.x = el.battle_box.offsetWidth / 2;
+            p.y = el.battle_box.offsetHeight / 2;
+        } else {
+            p.x = x;
+            p.y = y;
+        }
+        
+        p.element.style.left = `${p.x - p.element.offsetWidth / 2}px`;
+        p.element.style.top = `${p.y - p.element.offsetHeight / 2}px`;
+
+        state.projectiles.push(p);
+    }
+    
+    function updatePlayerHP() {
+        state.player.hp = Math.max(0, state.player.hp);
+        el.player_hp_text.textContent = `HP ${state.player.hp} / ${state.player.maxHp}`;
+    }
+    function updateBossHP(){
+        state.boss.hp = Math.max(0, state.boss.hp);
+        const percent = (state.boss.hp / state.boss.maxHp) * 100;
+        el.boss_hp_fill.style.width = `${percent}%`;
+    }
+    function showDamage(amount) {
+        const damageEl = document.createElement('div');
+        damageEl.id = 'damage-text';
+        damageEl.textContent = amount;
+        damageEl.style.left = `${el.boss.offsetLeft + 10}px`;
+        damageEl.style.top = `${el.boss.offsetTop}px`;
+        const gameContainer = document.getElementById('game-container');
+        gameContainer.appendChild(damageEl);
+        el.boss.classList.add('boss-hit');
+        setTimeout(() => el.boss.classList.remove('boss-hit'), 100);
+        setTimeout(() => damageEl.remove(), 1000);
+    }
+    function applyKR() {
+        if(state.player.kr > 0 && state.turn === 'boss_turn') {
+            if(state.player.invincible % 30 === 0){ 
+                state.player.hp--;
+                state.player.kr--;
+                updatePlayerHP();
+                if (state.player.hp <= 0) triggerGameOver();
+            }
+        }
+        el.player_hp_text.classList.toggle('kr-active', state.player.kr > 0);
+    }
+
+    function triggerGameOver() {
+        state.turn = 'game_over';
+        // DIÁLOGO CAMBIADO
+        el.game_over_text.textContent = "Sujeto de pruebas no viable. ¡Una lástima! El siguiente...";
+        el.game_over_screen.style.display = 'flex';
+    }
+    function triggerVictory() {
+        state.turn = 'victory';
+        hideTextBox();
+        // DIÁLOGO CAMBIADO
+        el.victory_text.textContent = "¡Imposible! ¡Has sobrecargado el sistema! Mis... mis datos...";
+        el.victory_screen.style.display = 'flex';
+    }
+    
+    function gameLoop() {
+        if (state.turn === 'boss_turn') {
+            updatePlayerPosition();
+            updateProjectiles();
+            applyKR();
+            if(state.player.invincible > 0) state.player.invincible--;
+            el.player.classList.toggle('invincible', state.player.invincible > 0);
+        }
+        requestAnimationFrame(gameLoop);
+    }
+
+    updatePlayerHP();
+    updateBossHP();
+    showTextBox(dialogues[0]);
+    gameLoop();
+});
+</script>
+
+<audio id="musica" src="/Audio/BossFight.mp3" loop preload="auto"></audio>
+@section Scripts {
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        audio.volume = 0.8;
+        audio.play().catch(() => {
+            let btn = document.createElement('button');
+            btn.id = "playMusicBtn";
+            btn.textContent = "Reproducir música";
+            btn.onclick = function() {
+                audio.play();
+                btn.remove();
+            };
+            document.body.appendChild(btn);
+        });
+    });
+</script>
+} 

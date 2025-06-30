@@ -1,0 +1,196 @@
+@{
+    ViewData["Title"] = "3er Cuarto Y Medio";
+}
+
+@await Html.PartialAsync("_TiempoRestante")
+
+<style>
+
+body {
+    background: black;
+    margin: 0;
+    padding: 0;
+}
+
+#contador {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 24px;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    z-index: 1000;
+}
+
+#titulo-typewriter {
+    color: white;
+    font-size: 400%;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 2%;
+    letter-spacing: 0.2%;
+    text-shadow: 0.2% 0.2% 0.8% black, 0 0 0.2% white;
+}
+
+#historia-typewriter {
+    color: white;
+    font-size: 220%;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 4%;
+    margin-bottom: 2%;
+    letter-spacing: 0.3%;
+    text-shadow: 0.1% 0.1% 0.6% black, 0 0 0.2% white;
+}
+
+#mensaje-espacio {
+    opacity: 0;
+    transition: opacity 1s;
+    text-align: center;
+    color: white;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-size: 220%;
+    margin-top: 4%;
+    text-shadow: 0 0 1% black, 0 0 0.2% white;
+    letter-spacing: 0.1%;
+}
+
+</style>
+
+<div>
+    <h1 id="titulo-typewriter"></h1>
+    <p id="historia-typewriter"></p>
+</div>
+<p id="mensaje-espacio" style="opacity:0; transition: opacity 1s; text-align:center; color:white; font-family:'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace; font-size:120%;">Presione la tecla de espacio para pasar de escena</p>
+<audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
+
+<script>
+const titulo = "La Revelación: Libro III Bis";
+const nombre = "@ViewBag.nombre";
+const historia = `${nombre} encontró una lista y se acordó de la receta de la buena hamburguesota, luego se dió cuenta de que todo estaba preparado para cocinar esa hamburguesa.`;
+
+const h1Element = document.getElementById('titulo-typewriter');
+const pElement = document.getElementById('historia-typewriter');
+const mensajeEspacio = document.getElementById('mensaje-espacio');
+const typingSound = document.getElementById('typingSound');
+typingSound.volume = 0.03;
+function playTypingSound() {
+    try {
+        typingSound.currentTime = 0;
+        typingSound.play().catch(()=>{});
+    } catch (e) {}
+}
+let i = 0;
+let j = 0;
+let terminado = false;
+let esperandoSkip = false;
+let mostrandoHistoria = true;
+let skipAnimacion = false;
+
+function escribirTitulo() {
+    if (i <= titulo.length) {
+        h1Element.textContent = titulo.substring(0, i);
+        playTypingSound();
+        i++;
+        setTimeout(escribirTitulo, 60);
+    } else {
+        setTimeout(escribirHistoria, 500);
+    }
+}
+
+function escribirHistoria() {
+    if (skipAnimacion) {
+        pElement.textContent = historia;
+        mostrandoHistoria = false;
+        terminado = true;
+        mensajeEspacio.style.opacity = 1;
+        return;
+    }
+    if (j <= historia.length) {
+        pElement.textContent = historia.substring(0, j);
+        playTypingSound();
+        j++;
+        setTimeout(escribirHistoria, 60);
+    } else {
+        mostrandoHistoria = false;
+        terminado = true;
+        mensajeEspacio.style.opacity = 1;
+    }
+}
+
+escribirTitulo();
+
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space') {
+        event.preventDefault();
+        if (mostrandoHistoria) {
+            if (!esperandoSkip) {
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
+                mensajeEspacio.style.opacity = 1;
+                esperandoSkip = true;
+            } else {
+                skipAnimacion = true;
+            }
+        } else if (terminado) {
+            if (!esperandoSkip) {
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
+                esperandoSkip = true;
+            } else {
+                window.location.href = '/Home/TercerCuarto';
+            }
+        }
+    }
+});
+</script>
+
+<!-- Timer Script -->
+<script>
+    const TIEMPO_TOTAL = @ViewBag.segs;
+    const elemento = document.getElementById('tiempo');
+
+    // Solo reinicia el contador si NO existe en localStorage
+    let inicio = localStorage.getItem('inicioContador');
+    if (!inicio) {
+        inicio = Date.now();
+        localStorage.setItem('inicioContador', inicio);
+    } 
+    else {
+        inicio = parseInt(inicio);
+    }
+
+    function actualizarContador() {
+        const ahora = Date.now();
+        const transcurrido = Math.floor((ahora - inicio) / 1000);
+        let restante = TIEMPO_TOTAL - transcurrido;
+        if (restante < 0) restante = 0;
+        elemento.textContent = restante;
+
+        if (restante > 0) {
+            setTimeout(actualizarContador, 1000);
+        } else {
+            localStorage.removeItem('inicioContador');
+            window.location.href = '/Home/Perdiste3';
+        }
+    }
+    actualizarContador();
+</script>
+
+<audio id="musica" src="/Audio/RoomIII.mp3" loop preload="auto"></audio>
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            // Si no puede reproducir automáticamente, no mostrar botón aquí
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
+</script>

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "brWpseGyOW3SpRShlYWMNfsI8iEA5PeU+xHOGgyGLi0=",
+  "Hash": "ugbVeJrhEHPb3rH61T5w/gDsMFR6h1uBIIyv6hzY0m0=",
   "Source": "TP05_Hevia_ku",
   "BasePath": "_content/TP05_Hevia_ku",
   "Mode": "Default",
@@ -264,6 +264,25 @@
       "OriginalItemSpec": "wwwroot\\Imagenes\\CuartoIII.png"
     },
     {
+      "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\Explorer.png",
+      "SourceId": "TP05_Hevia_ku",
+      "SourceType": "Discovered",
+      "ContentRoot": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\",
+      "BasePath": "_content/TP05_Hevia_ku",
+      "RelativePath": "Imagenes/Explorer.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Imagenes\\Explorer.png"
+    },
+    {
       "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\FondoCarta.png",
       "SourceId": "TP05_Hevia_ku",
       "SourceType": "Discovered",
@@ -283,6 +302,25 @@
       "OriginalItemSpec": "wwwroot\\Imagenes\\FondoCarta.png"
     },
     {
+      "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\FondoComputadora.png",
+      "SourceId": "TP05_Hevia_ku",
+      "SourceType": "Discovered",
+      "ContentRoot": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\",
+      "BasePath": "_content/TP05_Hevia_ku",
+      "RelativePath": "Imagenes/FondoComputadora.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Imagenes\\FondoComputadora.png"
+    },
+    {
       "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\HabitacionSalaII.png",
       "SourceId": "TP05_Hevia_ku",
       "SourceType": "Discovered",
@@ -300,6 +338,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Imagenes\\HabitacionSalaII.png"
+    },
+    {
+      "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\MIsDocumentos.png",
+      "SourceId": "TP05_Hevia_ku",
+      "SourceType": "Discovered",
+      "ContentRoot": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\",
+      "BasePath": "_content/TP05_Hevia_ku",
+      "RelativePath": "Imagenes/MIsDocumentos.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Imagenes\\MIsDocumentos.png"
     },
     {
       "Identity": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\PortadaJuego.png",

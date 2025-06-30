@@ -1,0 +1,266 @@
+@{
+    ViewData["Title"] = "Boombox";
+}
+
+@await Html.PartialAsync("_TiempoRestante")
+
+<style>
+    body {
+        background-image: url('/Imagenes/CuartoV.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 20px;
+        font-family: 'Arial', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .container {
+        background: rgba(0, 0, 0, 0.8);
+        border: 3px solid #333;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        max-width: 600px;
+        width: 90%;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    h1 {
+        color: #ff6b6b;
+        font-size: 2.5em;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .music-option {
+        background: linear-gradient(45deg, #4a4a4a, #2a2a2a);
+        color: white;
+        border: 2px solid #666;
+        border-radius: 10px;
+        padding: 15px 20px;
+        margin: 10px 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+
+    .music-option:hover {
+        background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        border-color: #ff6b6b;
+        transform: scale(1.05);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .music-option.active {
+        background: linear-gradient(45deg, #28a745, #20c997);
+        border-color: #28a745;
+    }
+
+    .return-button {
+        background: linear-gradient(45deg, #6c757d, #495057);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 15px 30px;
+        font-size: 1.2em;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .return-button:hover {
+        background: linear-gradient(45deg, #495057, #343a40);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+</style>
+
+<div class="container">
+    <h1>🎵 Boombox - Selector de Música</h1>
+    
+    <div class="music-option" onclick="changeMusic('RoomI')">
+        🎼 Sala I - Reverendo
+    </div>
+    
+    <div class="music-option" onclick="changeMusic('RoomII')">
+        🎼 Sala II - Electrocaos
+    </div>
+    
+    <div class="music-option" onclick="changeMusic('RoomIII')">
+        🎼 Sala III - Guitarramanía
+    </div>
+    
+    <div class="music-option" onclick="changeMusic('RoomIV')">
+        🎼 Sala IV - Movimiento Constante
+    </div>
+    
+    <div class="music-option" onclick="changeMusic('RoomV')">
+        🎼 Sala V - Libro De Recuerdos
+    </div>
+    
+    <button class="return-button" onclick="returnToRoom()">🏠 Volver al Cuarto</button>
+</div>
+
+<script>
+    function changeMusic(room) {
+        // Detener la música actual
+        const currentAudio = document.getElementById('musica');
+        if (currentAudio) {
+            currentAudio.pause();
+        }
+        
+        // Cambiar la fuente de audio según la sala seleccionada
+        let audioSource = '';
+        switch(room) {
+            case 'RoomI':
+                audioSource = '/Audio/RoomI.mp3';
+                break;
+            case 'RoomII':
+                audioSource = '/Audio/RoomII.mp3';
+                break;
+            case 'RoomIII':
+                audioSource = '/Audio/RoomIII.mp3';
+                break;
+            case 'RoomIV':
+                audioSource = '/Audio/RoomIV.mp3';
+                break;
+            case 'RoomV':
+                audioSource = '/Audio/RoomV.mp3';
+                break;
+        }
+        
+        // Guardar la nueva música en localStorage
+        localStorage.setItem('selectedMusic', audioSource);
+        localStorage.removeItem('musicaTime'); // Reiniciar el tiempo de la música
+        
+        // Mostrar feedback visual
+        const options = document.querySelectorAll('.music-option');
+        options.forEach(option => option.classList.remove('active'));
+        
+        // Encontrar y marcar la opción correcta como activa
+        const targetOption = document.querySelector(`.music-option[onclick*="${room}"]`);
+        if (targetOption) {
+            targetOption.classList.add('active');
+        }
+        
+        // Reproducir la nueva música
+        if (currentAudio) {
+            currentAudio.src = audioSource;
+            
+            // Ajustar volumen según la música
+            if (audioSource.includes('RoomV')) {
+                currentAudio.volume = 0.7; // Volumen normal para RoomV
+            } else {
+                currentAudio.volume = 1.0; // Más volumen para las demás músicas
+            }
+            
+            currentAudio.play().catch(() => {
+                console.log('No se pudo reproducir automáticamente');
+            });
+        }
+        
+        // Mostrar mensaje de confirmación
+        setTimeout(() => {
+            alert(`¡Música cambiada a ${room}!`);
+        }, 100);
+    }
+    
+    function returnToRoom() {
+        window.location.href = '/Home/QuintoCuarto';
+    }
+    
+    // Marcar la música actual como activa al cargar
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentMusic = localStorage.getItem('selectedMusic') || '/Audio/RoomV.mp3';
+        const options = document.querySelectorAll('.music-option');
+        
+        // Primero quitar la clase active de todas las opciones
+        options.forEach(option => option.classList.remove('active'));
+        
+        // Debug: mostrar en consola qué música se detectó
+        console.log('Música actual:', currentMusic);
+        
+        // Luego agregar la clase active a la opción correcta
+        let found = false;
+        
+        if (currentMusic.includes('RoomI')) {
+            const option = document.querySelector('.music-option[onclick*="RoomI"]');
+            if (option) {
+                option.classList.add('active');
+                console.log('Marcando Sala I como activa');
+                found = true;
+            }
+        } else if (currentMusic.includes('RoomII')) {
+            const option = document.querySelector('.music-option[onclick*="RoomII"]');
+            if (option) {
+                option.classList.add('active');
+                console.log('Marcando Sala II como activa');
+                found = true;
+            }
+        } else if (currentMusic.includes('RoomIII')) {
+            const option = document.querySelector('.music-option[onclick*="RoomIII"]');
+            if (option) {
+                option.classList.add('active');
+                console.log('Marcando Sala III como activa');
+                found = true;
+            }
+        } else if (currentMusic.includes('RoomIV')) {
+            const option = document.querySelector('.music-option[onclick*="RoomIV"]');
+            if (option) {
+                option.classList.add('active');
+                console.log('Marcando Sala IV como activa');
+                found = true;
+            }
+        } else if (currentMusic.includes('RoomV')) {
+            const option = document.querySelector('.music-option[onclick*="RoomV"]');
+            if (option) {
+                option.classList.add('active');
+                console.log('Marcando Sala V como activa');
+                found = true;
+            }
+        }
+        
+        if (!found) {
+            console.log('No se encontró ninguna opción para marcar como activa');
+        }
+    });
+</script>
+
+<audio id="musica" src="/Audio/RoomV.mp3" loop preload="auto"></audio>
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        // Cargar la música seleccionada si existe
+        const selectedMusic = localStorage.getItem('selectedMusic');
+        if (selectedMusic) {
+            audio.src = selectedMusic;
+        }
+        
+        // Ajustar volumen según la música
+        if (audio.src.includes('RoomV')) {
+            audio.volume = 0.7; // Volumen normal para RoomV
+        } else {
+            audio.volume = 1.0; // Más volumen para las demás músicas
+        }
+        
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            // Si no puede reproducir automáticamente, no mostrar botón aquí
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
+</script>

@@ -1,0 +1,57 @@
+@{
+    ViewData["Title"] = "Oscuridad";
+}
+
+@await Html.PartialAsync("_TiempoRestante")
+
+<style>
+    body {
+        background-color: black;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
+
+    .descubrimiento {
+        position: absolute;
+    }
+
+    .descubrimiento a {
+        display: block;
+        position: absolute;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0);
+        left: 82vw;
+        top: 28vh;
+        width: 4vw;
+        height: 6vh;
+    }
+    .descubrimiento a:hover {
+    border: 2px solid rgb(187, 187, 187);
+    box-shadow: 0 0 20px 5px rgb(255, 255, 255);
+    background: rgba(255, 255, 255, 0.75);
+    transition: all 0.2s;
+}
+</style>
+
+<div class="descubrimiento">
+    <a href="@Url.Action("AndáAlLinkYReemplazáTodoÉstoPorLaContraseña\"e38dah12dska\"")"></a>
+</div>
+
+<audio id="musica" src="/Audio/RoomIII.mp3" loop preload="auto"></audio>
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            // Si no puede reproducir automáticamente, no mostrar botón aquí
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
+</script>

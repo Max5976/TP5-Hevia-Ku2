@@ -1,0 +1,226 @@
+@{
+    ViewData["Title"] = "Lista";
+}
+
+@await Html.PartialAsync("_TiempoRestante")
+
+<style>
+    body {
+        background-image: url('/Imagenes/CuartoIII.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 20px;
+        font-family: 'Arial', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .container {
+        background-image: url('/Imagenes/Carta.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        width: 100%;
+    }
+
+    h1 {
+        color: rgb(46, 35, 26);
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 2.5em;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .puzzle-text {
+        background:rgb(223, 187, 134);
+        border-left: 4px solid rgb(105, 82, 62);
+        padding: 15px;
+        margin-bottom: 25px;
+        border-radius: 5px;
+        font-size: 1.1em;
+        line-height: 1.6;
+        color: rgb(46, 35, 26);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        color: rgb(46, 35, 26);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: rgb(46, 35, 26);
+        font-size: 1.1em;
+    }
+
+    input[type="text"] {
+        background: rgb(209, 169, 134);
+        color: rgb(46, 35, 26);
+        font-weight: bold;
+        width: 100%;
+        padding: 12px;
+        border: 2px solid rgb(150, 121, 96);
+        border-radius: 8px;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    input[type="text"]:focus {
+        outline: none;
+        border-color:rgb(99, 73, 19);
+        box-shadow: 0 0 0 3px rgba(90, 56, 25, 0.53);
+    }
+
+    input[type="text"]::placeholder {
+        color: rgb(46, 35, 26);
+    }
+
+    .submit-btn {
+        background: linear-gradient(45deg,rgb(97, 64, 27),rgb(119, 73, 30));
+        color: color: rgb(46, 35, 26);
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(126, 69, 3, 0.86);
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    .error-message {
+        color: #dc3545;
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 15px;
+        display: none;
+    }
+
+    .success-message {
+        color: #155724;
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 15px;
+        display: none;
+    }
+</style>
+
+<div class="container">
+    <h1>🍔 Receta de Hamburguesa</h1>
+    
+    <div class="puzzle-text">
+        <strong>¡Encuentra la receta secreta!</strong><br>
+        Para continuar tu aventura, necesitas escribir la receta completa de una hamburguesota. 
+        Debes incluir todos los ingredientes principales en el orden correcto.
+    </div>
+
+    <form id="recipeForm">
+        <div class="form-group">
+            <label for="recipe">Escribe la receta completa de una hamburguesota en orden de como estaba en el cuarto 1:</label>
+            <input type="text" id="recipe" name="recipe" placeholder="Escribe Ingrediente1, Ingrediente2... y Ingrediente Final." required>
+        </div>
+        
+        <button type="submit" class="submit-btn">Verificar Receta</button>
+    </form>
+
+    <div id="errorMessage" class="error-message">
+        <strong>¡Incorrecto!</strong> La receta no es correcta. Intenta incluir todos los ingredientes principales de una hamburguesa en order de como estaban en el cuarto 1.
+    </div>
+
+    <div id="successMessage" class="success-message">
+        <strong>¡Correcto!</strong> ¡Has encontrado la receta secreta! Presiona espacio para continuar.
+    </div>
+</div>
+
+<script>
+    const recipeForm = document.getElementById('recipeForm');
+    const errorMessage = document.getElementById('errorMessage');
+    const successMessage = document.getElementById('successMessage');
+
+    // Respuestas aceptables para la receta
+    const respuestasCorrectas = [
+        'Pan, Carne, Cheddar, Lechuga, Pepinillos, Panceta, Tomate, Ketchup y Mayonesa',
+        'Pan, Carne, Cheddar, Lechuga, Pepinillos, Panceta, Tomate, Ketchup y Mayonesa.',
+        'pan, carne, cheddar, lechuga, pepinillos, panceta, tomate, ketchup y mayonesa',
+        'pan, carne, cheddar, lechuga, pepinillos, panceta, tomate, ketchup y mayonesa.',
+        'Pan, carne, cheddar, lechuga, pepinillos, panceta, tomate, ketchup y mayonesa',
+        'Pan, carne, cheddar, lechuga, pepinillos, panceta, tomate, ketchup y mayonesa.'
+    ];
+
+    recipeForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const recipe = document.getElementById('recipe').value.toLowerCase().trim();
+        
+        // Verificar si la respuesta es correcta
+        const esCorrecta = respuestasCorrectas.some(respuesta => 
+            recipe.includes(respuesta) || respuesta.includes(recipe)
+        );
+
+        if (esCorrecta) {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'block';
+            
+            // Permitir continuar con espacio
+            document.addEventListener('keydown', function(event) {
+                if (event.code === 'Space') {
+                    event.preventDefault();
+                    window.location.href = '/Home/HistoriaV';
+                }
+            });
+        } else {
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'block';
+        }
+    });
+
+    // Permitir enviar con Enter
+    document.getElementById('recipe').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            recipeForm.dispatchEvent(new Event('submit'));
+        }
+    });
+</script>
+
+<audio id="musica" src="/Audio/RoomIII.mp3" loop preload="auto"></audio>
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            // Si no puede reproducir automáticamente, no mostrar botón aquí
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
+</script>

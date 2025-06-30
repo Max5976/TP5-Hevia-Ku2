@@ -84,12 +84,15 @@ function playButtonSoundAndRedirect() {
         buttonSound.play().then(() => {
             setTimeout(() => {
                 window.location.href = '/Home/HabitacionII';
+                localStorage.removeItem('musicaTime');
             }, 400);
         }).catch(() => {
             window.location.href = '/Home/HabitacionII';
+            localStorage.removeItem('musicaTime');
         });
     } catch (e) {
         window.location.href = '/Home/HabitacionII';
+        localStorage.removeItem('musicaTime');
     }
 }
 </script> 

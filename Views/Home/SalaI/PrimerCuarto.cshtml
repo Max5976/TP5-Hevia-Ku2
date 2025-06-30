@@ -29,57 +29,57 @@
     }
 
     .cofre a {
-        left: 31vw;  
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "59vh" : "53vh");
-        width: 12.5vw;  
+        left: 32vw;  
+        top: 52vh;
+        width: 12vw;  
         height: 16vh; 
     }
 
     .libro a {
         left: 38.5vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "31vh" : "25vh");    
+        top: 24vh;    
         width: 7.5vw;   
         height: 8vh;  
     }
 
     .puertaII a {
         left: 24vw;    
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "26vh" : "20vh");
+        top: 20vh;
         width: 2vw;   
         height: 11vh; 
     }
 
     .velas a {
         left: 54vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "26vh" : "20vh");
+        top: 20vh;
         width: 4.5vw;  
         height: 13vh; 
     }
 
     .cruz a {
-        left: 48vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "33vh" : "27vh");
-        width: 2vw;  
+        left: 48.2vw;   
+        top: 26vh;
+        width: 1.5vw;  
         height: 6vh; 
     }
 
     .adorno a {
         left: 75vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "63vh" : "57vh");
+        top: 56vh;
         width: 5vw;  
         height: 14vh; 
     }
 
     .cuadro1 a {
         left: 45.2vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "4vh" : "-2vh");
+        top: -3vh;
         width: 7.5vw;  
         height: 22vh; 
     }
 
     .cuadro2 a {
         left: 75vw;   
-        top: @(ViewBag.cuartoI.primeraPistaEncontrada == false ? "7.5vh" : "1.5vh");
+        top: 1.5vh;
         width: 6vw;  
         height: 34vh;
     }
@@ -184,15 +184,15 @@
 
 <div class="container">
 
-<h1>Tiempo restante: <span id="contador">@ViewBag.segs</span> segundos</h1>
+<h1>Tiempo restante: <span id="contador">@ViewBag.segs</span><br> segundos</h1>
 <audio id="musica" src="/Audio/RoomI.mp3" loop preload="auto"></audio>
 
 @if (ViewBag.cuartoI.primeraPistaEncontrada == false)
 {
-    <div class="mensaje">¡Tienes 100 segundos para buscar pistas!</div>
+    <div class="mensaje">¡Tienes 300 segundos para buscar pistas! ¡Suerte!</div>
 }
 else {
-    <div class="mensaje">¡Busca la contraseña y abre la puerta! ¡Tienes 300 segundos!</div>
+    <div class="mensaje">¡Busca la contraseña y abre la puerta! ¡Tienes otros 300 segundos!</div>
 }
 
 </div>

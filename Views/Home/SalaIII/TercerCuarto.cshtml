@@ -6,7 +6,13 @@
 
 <style>
     body {
-        background-image: url('/Imagenes/CuartoIII.png');
+        background-image: @if (ViewBag.cuartoIII.primeraPistaEncontrada == false) {
+            @:url('/Imagenes/CuartoIII.png');
+        } else if (ViewBag.cuartoIII.segundaPistaEncontrada == false) {
+            @:url('/Imagenes/CuartoIIIH.png');
+        } else {
+            @:url('/Imagenes/CuartoIIIP.png');
+        };
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -17,78 +23,187 @@
         overflow: hidden;
     }
 
-    .cajon1, .cajon2, .cajon3, .puerta, .puertaM1, .puertaM2, .lista, .caldera, .velaColgada {
+    .cajon1, .cajon2, .cajon3, .puerta, .puertaM1, .puertaM2, .lista, .caldera, .velaColgada, .vasija, .hamburguesa, .papel {
         position: absolute;
     }
 
-    .cajon1 a, .cajon2 a, .cajon3 a, .puerta a, .puertaM1 a, .puertaM2 a, .lista a, .caldera a, .velaColgada a {
+    .cajon1 a, .cajon2 a, .cajon3 a, .puerta a, .puertaM1 a, .puertaM2 a, .lista a, .caldera a, .velaColgada a, .vasija a, .hamburguesa a, .papel a {
         display: block;
         position: absolute;
         cursor: pointer;
         background: rgba(255,255,255,0);
     }
 
-    .cajon1 a {
-        left: 32vw;  
-        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "51vh" : "45vh");
-        width: 9vw;  
-        height: 20vh; 
+    .cajon1 a.pista-no-encontrada {
+        left: 32vw;
+        top: 48vh;
+        width: 9vw;
+        height: 21vh;
     }
 
-    .cajon2 a {
+    .cajon1 a.pista-encontrada {
+        left: 30.2vw;
+        top: 39.7vh;
+        width: 8.1vw;
+        height: 17.5vh;
+    }
+
+    .cajon2 a.pista-no-encontrada {
         left: 42vw;  
-        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "51vh" : "45vh");
+        top: 48.5vh;
         width: 9vw;  
-        height: 20vh; 
+        height: 21vh; 
     }
 
-    .cajon3 a {
+    .cajon2 a.pista-encontrada {
+        left: 39.5vw;
+        top: 39.7vh;
+        width: 8.3vw;
+        height: 17.5vh;
+        z-index: 1;
+    }
+
+    .cajon3 a.pista-no-encontrada {
         left: 52.5vw;  
-        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "51vh" : "45vh");
+        top: 48.7vh;
+        width: 9.5vw;  
+        height: 21.5vh; 
+    }
+
+    .cajon3 a.pista-encontrada {
+        left: 48.9vw;
+        top: 39.7vh;
+        width: 9.2vw;
+        height: 17.5vh;
+        z-index: 1;
+    }
+
+    .puerta a.pista-no-encontrada {
+        left: 25vw;   
+        top: 18vh;
+        width: 2.5vw;  
+        height: 10vh; 
+    }
+
+    .puerta a.pista-encontrada {
+        left: 25vw;   
+        top: 15vh;
+        width: 2.5vw;  
+        height: 10vh; 
+    }
+
+    .puertaM1 a.pista-no-encontrada {
+        left: 63.5vw;   
+        top: -4vh;
+        width: 15.5vw;  
+        height: 70vh; 
+    }
+
+    .puertaM1 a.pista-encontrada {
+        left: 61vw;   
+        top: -7vh;
+        width: 14.3vw;  
+        height: 63.3vh; 
+    }
+
+    .puertaM2 a.pista-no-encontrada {
+        left: 85.6vw;   
+        top: -4vh;
         width: 9vw;  
-        height: 20vh; 
+        height: 75vh; 
     }
 
-    .puerta a {
-        left: 54vw;   
-        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "26vh" : "20vh");
+    .puertaM2 a.pista-encontrada {
+        left: 85vw;   
+        top: -11vh;
+        width: 9.57vw;  
+        height: 77vh; 
+    }
+
+    .lista a.pista-no-encontrada {
+        left: 29.9vw;   
+        top: 14.5vh;
+        width: 4.8vw;  
+        height: 14.7vh; 
+    }
+
+    .lista a.pista-encontrada {
+        left: 27.9vw;   
+        top: 11.9vh;
+        width: 3.7vw;  
+        height: 10.5vh; 
+    }
+
+    .caldera a.pista-no-encontrada {
+        left: 41.5vw;   
+        top: 26.5vh;
+        width: 9.5vw;  
+        height: 14vh;
+    }
+
+    .caldera a.pista-encontrada {
+        left: 37.5vw;   
+        top: 19.8vh;
+        width: 10vw;  
+        height: 14vh;
+    }
+
+    .velaColgada a.pista-no-encontrada {
+        left: 46vw;   
+        top: 8vh;
+        width: 2.1vw;  
+        height: 10vh;
+    }
+
+    .velaColgada a.pista-encontrada {
+        left: 42.85vw;   
+        top: 2.8vh;
+        width: 2.1vw;  
+        height: 10.8vh;
+    }
+
+    .vasija a.pista-no-encontrada {
+        left: 54.1vw;   
+        top: 31vh;
+        width: 4vw;  
+        height: 10vh;
+    }
+
+    .vasija a.pista-encontrada {
+        left: 50.4vw;   
+        top: 24vh;
+        width: 4vw;  
+        height: 10vh;
+    }
+
+    .hamburguesa a.pista-no-encontrada {
+        left: 0vw;   
+        top: 0vh;
+        width: 0vw;  
+        height: 0vh;
+    }
+
+    .hamburguesa a.pista-encontrada {
+        left: 42.5vw;   
+        top: 45vh;
+        width: 14vw;  
+        height: 26.5vh;
+        z-index: 2;
+    }
+
+    .papel a.pista-no-encontrada {
+        left: 0vw;   
+        top: 0vh;
+        width: 0vw;  
+        height: 0vh;
+    }
+
+    .papel a.pista-encontrada {
+        left: 46.5vw;   
+        top: 56.4vh;
         width: 4.5vw;  
-        height: 13vh; 
-    }
-
-    .puertaM1 a {
-        left: 48vw;   
-        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "33vh" : "27vh");
-        width: 2vw;  
-        height: 6vh; 
-    }
-
-    .puertaM2 a {
-        left: 75vw;   
-        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "63vh" : "57vh");
-        width: 5vw;  
-        height: 14vh; 
-    }
-
-    .lista a {
-        left: 45.2vw;   
-        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "4vh" : "-2vh");
-        width: 7.5vw;  
-        height: 22vh; 
-    }
-
-    .caldera a {
-        left: 75vw;   
-        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "7.5vh" : "1.5vh");
-        width: 6vw;  
-        height: 34vh;
-    }
-
-    .velaColgada a {
-        left: 75vw;   
-        top: @(ViewBag.cuartoIII.primeraPistaEncontrada == false ? "7.5vh" : "1.5vh");
-        width: 6vw;  
-        height: 34vh;
+        height: 3.8vh;
+        z-index: 2;
     }
     
     .container {
@@ -191,36 +306,43 @@
 
 <div class="container">
 
-<h1>Tiempo restante: <span id="contador">@ViewBag.segs</span> segundos</h1>
+<h1>Tiempo restante: <span id="contador">@ViewBag.segs</span><br> segundos</h1>
 <audio id="musica" src="/Audio/RoomIII.mp3" loop preload="auto"></audio>
 
 @if (ViewBag.cuartoIII.primeraPistaEncontrada == false)
 {
-    <div class="mensaje">¡Tienes 300 segundos para buscar pistas!</div>
+    <div class="mensaje">¡Tienes 300 segundos para buscar pistas! ¡Suerte como siempre!</div>
 }
 else {
-    <div class="mensaje">¡Busca la contraseña y abre la puerta! ¡Tienes 100 segundos!</div>
+    <div class="mensaje">¡Busca la contraseña y abre la puerta! ¡Tienes 200 segundos!</div>
 }
 
 </div>
 
 <div class="cajon1">
-    @if (ViewBag.cuartoIII.cosas[0].estadoDeMaterial == true)
-    {
-        <a href="@Url.Action("Cajon")"></a>
-    }
-    else
-    {
-        <a href="@Url.Action("NoDisponible3")"></a>
-    }
+    <a href="@Url.Action("Cajon")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
 </div>
     
 <div class="cajon2">
-    <a href="@Url.Action("cajon2")"></a>
+    @if (ViewBag.cuartoIII.cosas[1].estadoDeMaterial == true)
+    {
+        <a href="@Url.Action("Cajon2")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
+    }
+    else
+    {
+        <a href="@Url.Action("NoDisponible3")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
+    }
 </div>
 
 <div class="cajon3">
-    <a href="@Url.Action("NoDisponible3")"></a>
+    @if (ViewBag.cuartoIII.cosas[2].estadoDeMaterial == true)
+    {
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1" target="_blank" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
+    }
+    else
+    {
+        <a href="@Url.Action("NoDisponible3")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
+    }
 </div>
 
 <div class="puerta">
@@ -228,7 +350,7 @@ else {
     {
         <div class="cajaCodigo">
             <p>Escribe el código:</p>
-            <form action='@Url.Action("VerificarCodigo")' method="get">
+            <form action='@Url.Action("VerificarCodigo2")' method="get">
                 <input type="text" name="codigo" required/>
                 <input type="submit"/>
             </form>
@@ -236,51 +358,67 @@ else {
     }
     else
     {
-        <a href="@Url.Action("NoDisponible3")"></a>
+        <a href="@Url.Action("NoDisponible3")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
     }
 </div>
 
 <div class="puertaM1">
     @if (ViewBag.cuartoIII.cosas[4].estadoDeMaterial == true)
     {
-        <a href="@Url.Action("Obscuridad")"></a>
+        <a href="@Url.Action("Oscuridad")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
     }
     else
     {
-        <a href="@Url.Action("NoDisponible3")"></a>
+        <a href="@Url.Action("NoDisponible3")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
     }
 </div>
 </div>
 
 <div class="puertaM2">
-    <a href="@Url.Action("NoDisponible3")"></a>
+    <a href="@Url.Action("NoDisponible3")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
 </div>
 
 <div class="lista">
     @if (ViewBag.cuartoIII.cosas[6].estadoDeMaterial == true)
     {
-        <a href="#" onclick="abrirPopup(); return false;"></a>
+        <a href="@Url.Action("Lista")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
     }
     else
     {
-        <a href="@Url.Action("NoDisponible3")"></a>
+        <a href="@Url.Action("NoDisponible3")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
     }
 </div>
 
 <div class="caldera">
     @if (ViewBag.cuartoIII.cosas[7].estadoDeMaterial == true)
     {
-        <a href='@Url.Action("Cocinar")'></a>
+        <a href='@Url.Action("Cocinar")' class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
     }
     else
     {
-        <a href="@Url.Action("NoDisponible3")"></a>
+        <a href="@Url.Action("NoDisponible3")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
     }
 </div>
 
 <div class="velaColgada">
-    <a href="@Url.Action("VelaColgada")"></a>
+    <a href="@Url.Action("VelaColgada")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
 </div>
+
+<div class="vasija">
+    <a href="@Url.Action("Vasija")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
+</div>
+
+@if (ViewBag.cuartoIII.segundaPistaEncontrada == false)
+{
+    <div class="hamburguesa">
+        <a href="@Url.Action("HistoriaVI")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
+    </div>
+}
+else {
+    <div class="papel">
+    <a href="@Url.Action("Papel")" class="@(ViewBag.cuartoIII.primeraPistaEncontrada ? "pista-encontrada" : "pista-no-encontrada")"></a>
+</div>
+}
 
 @section Scripts 
 {
@@ -288,9 +426,10 @@ else {
         const TIEMPO_TOTAL = @ViewBag.segs;
         const elemento = document.getElementById('contador');
 
-        // Solo reinicia el contador si NO existe en localStorage
+        // Verificar si el tiempo guardado es muy viejo o no existe
         let inicio = localStorage.getItem('inicioContador');
-        if (!inicio) {
+        if (!inicio || (Date.now() - parseInt(inicio)) > (TIEMPO_TOTAL * 1000)) {
+            // Si no hay tiempo guardado o ya pasó el tiempo máximo, reiniciar
             inicio = Date.now();
             localStorage.setItem('inicioContador', inicio);
         } 
@@ -340,5 +479,22 @@ else {
         function abrirPopup() {
             window.open('@Url.Action("Lista")', "Lista", "width=600, height=400")
         }
+    </script>
+
+    <audio id="musica" src="/Audio/RoomIII.mp3" loop preload="auto"></audio>
+    <script>
+        const audio = document.getElementById('musica');
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedTime = localStorage.getItem('musicaTime');
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+            audio.play().catch(() => {
+                // Si no puede reproducir automáticamente, no mostrar botón aquí
+            });
+        });
+        audio.ontimeupdate = function() {
+            localStorage.setItem('musicaTime', audio.currentTime);
+        };
     </script>
 }

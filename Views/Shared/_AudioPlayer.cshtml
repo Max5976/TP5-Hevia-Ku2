@@ -1,0 +1,43 @@
+@{
+    string defaultMusic = ViewBag.sala switch
+    {
+        "SalaI" => "/Audio/RoomI.mp3",
+        "SalaII" => "/Audio/RoomII.mp3", 
+        "SalaIII" => "/Audio/RoomIII.mp3",
+        "SalaIV" => "/Audio/RoomIV.mp3",
+        "SalaV" => "/Audio/RoomV.mp3",
+        _ => "/Audio/RoomV.mp3"
+    };
+}
+
+<audio id="musica" src="@defaultMusic" loop preload="auto"></audio>
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        // Cargar la música seleccionada si existe, sino usar la música por defecto de la sala
+        const selectedMusic = localStorage.getItem('selectedMusic');
+        if (selectedMusic) {
+            audio.src = selectedMusic;
+        }
+        
+        audio.volume = 1; // Establecer volumen al 100%
+        
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            let btn = document.createElement('button');
+            btn.id = "playMusicBtn";
+            btn.textContent = "Reproducir música";
+            btn.onclick = function() {
+                audio.play();
+                btn.remove();
+            };
+            document.body.appendChild(btn);
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
+</script> 

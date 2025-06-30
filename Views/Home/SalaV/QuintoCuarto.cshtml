@@ -1,0 +1,388 @@
+@{
+    ViewData["Title"] = "Sala V";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        background-image: url('/Imagenes/CuartoV.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .tacho, .nota, .velaColgante2, .lista2, .boombox, .trofeoDesfigurado, .puerta, .gameMachine1, .gameMachine2, .gameMachine3, .gameMachine4 {
+        position: absolute;
+    }
+
+    .tacho a, .nota a, .velaColgante2 a, .lista2 a, .boombox a, .trofeoDesfigurado a, .puerta a, .gameMachine1 a, .gameMachine2 a, .gameMachine3 a, .gameMachine4 a {
+        display: block;
+        position: absolute;
+        cursor: pointer;
+        background: rgba(255,255,255,0);
+    }
+
+    .tacho a {
+        left: 27.2vw;  
+        top: 47vh;
+        width: 5.85vw;  
+        height: 20vh; 
+    }
+
+    .nota a {
+        left: 47.7vw;   
+        top: 54.9vh;    
+        width: 6.3vw;   
+        height: 5vh;
+        rotate: 5deg;
+        z-index: 2;  
+    }
+
+    .velaColgante2 a {
+        left: 30.6vw;    
+        top: 1vh;
+        width: 2.1vw;   
+        height: 10.8vh; 
+    }
+
+    .lista2 a {
+        left: 28.8vw;   
+        top: 14.7vh;
+        width: 4vw;  
+        height: 10.3vh; 
+    }
+
+    .boombox a {
+        left: 80.5vw;   
+        top: 64vh;
+        width: 12.5vw;  
+        height: 14vh; 
+        rotate: 15deg; 
+        z-index: 2;
+    }
+
+    .trofeoDesfigurado a {
+        left: 85.6vw;   
+        top: -9.3vh;
+        width: 4.3vw;  
+        height: 11vh; 
+    }
+
+    .puerta a {
+        left: 23.9vw;    
+        top: 15.5vh;
+        width: 2vw;   
+        height: 9.5vh;
+    }
+
+    .gameMachine1 a {
+        left: 34vw;   
+        top: 2.5vh;
+        width: 13.5vw;  
+        height: 67vh;
+        rotate: 2deg;
+    }
+
+    .gameMachine2 a {
+        left: 48.8vw;   
+        top: 2.5vh;
+        width: 12.5vw;  
+        height: 67vh;
+        z-index: 1;
+    }
+
+    .gameMachine3 a {
+        left: 62vw;   
+        top: 2.5vh;
+        width: 13.5vw;  
+        height: 67vh;
+    }
+
+    .gameMachine4 a {
+        left: 76.5vw;   
+        top: 2.5vh;
+        width: 14vw;  
+        height: 67vh;
+        z-index: 1;
+    }
+    
+    .container {
+    width: 29%;
+    background: rgba(255, 245, 180, 0.85);
+    border-radius: 15px;
+    margin-left: 1%;
+    padding-bottom: 0.4%;
+    box-shadow: 0 4px 16px 0 rgba(120, 100, 40, 0.18);
+    }
+
+    .mensaje, h1 {
+    font-family: 'Montserrat', Arial, sans-serif;
+    color: #6b4f00;
+    margin-left: 1%;
+    text-shadow: 2px 2px 3px #776533;
+    letter-spacing: 1px;
+    font-weight: 700;
+    }
+
+    h1 {
+        font-size: 200%;
+    }
+
+    .mensaje {
+        font-size: 130%;
+    }
+
+    #playMusicBtn {
+        position: fixed;
+        top: 5%;
+        right: 5%;
+        padding: 3% 7%;
+        background: linear-gradient(90deg, #ffe082 0%, #ffd54f 100%);
+        color: #6b4f00;
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-size: 1.5vw;
+        font-weight: bold;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2% 8% rgba(120, 100, 40, 0.18);
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+        z-index: 1000;
+    }
+    #playMusicBtn:hover {
+        background: linear-gradient(90deg, #ffd54f 0%, #ffe082 100%);
+        transform: scale(1.05);
+    }
+
+    .cajaCodigo {
+        width: 50%;
+        background: rgba(255, 245, 180, 0.85);
+        border-radius: 15px;
+        margin-left: 5%;
+        margin-top: 4%;
+        box-shadow: 0 4px 16px 0 rgba(120, 100, 40, 0.18);
+    }
+
+    .cajaCodigo p, .cajaCodigo input[type="text"] {
+        font-family: 'Montserrat', Arial, sans-serif;
+        color: #6b4f00;
+        text-shadow: 2px 2px 3px #776533;
+        letter-spacing: 1px;
+        font-weight: 700;
+        text-align: center;
+        font-size: 150%;
+    }
+
+    .cajaCodigo p {
+        margin-top: 1%;
+    }
+
+    .cajaCodigo form {
+        text-align: center;
+    }
+
+    .cajaCodigo input[type="text"] {
+        width: 60%;
+        padding: 0.5%;
+        border: 2px solid #6b4f00;
+        background: rgba(219, 213, 170, 0.65);
+        border-radius: 5px;
+        margin-top: 1%;
+    }
+
+    .cajaCodigo input[type="submit"] {
+        padding: 0.5% 1%;
+        border: none;
+        background: #6b4f00;
+        color: white;
+        font-family: 'Montserrat', Arial, sans-serif;
+        font-size: 120%;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 1%;
+        margin-bottom: 2%;
+    }
+</style>
+
+<div class="container">
+
+<h1>Tiempo restante: <span id="contador">@ViewBag.segs</span><br> segundos</h1>
+<audio id="musica" src="/Audio/RoomV.mp3" loop preload="auto"></audio>
+
+@if (ViewBag.cuartoV.primeraPistaEncontrada == false)
+{
+    <div class="mensaje">¡Tienes 100 segundos para buscar pistas! ¡Suerte!</div>
+}
+else {
+    <div class="mensaje">¡Juega los juegos y consigue el código! ¡Tienes 300 segundos!</div>
+}
+
+</div>
+
+<div class="tacho">
+    <a href="@Url.Action("Tacho")"></a>
+</div>
+    
+<div class="nota">
+    @if (ViewBag.cuartoV.cosas[1].estadoDeMaterial == true)
+    {
+        <a href="@Url.Action("Nota")"></a>
+    } 
+    else 
+    {
+        <a href="@Url.Action("NoDisponible5")"></a>
+    }
+</div>
+
+<div class="velaColgante2">
+    <a href="@Url.Action("VelaColgante2")"></a>
+</div>
+
+<div class="lista2">
+    <a href="@Url.Action("NoDisponible5")"></a>
+</div>
+
+<div class="boombox">
+    <a href="@Url.Action("Boombox")"></a>
+</div>
+
+<div class="trofeoDesfigurado">
+    <a href="@Url.Action("TrofeoDesfigurado")"></a>
+</div>
+
+<div class="puerta">
+    @if (ViewBag.cuartoV.cosas[6].estadoDeMaterial == true)
+    {
+        <div class="cajaCodigo">
+            <p>Escribe el código:</p>
+            <form action='@Url.Action("VerificarCodigo3")' method="get">
+                <input type="text" name="codigo" required/>
+                <input type="submit"/>
+            </form>
+        </div>
+    }
+    else
+    {
+        <a href="@Url.Action("NoDisponible5")"></a>
+    }
+</div>
+
+<div class="gameMachine1">
+    @if (ViewBag.cuartoV.cosas[7].estadoDeMaterial == true)
+    {
+        <a href="@Url.Action("GameMachine1")"></a>
+    } 
+    else 
+    {
+        <a href="@Url.Action("NoDisponible5")"></a>
+    }
+</div>
+
+<div class="gameMachine2">
+    @if (ViewBag.cuartoV.cosas[8].estadoDeMaterial == true)
+    {
+        <a href="@Url.Action("GameMachine2")"></a>
+    } 
+    else 
+    {
+        <a href="@Url.Action("NoDisponible5")"></a>
+    }
+</div>
+
+<div class="gameMachine3">
+    @if (ViewBag.cuartoV.cosas[9].estadoDeMaterial == true)
+    {
+        <a href="@Url.Action("GameMachine3")"></a>
+    } 
+    else 
+    {
+        <a href="@Url.Action("NoDisponible5")"></a>
+    }
+</div>
+
+<div class="gameMachine4">
+    @if (ViewBag.cuartoV.cosas[10].estadoDeMaterial == true)
+    {
+        <a href="@Url.Action("GameMachine4")"></a>
+    } 
+    else 
+    {
+        <a href="@Url.Action("NoDisponible5")"></a>
+    }
+</div>
+
+@section Scripts 
+{
+    <script>
+        const TIEMPO_TOTAL = @ViewBag.segs;
+        const elemento = document.getElementById('contador');
+
+        // Verificar si el tiempo guardado es muy viejo o no existe
+        let inicio = localStorage.getItem('inicioContador');
+        if (!inicio || (Date.now() - parseInt(inicio)) > (TIEMPO_TOTAL * 1000)) {
+            // Si no hay tiempo guardado o ya pasó el tiempo máximo, reiniciar
+            inicio = Date.now();
+            localStorage.setItem('inicioContador', inicio);
+        } 
+        else {
+            inicio = parseInt(inicio);
+        }
+
+        function actualizarContador() {
+            const ahora = Date.now();
+            const transcurrido = Math.floor((ahora - inicio) / 1000);
+            let restante = TIEMPO_TOTAL - transcurrido;
+            if (restante < 0) restante = 0;
+            elemento.textContent = restante;
+
+            if (restante > 0) {
+                setTimeout(actualizarContador, 1000);
+            } else {
+                localStorage.removeItem('inicioContador');
+                window.location.href = '/Home/Perdiste5';
+            }
+        }
+        actualizarContador();
+    </script>
+    <script>
+        const audio = document.getElementById('musica');
+        window.addEventListener('DOMContentLoaded', function() {
+            // Cargar la música seleccionada si existe, sino usar la música por defecto de la sala
+            const selectedMusic = localStorage.getItem('selectedMusic');
+            if (selectedMusic) {
+                audio.src = selectedMusic;
+            }
+            
+            // Ajustar volumen según la música
+            if (audio.src.includes('RoomV')) {
+                audio.volume = 0.8; // Volumen normal para RoomV
+            } else {
+                audio.volume = 1.0; // Volumen máximo para las demás músicas
+            }
+            
+            const savedTime = localStorage.getItem('musicaTime');
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+            audio.play().catch(() => {
+                let btn = document.createElement('button');
+                btn.id = "playMusicBtn";
+                btn.textContent = "Reproducir música";
+                btn.onclick = function() {
+                    audio.play();
+                    btn.remove();
+                };
+                document.body.appendChild(btn);
+            });
+        });
+        audio.ontimeupdate = function() {
+            localStorage.setItem('musicaTime', audio.currentTime);
+        };
+    </script>
+}

@@ -1,0 +1,125 @@
+@{
+    ViewData["Title"] = "Vasija";
+}
+
+@await Html.PartialAsync("_TiempoRestante")
+
+<style>
+
+body {
+    background: black;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+#historia-typewriter {
+    color: white;
+    font-size: 220%;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 10%;
+    margin-bottom: 2%;
+    letter-spacing: 0.3%;
+    text-shadow: 0.1% 0.1% 0.6% black, 0 0 0.2% white;
+}
+
+#mensaje-espacio {
+    opacity: 0;
+    transition: opacity 1s;
+    text-align: center;
+    color: white;
+    font-family: 'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace;
+    font-size: 220%;
+    margin-top: 4%;
+    text-shadow: 0 0 1% black, 0 0 0.2% white;
+    letter-spacing: 0.1%;
+}
+
+</style>
+
+<div>
+    <p id="historia-typewriter"></p>
+</div>
+<p id="mensaje-espacio" style="opacity:0; transition: opacity 1s; text-align:center; color:white; font-family:'Fira Mono', 'Roboto Mono', 'Source Code Pro', 'Courier New', Courier, monospace; font-size:120%;">Presione la tecla de espacio para pasar de escena</p>
+<audio id="typingSound" src="/Audio/typing.ogg" preload="auto"></audio>
+
+<script>
+const historia = `Acá adentro hay una nota. Mirá vos, está interesante: "Mi amigo Franco, estamos cerca de nuestro gran objetivo. La piedra filosofal se encuentra en la casa blanca, la tiene el imbecil del presidente. Como ya sabe lo que debemos hacer al respecto, le informo que ya tenemos acceso a la zona, es increible lo que algunas personas hacen por dinero. VI". Ésta nota nos ayuda a entender el contexto pero, ¿quién es ese tal VI? Habrá que descubrirlo.`;
+const pElement = document.getElementById('historia-typewriter');
+const mensajeEspacio = document.getElementById('mensaje-espacio');
+const typingSound = document.getElementById('typingSound');
+typingSound.volume = 0.03;
+function playTypingSound() {
+    try {
+        typingSound.currentTime = 0;
+        typingSound.play().catch(()=>{});
+    } catch (e) {}
+}
+let i = 0;
+let j = 0;
+let terminado = false;
+let esperandoSkip = false;
+let mostrandoHistoria = true;
+let skipAnimacion = false;
+
+function escribirHistoria() {
+    if (skipAnimacion) {
+        pElement.textContent = historia;
+        mostrandoHistoria = false;
+        terminado = true;
+        mensajeEspacio.style.opacity = 1;
+        return;
+    }
+    if (j <= historia.length) {
+        pElement.textContent = historia.substring(0, j);
+        playTypingSound();
+        j++;
+        setTimeout(escribirHistoria, 40);
+    } else {
+        mostrandoHistoria = false;
+        terminado = true;
+        mensajeEspacio.style.opacity = 1;
+    }
+}
+document.addEventListener('keydown', function(event) {
+    if (event.code === 'Space') {
+        event.preventDefault();
+        if (mostrandoHistoria) {
+            if (!esperandoSkip) {
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
+                mensajeEspacio.style.opacity = 1;
+                esperandoSkip = true;
+            } else {
+                skipAnimacion = true;
+            }
+        } else if (terminado) {
+            if (!esperandoSkip) {
+                mensajeEspacio.textContent = 'Presione espacio de nuevo para saltar';
+                esperandoSkip = true;
+            } else {
+                window.location.href = '/Home/TercerCuarto';
+            }
+        }
+    }
+});
+escribirHistoria();
+</script>
+
+<audio id="musica" src="/Audio/RoomIII.mp3" loop preload="auto"></audio>
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            // Si no puede reproducir automáticamente, no mostrar botón aquí
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
+</script>

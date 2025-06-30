@@ -45,12 +45,24 @@
       "PackagePath": "staticwebassets\\Imagenes\\CuartoIII.png"
     },
     {
+      "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\Explorer.png",
+      "PackagePath": "staticwebassets\\Imagenes\\Explorer.png"
+    },
+    {
       "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\FondoCarta.png",
       "PackagePath": "staticwebassets\\Imagenes\\FondoCarta.png"
     },
     {
+      "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\FondoComputadora.png",
+      "PackagePath": "staticwebassets\\Imagenes\\FondoComputadora.png"
+    },
+    {
       "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\HabitacionSalaII.png",
       "PackagePath": "staticwebassets\\Imagenes\\HabitacionSalaII.png"
+    },
+    {
+      "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\MIsDocumentos.png",
+      "PackagePath": "staticwebassets\\Imagenes\\MIsDocumentos.png"
     },
     {
       "Id": "Z:\\2024\\TP05_Hevia_Ku\\wwwroot\\Imagenes\\PortadaJuego.png",

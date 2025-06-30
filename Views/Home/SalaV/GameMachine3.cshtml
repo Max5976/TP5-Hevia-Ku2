@@ -1,0 +1,399 @@
+@{
+    ViewData["Title"] = "Game Machine 3 - Snake";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        background: url('/Imagenes/CuartoV.png') center center/cover no-repeat fixed;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
+    .overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.75);
+        z-index: 0;
+        pointer-events: none;
+    }
+    .center-flex {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+    }
+    .game-container {
+        background: #111b;
+        border: 3px solid #00ff00;
+        border-radius: 16px;
+        padding: 32px 32px 24px 32px;
+        box-shadow: 0 0 32px #00ff00;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 420px;
+        min-height: 520px;
+        position: relative;
+    }
+    .game-title {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 10px;
+        text-shadow: 0 0 10px #00ff00;
+        letter-spacing: 2px;
+    }
+    .goal {
+        color: #fff;
+        background: #00ff0033;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-size: 16px;
+        margin-bottom: 18px;
+        text-align: center;
+        font-family: 'Press Start 2P', monospace;
+        text-shadow: 0 0 6px #000, 0 0 8px #00ff00;
+    }
+    .score-board {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: #00ff00;
+        font-family: 'Press Start 2P', monospace;
+    }
+    #gameCanvas {
+        border: 2px solid #00ff00;
+        background: #000;
+        display: block;
+        margin: 0 auto;
+    }
+    .controls {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #00ff00;
+        font-family: 'Press Start 2P', monospace;
+    }
+    .back-button {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: #00ff00;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: all 0.3s;
+        z-index: 10;
+    }
+    .back-button:hover {
+        background: #00cc00;
+        box-shadow: 0 0 10px #00ff00;
+    }
+    .game-over, .game-win {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.95);
+        border: 2px solid #ff0000;
+        padding: 24px 32px;
+        text-align: center;
+        display: none;
+        z-index: 5;
+        border-radius: 12px;
+        color: #00ff00;
+        font-family: 'Press Start 2P', monospace;
+        box-shadow: 0 0 16px #00ff00;
+    }
+    .game-win {
+        border: 2px solid #00ff00;
+        color: #fff;
+        background: rgba(0,32,0,0.98);
+        box-shadow: 0 0 32px #00ff00;
+    }
+    .restart-btn {
+        background: #ff0000;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 12px;
+        cursor: pointer;
+        margin-top: 10px;
+        border-radius: 6px;
+    }
+    .restart-btn:hover {
+        background: #cc0000;
+    }
+    .digit {
+        font-size: 32px;
+        color: #00ff00;
+        margin-top: 16px;
+        letter-spacing: 8px;
+        text-shadow: 0 0 8px #00ff00, 0 0 16px #fff;
+    }
+</style>
+
+<div class="overlay"></div>
+<div class="center-flex">
+    <a href="@Url.Action("QuintoCuarto")" class="back-button">VOLVER</a>
+    <div class="game-container">
+        <div class="game-title">🐍 SNAKE ARCADE 🐍</div>
+        <h2 style="color:#00ff00;text-shadow:0 0 8px #007500;font-size:18px;margin:0 0 10px 0;">Tiempo restante: <span id="contador">@ViewBag.segs</span> segundos</h2>
+        <audio id="musica" src="/Audio/RoomV.mp3" loop preload="auto"></audio>
+        <div class="goal">Colecciona 30 manzanas para obtener uno de los dígitos</div>
+        <div class="score-board">
+            <div>PUNTOS: <span id="score">0</span></div>
+            <div>MEJOR: <span id="highScore">0</span></div>
+            <div>MANZANAS: <span id="apples">0</span>/30</div>
+        </div>
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div class="controls">
+            <div>CONTROLES:</div>
+            <div>↑ ↓ ← → para mover</div>
+            <div>ESPACIO para pausar</div>
+        </div>
+        <div class="game-over" id="gameOver">
+            <h2>GAME OVER</h2>
+            <p>Puntos: <span id="finalScore">0</span></p>
+            <button class="restart-btn" onclick="restartGame()">JUGAR DE NUEVO</button>
+        </div>
+        <div class="game-win" id="gameWin">
+            <h2>¡FELICIDADES!</h2>
+            <p>¡Has coleccionado 30 manzanas!</p>
+            <div class="digit">El dígito es: <b>"I"</b></div>
+            <button class="restart-btn" onclick="restartGame()">JUGAR DE NUEVO</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // TEMPORIZADOR
+        const TIEMPO_TOTAL = @ViewBag.segs;
+        const elemento = document.getElementById('contador');
+        let inicio = localStorage.getItem('inicioContador');
+        if (!inicio || (Date.now() - parseInt(inicio)) > (TIEMPO_TOTAL * 1000)) {
+            inicio = Date.now();
+            localStorage.setItem('inicioContador', inicio);
+        } else {
+            inicio = parseInt(inicio);
+        }
+        function actualizarContador() {
+            const ahora = Date.now();
+            const transcurrido = Math.floor((ahora - inicio) / 1000);
+            let restante = TIEMPO_TOTAL - transcurrido;
+            if (restante < 0) restante = 0;
+            elemento.textContent = restante;
+            if (restante > 0) {
+                setTimeout(actualizarContador, 1000);
+            } else {
+                localStorage.removeItem('inicioContador');
+                window.location.href = '/Home/Perdiste5';
+            }
+        }
+        actualizarContador();
+    </script>
+    <script>
+        // MÚSICA
+        const audio = document.getElementById('musica');
+        window.addEventListener('DOMContentLoaded', function() {
+            const selectedMusic = localStorage.getItem('selectedMusic');
+            if (selectedMusic) {
+                audio.src = selectedMusic;
+            }
+            if (audio.src.includes('RoomV')) {
+                audio.volume = 0.8;
+            } else {
+                audio.volume = 1.0;
+            }
+            const savedTime = localStorage.getItem('musicaTime');
+            if (savedTime) {
+                audio.currentTime = parseFloat(savedTime);
+            }
+            audio.play().catch(() => {
+                let btn = document.createElement('button');
+                btn.id = "playMusicBtn";
+                btn.textContent = "Reproducir música";
+                btn.onclick = function() {
+                    audio.play();
+                    btn.remove();
+                };
+                document.body.appendChild(btn);
+            });
+        });
+        audio.ontimeupdate = function() {
+            localStorage.setItem('musicaTime', audio.currentTime);
+        };
+    </script>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const highScoreElement = document.getElementById('highScore');
+        const applesElement = document.getElementById('apples');
+        const gameOverElement = document.getElementById('gameOver');
+        const gameWinElement = document.getElementById('gameWin');
+        const finalScoreElement = document.getElementById('finalScore');
+
+        const gridSize = 20;
+        const tileCount = canvas.width / gridSize;
+        const APPLES_TO_WIN = 30;
+
+        let snake = [
+            {x: 10, y: 10}
+        ];
+        let food = {};
+        let dx = 1; // Empieza moviéndose a la derecha
+        let dy = 0;
+        let score = 0;
+        let apples = 0;
+        let highScore = localStorage.getItem('snakeHighScore') || 0;
+        let gameRunning = true;
+        let gamePaused = false;
+        let won = false;
+
+        highScoreElement.textContent = highScore;
+        applesElement.textContent = apples;
+
+        function generateFood() {
+            food = {
+                x: Math.floor(Math.random() * tileCount),
+                y: Math.floor(Math.random() * tileCount)
+            };
+            // Evitar que la comida aparezca sobre la serpiente
+            for (let segment of snake) {
+                if (segment.x === food.x && segment.y === food.y) {
+                    generateFood();
+                    return;
+                }
+            }
+        }
+
+        function drawGame() {
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Dibujar serpiente
+            ctx.fillStyle = '#00ff00';
+            for (let segment of snake) {
+                ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+            }
+            // Dibujar cabeza
+            ctx.fillStyle = '#00cc00';
+            ctx.fillRect(snake[0].x * gridSize, snake[0].y * gridSize, gridSize - 2, gridSize - 2);
+            // Dibujar comida
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
+        }
+
+        function moveSnake() {
+            if (!gameRunning || gamePaused || won) return;
+            const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+            // Colisión con paredes
+            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                gameOver();
+                return;
+            }
+            // Colisión con la serpiente
+            for (let segment of snake) {
+                if (head.x === segment.x && head.y === segment.y) {
+                    gameOver();
+                    return;
+                }
+            }
+            snake.unshift(head);
+            // Comer manzana
+            if (head.x === food.x && head.y === food.y) {
+                score += 10;
+                apples++;
+                scoreElement.textContent = score;
+                applesElement.textContent = apples;
+                if (apples >= APPLES_TO_WIN) {
+                    winGame();
+                    return;
+                }
+                generateFood();
+            } else {
+                snake.pop();
+            }
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            finalScoreElement.textContent = score;
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('snakeHighScore', highScore);
+                highScoreElement.textContent = highScore;
+            }
+            gameOverElement.style.display = 'block';
+        }
+
+        function winGame() {
+            won = true;
+            gameRunning = false;
+            gameWinElement.style.display = 'block';
+        }
+
+        function restartGame() {
+            snake = [{x: 10, y: 10}];
+            dx = 1;
+            dy = 0;
+            score = 0;
+            apples = 0;
+            scoreElement.textContent = score;
+            applesElement.textContent = apples;
+            gameRunning = true;
+            gamePaused = false;
+            won = false;
+            gameOverElement.style.display = 'none';
+            gameWinElement.style.display = 'none';
+            generateFood();
+        }
+
+        function gameLoop() {
+            moveSnake();
+            drawGame();
+            setTimeout(gameLoop, 120);
+        }
+
+        // Controles
+        document.addEventListener('keydown', (e) => {
+            if (!gameRunning || won) return;
+            switch(e.key) {
+                case 'ArrowUp':
+                    if (dy !== 1) { dx = 0; dy = -1; }
+                    break;
+                case 'ArrowDown':
+                    if (dy !== -1) { dx = 0; dy = 1; }
+                    break;
+                case 'ArrowLeft':
+                    if (dx !== 1) { dx = -1; dy = 0; }
+                    break;
+                case 'ArrowRight':
+                    if (dx !== -1) { dx = 1; dy = 0; }
+                    break;
+                case ' ':
+                    gamePaused = !gamePaused;
+                    break;
+            }
+        });
+
+        // Iniciar juego
+        generateFood();
+        gameLoop();
+    </script>
+} 

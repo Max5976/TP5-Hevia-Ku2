@@ -1,0 +1,140 @@
+@{
+    ViewData["Title"] = "Cocinar";
+}
+
+@await Html.PartialAsync("_TiempoRestante")
+
+<style>
+    body {
+        background-image: url('/Imagenes/CuartoIII.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        margin: 0;
+        padding: 20px;
+        font-family: 'Arial', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .container {
+        background-image: url('/Imagenes/Caldera.gif');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border: 20px solid rgb(223, 187, 134);
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        max-width: 800px;
+        width: 90%;
+        margin: 0 auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        padding-top: 8%;
+        padding-bottom: 8%;
+        transform: translate(-50%, -50%);
+    }
+
+</style>
+
+<div class="container">
+    <div id="cookingContent">
+        <h1 style="text-align: center; color: #6b4f00; font-size: 3em; margin-bottom: 30px;">🍳 Cocinando...</h1>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <div style="font-size: 2em; color: #6b4f00; margin-bottom: 20px;">Tiempo restante: <span id="cookingTimer">10</span> segundos</div>
+            <div style="width: 100%; height: 20px; background: #ddd; border-radius: 10px; overflow: hidden;">
+                <div id="progressBar" style="width: 100%; height: 100%; background: linear-gradient(90deg, #ff6b6b, #ff8e8e); transition: width 1s linear;"></div>
+            </div>
+        </div>
+        <div style="text-align: center; font-size: 1.5em; color: #6b4f00;">
+            <p>🔥 La caldera está hirviendo...</p>
+            <p>⏰ Espera mientras se cocina la receta</p>
+        </div>
+    </div>
+
+    <div id="finishedContent" style="display: none; text-align: center;">
+        <h1 style="color: #6b4f00; font-size: 3em; margin-bottom: 30px;">✅ ¡Cocción Completada!</h1>
+        <div style="font-size: 1.8em; color: #6b4f00; margin-bottom: 40px;">
+            <p>🎉 ¡La receta está lista!</p>
+            <p>🍽️ Tu hamburguesota está perfectamente cocinada</p>
+        </div>
+        <button id="returnButton" style="
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
+        ">🏠 Volver al Cuarto</button>
+    </div>
+</div>
+
+<audio id="musica" src="/Audio/RoomIII.mp3" loop preload="auto"></audio>
+<script>
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            // Si no puede reproducir automáticamente, no mostrar botón aquí
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
+
+    let timeLeft = 10;
+    const cookingTimer = document.getElementById('cookingTimer');
+    const progressBar = document.getElementById('progressBar');
+    const cookingContent = document.getElementById('cookingContent');
+    const finishedContent = document.getElementById('finishedContent');
+    const returnButton = document.getElementById('returnButton');
+
+    function updateTimer() {
+        if (timeLeft > 0) {
+            timeLeft--;
+            cookingTimer.textContent = timeLeft;
+            
+            // Actualizar barra de progreso
+            const progress = (timeLeft / 10) * 100;
+            progressBar.style.width = progress + '%';
+            
+            setTimeout(updateTimer, 1000);
+        } else {
+            // Mostrar contenido de finalización
+            cookingContent.style.display = 'none';
+            finishedContent.style.display = 'block';
+        }
+    }
+
+    // Iniciar el timer
+    updateTimer();
+
+    // Evento para el botón de regreso
+    returnButton.addEventListener('click', function() {
+        localStorage.removeItem('inicioContador');
+        window.location.href = '/Home/TercerCuarto';
+    });
+
+    // Efecto hover para el botón
+    returnButton.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-3px)';
+        this.style.boxShadow = '0 8px 20px rgba(40, 167, 69, 0.6)';
+    });
+
+    returnButton.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = '0 5px 15px rgba(40, 167, 69, 0.4)';
+    });
+</script>

@@ -1,0 +1,547 @@
+@{
+    ViewData["Title"] = "Game Machine 4 - Breakout";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        background: url('/Imagenes/CuartoV.png') center center/cover no-repeat fixed;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        font-family: 'Press Start 2P', monospace;
+        color: #ff00ff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.75);
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .center-flex {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+        z-index: 1;
+        padding-top: 150px; /* BAJA MÁS EL JUEGO */
+    }
+
+    .game-container {
+        background: #111;
+        border: 3px solid #ff00ff;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 0 20px #ff00ff;
+    }
+
+    .game-title {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px #ff00ff;
+    }
+
+    .score-board {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    #gameCanvas {
+        border: 2px solid #ff00ff;
+        background: #000;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .controls {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .back-button {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: #ff00ff;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: all 0.3s;
+        z-index: 10;
+        box-shadow: 0 0 10px #ff00ff, 0 0 0 #000;
+        opacity: 1;
+    }
+
+    .back-button:hover {
+        background: #cc00cc;
+        box-shadow: 0 0 10px #ff00ff;
+    }
+
+    .game-over {
+        position: absolute;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.9);
+        border: 2px solid #ff0000;
+        padding: 20px;
+        text-align: center;
+        display: none;
+    }
+
+    .restart-btn {
+        background: #ff0000;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 12px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .start-screen {
+        position: absolute;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.9);
+        border: 2px solid #ff00ff;
+        padding: 20px;
+        text-align: center;
+        z-index: 2;
+        min-width: 320px;
+        box-shadow: 0 0 20px #ff00ff;
+    }
+
+    .start-btn {
+        background: #ff00ff;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        font-family: 'Press Start 2P', monospace;
+        font-size: 12px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+
+    .timer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+</style>
+
+<a href="@Url.Action("QuintoCuarto")" class="back-button">VOLVER</a>
+
+<div class="overlay"></div>
+<div class="center-flex">
+    <div class="game-container">
+        <div class="game-title">🎾 BREAKOUT ARCADE 🎾</div>
+        
+        <div class="score-board">
+            <div>PUNTOS: <span id="score">0</span></div>
+            <div>VIDAS: <span id="lives">3</span></div>
+            <div>MEJOR: <span id="highScore">0</span></div>
+        </div>
+        
+        <canvas id="gameCanvas" width="480" height="320"></canvas>
+        
+        <div class="controls">
+            <div>CONTROLES:</div>
+            <div>← → para mover la paleta</div>
+            <div>ESPACIO para lanzar la pelota</div>
+        </div>
+
+        <div class="timer" style="font-size:20px;color:#ffe082;text-shadow:0 0 8px #ff00ff;margin-bottom:10px;">Tiempo restante: <span id="contador">@ViewBag.segs</span> segundos</div>
+        <div class="goal" style="font-size:18px;">Limpia todos los bloques para obtener uno de los dígitos</div>
+        <audio id="musica" src="/Audio/RoomV.mp3" loop preload="auto"></audio>
+    </div>
+
+    <div class="start-screen" id="startScreen">
+        <h2>BREAKOUT</h2>
+        <p>Rompe todos los bloques!</p>
+        <button class="start-btn" onclick="startGame()">INICIAR JUEGO</button>
+    </div>
+
+    <div class="game-over" id="gameOver">
+        <h2>GAME OVER</h2>
+        <p>Puntos: <span id="finalScore">0</span></p>
+        <button class="restart-btn" onclick="restartGame()">JUGAR DE NUEVO</button>
+    </div>
+
+    <div id="winModal" style="display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(34,0,34,0.98);z-index:20;justify-content:center;align-items:center;border:3px solid #ff00ff;padding:40px 60px;border-radius:16px;text-align:center;box-shadow:0 0 32px #ff00ff;min-width:320px;">
+      <h2 style="color:#ff00ff;font-family:'Press Start 2P',monospace;">¡FELICIDADES!</h2>
+      <p style="color:#fff;font-size:20px;">Has destruido todos los bloques</p>
+      <div style="font-size:32px;color:#ff00ff;margin-top:16px;letter-spacing:8px;text-shadow:0 0 8px #ff00ff,0 0 16px #fff;">El dígito es: <b>"D"</b></div>
+      <button onclick="document.getElementById('winModal').style.display='none'" style="margin-top:24px;background:#ff00ff;color:#fff;font-family:'Press Start 2P',monospace;font-size:16px;padding:10px 30px;border:none;border-radius:8px;cursor:pointer;">CERRAR</button>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreElement = document.getElementById('score');
+        const livesElement = document.getElementById('lives');
+        const highScoreElement = document.getElementById('highScore');
+        const startScreenElement = document.getElementById('startScreen');
+        const gameOverElement = document.getElementById('gameOver');
+        const finalScoreElement = document.getElementById('finalScore');
+
+        const PADDLE_WIDTH = 80;
+        const PADDLE_HEIGHT = 10;
+        const BALL_RADIUS = 5;
+        const BRICK_ROWS = 5;
+        const BRICK_COLS = 8;
+        const BRICK_WIDTH = 55;
+        const BRICK_HEIGHT = 20;
+        const BRICK_PADDING = 5;
+
+        let score = 0;
+        let lives = 3;
+        let highScore = localStorage.getItem('breakoutHighScore') || 0;
+        let gameRunning = false;
+        let gameStarted = false;
+        let won = false;
+
+        // Objetos del juego
+        let paddle = {
+            x: canvas.width / 2 - PADDLE_WIDTH / 2,
+            y: canvas.height - 30,
+            width: PADDLE_WIDTH,
+            height: PADDLE_HEIGHT,
+            dx: 0,
+            speed: 6
+        };
+
+        let ball = {
+            x: canvas.width / 2,
+            y: canvas.height - 50,
+            radius: BALL_RADIUS,
+            dx: 0,
+            dy: 0,
+            speed: 2
+        };
+
+        let bricks = [];
+
+        highScoreElement.textContent = highScore;
+
+        function createBricks() {
+            bricks = [];
+            for (let row = 0; row < BRICK_ROWS; row++) {
+                bricks[row] = [];
+                for (let col = 0; col < BRICK_COLS; col++) {
+                    bricks[row][col] = {
+                        x: col * (BRICK_WIDTH + BRICK_PADDING) + BRICK_PADDING,
+                        y: row * (BRICK_HEIGHT + BRICK_PADDING) + BRICK_PADDING + 50,
+                        width: BRICK_WIDTH,
+                        height: BRICK_HEIGHT,
+                        visible: true,
+                        color: `hsl(${row * 60}, 70%, 50%)`
+                    };
+                }
+            }
+        }
+
+        function drawBricks() {
+            bricks.forEach(row => {
+                row.forEach(brick => {
+                    if (brick.visible) {
+                        ctx.fillStyle = brick.color;
+                        ctx.fillRect(brick.x, brick.y, brick.width, brick.height);
+                        ctx.strokeStyle = '#fff';
+                        ctx.strokeRect(brick.x, brick.y, brick.width, brick.height);
+                    }
+                });
+            });
+        }
+
+        function drawPaddle() {
+            ctx.fillStyle = '#ff00ff';
+            ctx.fillRect(paddle.x, paddle.y, paddle.width, paddle.height);
+            ctx.strokeStyle = '#fff';
+            ctx.strokeRect(paddle.x, paddle.y, paddle.width, paddle.height);
+        }
+
+        function drawBall() {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffff00';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.stroke();
+            ctx.closePath();
+        }
+
+        function updatePaddle() {
+            paddle.x += paddle.dx;
+
+            // Mantener la paleta dentro del canvas
+            if (paddle.x < 0) paddle.x = 0;
+            if (paddle.x + paddle.width > canvas.width) {
+                paddle.x = canvas.width - paddle.width;
+            }
+        }
+
+        function updateBall() {
+            if (!gameStarted) {
+                ball.x = paddle.x + paddle.width / 2;
+                ball.y = paddle.y - ball.radius;
+                return;
+            }
+
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // Colisión con paredes
+            if (ball.x + ball.radius > canvas.width || ball.x - ball.radius < 0) {
+                ball.dx = -ball.dx;
+            }
+            if (ball.y - ball.radius < 0) {
+                ball.dy = -ball.dy;
+            }
+
+            // Colisión con el suelo (perder vida)
+            if (ball.y + ball.radius > canvas.height) {
+                lives--;
+                livesElement.textContent = lives;
+                if (lives <= 0) {
+                    gameOver();
+                } else {
+                    resetBall();
+                }
+            }
+
+            // Colisión con la paleta
+            if (ball.y + ball.radius > paddle.y && 
+                ball.x > paddle.x && 
+                ball.x < paddle.x + paddle.width &&
+                ball.dy > 0) {
+                
+                ball.dy = -ball.dy;
+                // Ajustar dirección basada en dónde golpea la paleta
+                const hitPos = (ball.x - paddle.x) / paddle.width;
+                ball.dx = (hitPos - 0.5) * 8;
+            }
+
+            // Colisión con bloques
+            bricks.forEach(row => {
+                row.forEach(brick => {
+                    if (brick.visible) {
+                        if (ball.x + ball.radius > brick.x && 
+                            ball.x - ball.radius < brick.x + brick.width &&
+                            ball.y + ball.radius > brick.y && 
+                            ball.y - ball.radius < brick.y + brick.height) {
+                            
+                            brick.visible = false;
+                            ball.dy = -ball.dy;
+                            score += 10;
+                            scoreElement.textContent = score;
+
+                            // Verificar si todos los bloques están destruidos
+                            if (bricks.every(row => row.every(brick => !brick.visible))) {
+                                // Nivel completado
+                                createBricks();
+                                resetBall();
+                                ball.speed += 0.5;
+                                if (!won) {
+                                    won = true;
+                                    mostrarModalVictoria();
+                                }
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
+        function resetBall() {
+            ball.x = paddle.x + paddle.width / 2;
+            ball.y = paddle.y - ball.radius;
+            ball.dx = 0;
+            ball.dy = 0;
+            gameStarted = false;
+        }
+
+        function draw() {
+            // Limpiar canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            drawBricks();
+            drawPaddle();
+            drawBall();
+        }
+
+        function update() {
+            if (!gameRunning) return;
+
+            updatePaddle();
+            updateBall();
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        function startGame() {
+            gameRunning = true;
+            startScreenElement.style.display = 'none';
+            createBricks();
+            resetBall();
+            gameLoop();
+        }
+
+        function gameOver() {
+            gameRunning = false;
+            finalScoreElement.textContent = score;
+            
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem('breakoutHighScore', highScore);
+                highScoreElement.textContent = highScore;
+            }
+            
+            gameOverElement.style.display = 'block';
+        }
+
+        function restartGame() {
+            score = 0;
+            lives = 3;
+            scoreElement.textContent = score;
+            livesElement.textContent = lives;
+            gameOverElement.style.display = 'none';
+            startScreenElement.style.display = 'block';
+        }
+
+        // Controles
+        document.addEventListener('keydown', (e) => {
+            if (!gameRunning) return;
+
+            switch(e.key) {
+                case 'ArrowLeft':
+                    paddle.dx = -paddle.speed;
+                    break;
+                case 'ArrowRight':
+                    paddle.dx = paddle.speed;
+                    break;
+                case ' ':
+                    if (!gameStarted) {
+                        gameStarted = true;
+                        ball.dx = (Math.random() - 0.5) * 4;
+                        ball.dy = -ball.speed;
+                    }
+                    break;
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                paddle.dx = 0;
+            }
+        });
+
+        // Iniciar el bucle de renderizado
+        gameLoop();
+    </script>
+
+    <script>
+    // TEMPORIZADOR
+    const TIEMPO_TOTAL = @ViewBag.segs;
+    const elemento = document.getElementById('contador');
+    let inicio = localStorage.getItem('inicioContador');
+    if (!inicio || (Date.now() - parseInt(inicio)) > (TIEMPO_TOTAL * 1000)) {
+        inicio = Date.now();
+        localStorage.setItem('inicioContador', inicio);
+    } else {
+        inicio = parseInt(inicio);
+    }
+    function actualizarContador() {
+        const ahora = Date.now();
+        const transcurrido = Math.floor((ahora - inicio) / 1000);
+        let restante = TIEMPO_TOTAL - transcurrido;
+        if (restante < 0) restante = 0;
+        elemento.textContent = restante;
+        if (restante > 0) {
+            setTimeout(actualizarContador, 1000);
+        } else {
+            localStorage.removeItem('inicioContador');
+            window.location.href = '/Home/Perdiste5';
+        }
+    }
+    actualizarContador();
+    </script>
+
+    <script>
+    // MÚSICA
+    const audio = document.getElementById('musica');
+    window.addEventListener('DOMContentLoaded', function() {
+        const selectedMusic = localStorage.getItem('selectedMusic');
+        if (selectedMusic) {
+            audio.src = selectedMusic;
+        }
+        if (audio.src.includes('RoomV')) {
+            audio.volume = 0.8;
+        } else {
+            audio.volume = 1.0;
+        }
+        const savedTime = localStorage.getItem('musicaTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+        audio.play().catch(() => {
+            let btn = document.createElement('button');
+            btn.id = "playMusicBtn";
+            btn.textContent = "Reproducir música";
+            btn.onclick = function() {
+                audio.play();
+                btn.remove();
+            };
+            document.body.appendChild(btn);
+        });
+    });
+    audio.ontimeupdate = function() {
+        localStorage.setItem('musicaTime', audio.currentTime);
+    };
+    </script>
+
+    <script>
+    // MODAL DE VICTORIA
+    function mostrarModalVictoria() {
+      document.getElementById('winModal').style.display = 'flex';
+    }
+    </script>
+
+    <script>
+    // PREVENIR SCROLL CON FLECHAS Y ESPACIO
+    window.addEventListener('keydown', function(e) {
+        if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key)) {
+            e.preventDefault();
+        }
+    }, {passive:false});
+    </script>
+}

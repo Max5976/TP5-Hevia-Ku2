@@ -83,13 +83,19 @@ function playButtonSoundAndRedirect() {
         buttonSound.currentTime = 0;
         buttonSound.play().then(() => {
             setTimeout(() => {
+                localStorage.removeItem('inicioContador');
                 window.location.href = '/Home/PrimerCuarto';
+                localStorage.removeItem('musicaTime');
             }, 400);
         }).catch(() => {
+            localStorage.removeItem('inicioContador');
             window.location.href = '/Home/PrimerCuarto';
+            localStorage.removeItem('musicaTime');
         });
     } catch (e) {
+        localStorage.removeItem('inicioContador');
         window.location.href = '/Home/PrimerCuarto';
+        localStorage.removeItem('musicaTime');
     }
 }
 </script> 
